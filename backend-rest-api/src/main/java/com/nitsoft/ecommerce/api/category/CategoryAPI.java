@@ -94,7 +94,7 @@ public class CategoryAPI extends AbstractBaseAPI {
             }
 
             if (ParentID != null) {
-                Category parent = repository.findOne(ParentID);
+                Category parent = repository.findById(ParentID).get();
                 if (parent != null && parent.getCompanyId() == category.getCompanyId()) {
                     category.setParentId(ParentID);
                 } else {

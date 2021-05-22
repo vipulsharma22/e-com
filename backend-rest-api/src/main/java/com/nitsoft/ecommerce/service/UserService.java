@@ -31,16 +31,16 @@ public class UserService {
     }
 
     public User getUserByActivationCode(String token) {
-        UserToken userToken = userTokenRepository.findOne(token);
+        UserToken userToken = userTokenRepository.findById(token).get();
 
         if (userToken != null) {
-            return userRepository.findOne(userToken.getUserId());
+            return userRepository.findById(userToken.getUserId()).get();
         } else {
             return null;
         }
     }
     
     public Page<User> doFilterSearchSortPagingUser(String userId,long companyId, String searchKey, int sortKey, boolean isAscSort, int pSize, int pNumber) {
-        return userRepository.findAll(new UserSpecification(userId, companyId, searchKey, sortKey, isAscSort), new PageRequest(pNumber, pSize));
+        return userRepository.findAll(new UserSpecification(userId, companyId, searchKey, sortKey, isAscSort), PageRequest.of(pNumber, pSize));
     }
 }

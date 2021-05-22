@@ -26,7 +26,7 @@ public class OrderServiceImpl extends AbstractBaseService implements OrderServic
     */
     @Override
     public Page<Orders> doPagingOrders(OrdersRequestModel ordersRequestModel,Long companyId) {
-        Page<Orders> listOrders = ordersRepository.findAll(new OrdersSpecification(companyId,ordersRequestModel.getSearchKey(), ordersRequestModel.getSortCase(), ordersRequestModel.isAscSort(),ordersRequestModel.getStatus()), new PageRequest(ordersRequestModel.getPageNumber(), ordersRequestModel.getPageSize()));
+        Page<Orders> listOrders = ordersRepository.findAll(new OrdersSpecification(companyId,ordersRequestModel.getSearchKey(), ordersRequestModel.getSortCase(), ordersRequestModel.isAscSort(),ordersRequestModel.getStatus()), PageRequest.of(ordersRequestModel.getPageNumber(), ordersRequestModel.getPageSize()));
         return listOrders;
     }
 

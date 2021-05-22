@@ -68,7 +68,7 @@ public class CategoriesServiceImpl extends AbstractBaseService implements Catego
     @Override
     @SuppressWarnings("unchecked")
     public Page<Category> getAllActiveWithFilterSearchSort(long companyId, String keyword, int pageNumber, int pageSize, int sortCase, boolean ascSort) {
-        Pageable pageable = new PageRequest(pageNumber - 1, pageSize);
+        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize);
 
         // create specification
         Specification spec = categorySpecifications.doFilterSearchSort(companyId, keyword, sortCase, ascSort);

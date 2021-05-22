@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 package com.nitsoft.util;
-import com.nitsoft.ecommerce.tracelogged.EventLogManager;
+//import com.nitsoft.ecommerce.tracelogged.EventLogManager;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -125,7 +125,7 @@ public class XMLResponseParser{
             return list;
            
         } catch (Exception e) {
-             EventLogManager.getInstance().log(e.getMessage());
+             //EventLogManager.getInstance().log(e.getMessage());
              return null;
         }
     }

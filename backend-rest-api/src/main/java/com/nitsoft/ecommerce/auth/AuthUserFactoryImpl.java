@@ -38,7 +38,7 @@ public class AuthUserFactoryImpl implements AuthUserFactory{
     
     private String getUserRoleString (int roleId){
         try {
-            return roleRepository.findOne(roleId).getName();
+            return roleRepository.findById(roleId).get().getName();
         } catch (Exception e) {
             e.printStackTrace();
             return null;

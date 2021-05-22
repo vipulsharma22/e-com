@@ -5,7 +5,7 @@
 package com.nitsoft.ecommerce.notification.email;
 
 import com.nitsoft.ecommerce.notification.email.transport.EmailTransportConfiguration;
-import com.nitsoft.ecommerce.tracelogged.EventLogManager;
+//import com.nitsoft.ecommerce.tracelogged.EventLogManager;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -28,7 +28,7 @@ public class EmailSender {
                     .withBody(Body)
                     .send();
         } catch (Exception e) {
-            EventLogManager.getInstance().error("Send mail error: " + e.getMessage());
+            //EventLogManager.getInstance().error("Send mail error: " + e.getMessage());
             status = false;
         }
         return status;

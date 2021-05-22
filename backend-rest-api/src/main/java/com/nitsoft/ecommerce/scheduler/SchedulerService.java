@@ -6,7 +6,7 @@
 package com.nitsoft.ecommerce.scheduler;
 
 import com.nitsoft.ecommerce.configs.AppConfig;
-import com.nitsoft.ecommerce.tracelogged.EventLogManager;
+//import com.nitsoft.ecommerce.tracelogged.EventLogManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -84,7 +84,7 @@ public class SchedulerService {
                 }
             }
         } catch (Exception ex) {
-            EventLogManager.getInstance().error(ex);
+            //EventLogManager.getInstance().error(ex);
         }
     }
 }

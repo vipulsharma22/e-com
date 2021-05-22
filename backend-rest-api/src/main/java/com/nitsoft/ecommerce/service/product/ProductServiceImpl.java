@@ -25,7 +25,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product getProductById(long companyId, long productId) {
-        return productRepository.findOne(productId);
+        return productRepository.findById(productId).get();
     }
 
 //    @Override
@@ -36,18 +36,18 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Page<Product> getByCompanyId(long companyId, int pageNumber, int pageSize) {
-        return productRepository.findByCompanyId(companyId, new PageRequest(pageNumber, pageSize));
+        return productRepository.findByCompanyId(companyId, PageRequest.of(pageNumber, pageSize));
     }
 
     @Override
     public Page<Product> getByCompanyIdAndCategoryId(long companyId, long categoryId, int pageNumber, int pageSize) {
         return null;
-//        return productRepository.findByCategoryId(companyId, categoryId, new PageRequest(pageNumber, pageSize));
+//        return productRepository.findByCategoryId(companyId, categoryId, PageRequest.of(pageNumber, pageSize));
     }
 
     @Override
     public Page<Product> doFilterSearchSortPagingProduct(long comId, long catId, long attrId, String searchKey, double mnPrice, double mxPrice, int minRank, int maxRank, int sortKey, boolean isAscSort, int pSize, int pNumber) {
-        return productRepository.findAll(new ProductSpecification(comId, catId, attrId, searchKey, mnPrice, mxPrice, minRank, maxRank, sortKey, isAscSort), new PageRequest(pNumber, pSize));
+        return productRepository.findAll(new ProductSpecification(comId, catId, attrId, searchKey, mnPrice, mxPrice, minRank, maxRank, sortKey, isAscSort), PageRequest.of(pNumber, pSize));
     }
 
     @Override

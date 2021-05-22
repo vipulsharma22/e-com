@@ -26,6 +26,6 @@ public class OrdersService {
     }
     
     public Page<Orders> findAllByCompanyId(long companyId, int pageNumber, int pageSize) {
-        return ordersRepository.findAllByCompanyId(companyId, new PageRequest(pageNumber, pageSize));
+        return ordersRepository.findAllByCompanyId(companyId, PageRequest.of(pageNumber, pageSize));
     }
 }

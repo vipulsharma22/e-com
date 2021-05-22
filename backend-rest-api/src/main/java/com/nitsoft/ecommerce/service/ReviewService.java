@@ -14,7 +14,7 @@ public class ReviewService {
     private ReviewRepository reviewRepository;
 
     public Page<Review> findByProductId(long productId, int pageNumber, int pageSize) {
-        return reviewRepository.findByProductId(productId, new PageRequest(pageNumber, pageSize));
+        return reviewRepository.findByProductId(productId, PageRequest.of(pageNumber, pageSize));
     }
 
     public Review save(Review review) {

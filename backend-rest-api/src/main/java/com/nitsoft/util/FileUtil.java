@@ -1,7 +1,7 @@
 
 package com.nitsoft.util;
 
-import com.nitsoft.ecommerce.tracelogged.EventLogManager;
+//import com.nitsoft.ecommerce.tracelogged.EventLogManager;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -232,7 +232,7 @@ public class FileUtil {
      * @throws ServletException
      */
     public static void downloadTeamRecieptFromServer(HttpServletResponse response, String RealPath, Date createDate) {
-        EventLogManager.getInstance().info("downloadFromLocalServer path=" + RealPath);
+        //EventLogManager.getInstance().info("downloadFromLocalServer path=" + RealPath);
         try {
         java.io.File initialFile = new java.io.File(RealPath);
         InputStream inputStream = new FileInputStream(initialFile);
@@ -267,7 +267,7 @@ public class FileUtil {
                 }
             }
         } catch (Exception ex) {
-            EventLogManager.getInstance().info("doDownload file error" + ex.getMessage());
+            //EventLogManager.getInstance().info("doDownload file error" + ex.getMessage());
         }
     }
     
@@ -293,7 +293,7 @@ public class FileUtil {
                 out.write(buffer, 0, len);
             }
         } catch (IOException e) {
-            EventLogManager.getInstance().error(e.getMessage());
+            //EventLogManager.getInstance().error(e.getMessage());
         } finally {
             try {
                 if (null != in) {
@@ -303,7 +303,7 @@ public class FileUtil {
                     out.close();
                 }
             } catch (IOException e) {
-                EventLogManager.getInstance().error(e.getMessage());
+                //EventLogManager.getInstance().error(e.getMessage());
             }
         }
     }

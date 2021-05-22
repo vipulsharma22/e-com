@@ -23,7 +23,7 @@ import com.amazonaws.services.s3.model.PartETag;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.UploadPartRequest;
 import com.nitsoft.ecommerce.configs.AppConfig;
-import com.nitsoft.ecommerce.tracelogged.EventLogManager;
+//import com.nitsoft.ecommerce.tracelogged.EventLogManager;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -73,7 +73,7 @@ public class AmazonS3Util {
     public boolean downLoadToLocaServer(String targetPath,String keyName, String fileName) {
         try {
             AmazonS3Setup();
-            EventLogManager.getInstance().info("Process download from Amazon to local server key name="+ keyName);
+            //EventLogManager.getInstance().info("Process download from Amazon to local server key name="+ keyName);
             System.out.println("Downloading an object");
             S3Object object = s3Client.getObject(new GetObjectRequest(bucketName, keyName));
             System.out.println("Content-Type: " + object.getObjectMetadata().getContentType());
@@ -113,9 +113,9 @@ public class AmazonS3Util {
             generatePresignedUrlRequest.setExpiration(expiration);
             URL url = s3Client.generatePresignedUrl(generatePresignedUrlRequest);
             urlString = url.toString();
-            EventLogManager.getInstance().info("Generating pre-signed URL Amazon="+urlString);
+            //EventLogManager.getInstance().info("Generating pre-signed URL Amazon="+urlString);
         } catch (Exception e) {
-            EventLogManager.getInstance().error(e.getMessage());
+            //EventLogManager.getInstance().error(e.getMessage());
             e.printStackTrace();
         }
         return urlString; 
@@ -132,7 +132,7 @@ public class AmazonS3Util {
    long partSize = 5 * 1024 * 1024;
    public boolean uploadFile(String filePath,String keyName) {
         try {
-            EventLogManager.getInstance().info("Process upload to Amazon key name="+ keyName);
+            //EventLogManager.getInstance().info("Process upload to Amazon key name="+ keyName);
             AmazonS3Setup();
             // Create a list of UploadPartResponse objects. You get one of these
             // for each part upload.
@@ -179,12 +179,12 @@ public class AmazonS3Util {
             } catch (Exception e) {
                 s3Client.abortMultipartUpload(new AbortMultipartUploadRequest(
                         bucketName, keyName, initResponse.getUploadId()));
-                EventLogManager.getInstance().error(e.getMessage());
+                //EventLogManager.getInstance().error(e.getMessage());
                 return false;
             }
         } catch (Exception e) {   
             e.printStackTrace();
-            EventLogManager.getInstance().error(e.getMessage());
+            //EventLogManager.getInstance().error(e.getMessage());
             return false;
         }
 
@@ -201,7 +201,7 @@ public class AmazonS3Util {
         {
             AmazonS3Setup();
             s3Client.deleteObject(new DeleteObjectRequest(bucketName, keyName));
-            EventLogManager.getInstance().info("Process delete file from Amazon key name="+ keyName);
+            //EventLogManager.getInstance().info("Process delete file from Amazon key name="+ keyName);
             return true;
         }catch (AmazonClientException ace)
         {

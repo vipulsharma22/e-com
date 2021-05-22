@@ -7,7 +7,7 @@ package com.nitsoft.ecommerce.scheduler;
 
 import com.nitsoft.ecommerce.core.LocalQueueManager;
 import com.nitsoft.ecommerce.notification.email.EmailSender;
-import com.nitsoft.ecommerce.tracelogged.EventLogManager;
+//import com.nitsoft.ecommerce.tracelogged.EventLogManager;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -31,12 +31,12 @@ public class EmailNotificationWorker extends JobWorker{
     @Override
     public void doWork(){
         if (!LocalQueueManager.getInstance().IsMailQueueEmpty()) {
-           // EventLogManager.getInstance().info("doWork send notification email");
+           // //EventLogManager.getInstance().info("doWork send notification email");
             Map<String, Object> request= LocalQueueManager.getInstance().getMailQueue();
             String emailAddress=(String)request.get("mail_address");
             String subject=(String)request.get("subject");
             String body=(String)request.get("body");
-            EventLogManager.getInstance().info("EmailNotificationWorker Send email to=" +emailAddress);
+            //EventLogManager.getInstance().info("EmailNotificationWorker Send email to=" +emailAddress);
             emailSender.SendEmail(emailAddress, subject, body);
         }
     }    

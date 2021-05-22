@@ -75,7 +75,7 @@ public class AuthServiceImpl extends AbstractBaseService implements AuthService{
 
     @Override
     public UserToken getUserTokenById(String id) {
-        return userTokenRepository.findOne(id);
+        return userTokenRepository.findById(id).get();
     }
 
     @Override

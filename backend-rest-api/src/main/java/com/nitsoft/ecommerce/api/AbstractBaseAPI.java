@@ -17,7 +17,7 @@ import com.nitsoft.ecommerce.auth.AuthUser;
 import com.nitsoft.ecommerce.auth.service.CustomUserAuthService;
 import com.nitsoft.ecommerce.configs.AppConfig;
 import com.nitsoft.ecommerce.exception.ApplicationException;
-import com.nitsoft.ecommerce.tracelogged.EventLogManager;
+//import com.nitsoft.ecommerce.tracelogged.EventLogManager;
 import com.nitsoft.util.Constant;
 import java.text.SimpleDateFormat;
 import javax.servlet.http.HttpServletRequest;
@@ -55,7 +55,7 @@ public abstract class AbstractBaseAPI {
     //
     // Create logger
     //
-    public final static EventLogManager logger = EventLogManager.getInstance();
+    public final static EventLogManager logger = //EventLogManager.getInstance();
 
     //
     // Write object as string using mapper
