@@ -16,7 +16,6 @@ import com.nitsoft.util.UniqueID;
 import java.io.IOException;
 import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
-import org.hibernate.validator.constraints.Email;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -53,11 +52,9 @@ public class ReviewAPI extends AbstractBaseAPI {
             @PathVariable Long companyId) {
 
         String token = request.getParameter("token");
-
         if (token != null && !token.isEmpty()) {
             Date now = new Date();
             UserToken usertoken = userTokenService.getTokenById(token); // get user token form database
-
             if (usertoken == null) {
                 statusResponse = new StatusResponse(APIStatus.ERR_UNAUTHORIZED);
             } else if (usertoken.getExpirationDate().getTime() - now.getTime() > 0) {

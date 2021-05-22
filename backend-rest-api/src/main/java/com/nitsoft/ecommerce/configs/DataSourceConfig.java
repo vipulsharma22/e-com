@@ -16,7 +16,7 @@ import org.springframework.stereotype.Repository;
  */
 
 @Repository
-@ConfigurationProperties(prefix="spring.datasource",ignoreNestedProperties=false)
+@ConfigurationProperties(prefix="spring.datasource")
 public class DataSourceConfig {
 	private String driverClassName;
 	private String url;

@@ -44,22 +44,13 @@ public abstract class AbstractBaseAPI {
     
 
     static {
-        mapper.setPropertyNamingStrategy(PropertyNamingStrategy.CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES)
-                .setSerializationInclusion(JsonInclude.Include.ALWAYS)
+        mapper.setSerializationInclusion(JsonInclude.Include.ALWAYS)
                 .setDateFormat(new SimpleDateFormat(Constant.API_FORMAT_DATE));
     }
 
     @Autowired
     AppConfig appConfig;
 
-    //
-    // Create logger
-    //
-    public final static EventLogManager logger = //EventLogManager.getInstance();
-
-    //
-    // Write object as string using mapper
-    //
     protected String writeObjectToJson(Object obj) {
         try {
 
@@ -71,23 +62,6 @@ public abstract class AbstractBaseAPI {
         }
     }
 
-    protected String writeObjectToJsonRemoveNullProperty(Object obj) throws ApplicationException
-    {    
-         try {
-             // Set setting remove NULL property
-             mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-             // map json
-             String result=mapper.writeValueAsString(obj);
-             // Reset default setting
-             mapper.setSerializationInclusion(JsonInclude.Include.ALWAYS);
-             return  result;
-
-        } catch (JsonProcessingException ex) {
-            // Throw our exception
-            throw new ApplicationException(ex.getCause());
-        }        
-    }
-    
     //
     // Reponse status
     //
@@ -104,7 +78,7 @@ public abstract class AbstractBaseAPI {
 ////        return currentUser;
 //      return null;
 //    }
-    
+
     public AuthUser getAuthUserFromSession(HttpServletRequest request) {
         String authToken = request.getHeader(Constant.HEADER_TOKEN);
         // try to load sessio

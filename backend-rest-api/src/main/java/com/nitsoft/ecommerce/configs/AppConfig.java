@@ -13,7 +13,7 @@ import org.springframework.context.annotation.PropertySource;
  *
  */
  @Configuration
- @PropertySource("classpath:/application-default.properties")
+ @PropertySource("classpath:/application-dev.properties")
  @EnableAspectJAutoProxy
  public class AppConfig {
      @Autowired

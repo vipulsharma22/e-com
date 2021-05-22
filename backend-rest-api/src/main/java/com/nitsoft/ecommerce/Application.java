@@ -4,8 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -22,18 +20,13 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableAutoConfiguration  // Sprint Boot Auto Configuration
 @ComponentScan(basePackages = "com.nitsoft.ecommerce")
 @EnableSwagger2 // auto generation of API docs
-public class Application extends SpringBootServletInitializer {
+public class Application  {
 
     private static final Class<Application> APPLICATION_NAME = Application.class;
     private final Logger logger = LoggerFactory.getLogger(APPLICATION_NAME);
 
     public static void main(String[] args) {
         SpringApplication.run(APPLICATION_NAME, args);
-    }
-
-    @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(APPLICATION_NAME);
     }
 
     @Bean
@@ -51,7 +44,6 @@ public class Application extends SpringBootServletInitializer {
                 .title("Ecommerce Platform REST API Documents")
                 .description("Documents with Swagger 2")
                 .termsOfServiceUrl("http://nit-software.com")
-                .contact("")
                 .license("")
                 .licenseUrl("")
                 .version("2.0")

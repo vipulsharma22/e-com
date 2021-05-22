@@ -52,7 +52,7 @@ public class CategoriesServiceImpl extends AbstractBaseService implements Catego
 
     @Override
     public List<Category> saveOrUpdate(List<Category> categories) {
-        return (List<Category>) categoryRepository.save(categories);
+        return (List<Category>) categoryRepository.saveAll(categories);
     }
 
     @Override

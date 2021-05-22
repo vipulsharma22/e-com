@@ -17,8 +17,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 @Transactional
 public interface ProductCategoryRepository extends CrudRepository<ProductCategory, ProductCategoryId> {
-    //todo
-    Iterable<ProductCategory> findById(ProductCategoryId productId);
     
     @Query("SELECT p FROM ProductCategory p WHERE p.id.productId = :productId")
     List<ProductCategory> getProCateByProductId(@Param("productId") Long productId);
