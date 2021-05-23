@@ -34,8 +34,6 @@ public class SchedulerService {
     @Autowired
     private EmailNotificationWorker emailNotificationWorker;
 
-    @Autowired
-    private PushNotificationWorker notificationWorker;
 
     
 
