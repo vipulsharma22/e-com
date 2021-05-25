@@ -32,7 +32,6 @@ public class UserDetailResponseModel {
     private String salt;
     private String address;
     private String phone;
-    private String fax;
     private String city;
     private String country;
 }

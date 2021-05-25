@@ -79,19 +79,9 @@ public class OrdersAPI extends AbstractBaseAPI {
 
         //Crerate User address
         UserAddress userAddress = null;
-        if (orderRequest.getUser().getUserId() == null || orderRequest.getUser().getUserId().isEmpty()) {
-            userAddress = new UserAddress();
-            userAddress.setUserId(orderRequest.getUser().getUserId());
-            userAddress.setAdress(orderRequest.getUser().getAddress());
-            userAddress.setPhone(orderRequest.getUser().getPhone());
-            userAddress.setFax(orderRequest.getUser().getFax());
-            userAddress.setCity(orderRequest.getUser().getCity());
-            userAddress.setCountry(orderRequest.getUser().getCountry());
-            userAddress.setStatus(Constant.STATUS.ACTIVE_STATUS.getValue());
-            userAddressService.save(userAddress);
-        } else {
+
             userAddress = userAddressService.getAddressByUserIdAndStatus(orderRequest.getUser().getUserId(), Constant.STATUS.ACTIVE_STATUS.getValue());
-        }
+
         //Create Order General Info
         Orders orders = new Orders();
         orders.setUserId(orderRequest.getUser().getUserId());
@@ -101,7 +91,7 @@ public class OrdersAPI extends AbstractBaseAPI {
         orders.setCustomerMiddlename(orderRequest.getUser().getMiddleName());
         orders.setCustomerLastname(orderRequest.getUser().getLastName());
         orders.setPaymentId(orderRequest.getPaymentId());
-        orders.setAdressId(userAddress.getAdressId());
+        orders.setAddressId(userAddress.getAddressId());
         orders.setStatus(Constant.ORDER_STATUS.PENDING.getStatus());
         orders.setCreatedAt(createDate);
         orders.setUpdatedAt(createDate);

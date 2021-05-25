@@ -34,43 +34,38 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public class OrderAddress implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
-    private Long id;
-    
+    @Column(name = "address_id")
+    private Long addressId;
+
     @Basic(optional = false)
     @Column(name = "order_id")
     private Long orderId;
-    
+
     @Basic(optional = false)
-    @Column(name = "adress_id")
-    private Long adressId;
-    
+    @Column(name = "address")
+    private String address;
+
     @Basic(optional = false)
-    @Column(name = "created_at")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdAt;
+    @Column(name = "pin_code")
+    private String pinCode;
+
+    @Basic(optional = false)
+    @Column(name = "land_mark")
+    private String landMark;
+
+    @Basic(optional = false)
+    @Column(name = "phone")
+    private String phone;
+
+    @Basic(optional = false)
+    @Column(name = "city")
+    private String city;
     
     @Column(name = "updated_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
-    
-    @Column(name = "region_id")
-    private Long regionId;
-    
-    @Column(name = "region")
-    private String region;
-    
-    @Column(name = "postcode")
-    private String postcode;
-    
-    @Column(name = "prefix")
-    private String prefix;
-    
-    @Column(name = "suffix")
-    private String suffix;
-    
 }

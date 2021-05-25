@@ -125,7 +125,7 @@ public class OrdersController extends AbstractBaseController {
 //                OrderAddress orderAddress = orderAddresslService.getOrderAddressByOrderId(orderId);
 //                if (orderAddress != null) {
                 //get user address
-                UserAddress userAddress = userAddressRepository.findByAdressIdAndStatus(order.getAdressId(), Constant.STATUS.ACTIVE_STATUS.getValue());
+                UserAddress userAddress = userAddressRepository.findByAddressIdAndStatus(order.getAddressId(), Constant.STATUS.ACTIVE_STATUS.getValue());
                 resultOrders.put("orderAddress", userAddress);
 //                }
                 // get list order payment by order id

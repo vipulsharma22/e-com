@@ -28,7 +28,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
-import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +38,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -155,18 +153,7 @@ public class UserAPI extends AbstractBaseController {
 
                 userSignUp.setRoleId(Constant.USER_ROLE.NORMAL_USER.getRoleId());
                 userSignUp.setStatus(Constant.USER_STATUS.ACTIVE.getStatus());
-
                 userService.save(userSignUp);
-
-                UserAddress userAddress = new UserAddress();
-                userAddress.setUserId(userSignUp.getUserId());
-                userAddress.setAdress(user.getAddress());
-                userAddress.setCity(user.getCity());
-                userAddress.setCountry(user.getCountry());
-                userAddress.setFax(user.getFax());
-                userAddress.setPhone(user.getPhone());
-                userAddress.setStatus(Constant.STATUS.ACTIVE_STATUS.getValue());
-                userAddressService.save(userAddress);
                 // do send mail notify...
                 return responseUtil.successResponse(userSignUp);
             } else {
@@ -219,7 +206,6 @@ public class UserAPI extends AbstractBaseController {
                 response.setCreateDate(existedUser.getCreateDate());
                 response.setSalt(existedUser.getSalt());
                 response.setPhone(userAddress.getPhone());
-                response.setFax(userAddress.getFax());
                 response.setAddress(userAddress.getAdress());
                 response.setCity(userAddress.getCity());
                 response.setCountry(userAddress.getCountry());
@@ -255,7 +241,6 @@ public class UserAPI extends AbstractBaseController {
                 userAddress.setAdress(user.getAddress());
                 userAddress.setCity(user.getCity());
                 userAddress.setCountry(user.getCountry());
-                userAddress.setFax(user.getFax());
                 userAddress.setPhone(user.getPhone());
                 userAddressService.save(userAddress);
             } else {
@@ -280,12 +265,6 @@ public class UserAPI extends AbstractBaseController {
                 if (user != null) {
                     user.setStatus(Constant.USER_STATUS.INACTIVE.getStatus());
                     userService.save(user);
-
-                    UserAddress userAddress = userAddressService.getAddressByUserIdAndStatus(userId, Constant.STATUS.ACTIVE_STATUS.getValue());
-                    if (userAddress != null) {
-                        userAddress.setStatus(Constant.STATUS.DELETED_STATUS.getValue());
-                        userAddressService.save(userAddress);
-                    }
                 }
             }
             return responseUtil.successResponse("Delete User Successfully");
