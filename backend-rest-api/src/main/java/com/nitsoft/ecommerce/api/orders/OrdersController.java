@@ -5,9 +5,7 @@ import com.nitsoft.ecommerce.api.controller.AbstractBaseController;
 import com.nitsoft.ecommerce.api.request.model.OrdersRequestModel;
 import com.nitsoft.ecommerce.api.response.model.APIResponse;
 import com.nitsoft.ecommerce.api.response.util.APIStatus;
-import com.nitsoft.ecommerce.database.model.OrderAddress;
 import com.nitsoft.ecommerce.database.model.OrderDetail;
-import com.nitsoft.ecommerce.database.model.OrderPayment;
 import com.nitsoft.ecommerce.database.model.Orders;
 import com.nitsoft.ecommerce.database.model.Payment;
 import com.nitsoft.ecommerce.database.model.Product;
@@ -125,7 +123,7 @@ public class OrdersController extends AbstractBaseController {
 //                OrderAddress orderAddress = orderAddresslService.getOrderAddressByOrderId(orderId);
 //                if (orderAddress != null) {
                 //get user address
-                UserAddress userAddress = userAddressRepository.findByAdressIdAndStatus(order.getAdressId(), Constant.STATUS.ACTIVE_STATUS.getValue());
+                UserAddress userAddress = userAddressRepository.findByIdAndStatus(order.getAdressId(), Constant.STATUS.ACTIVE_STATUS.getValue());
                 resultOrders.put("orderAddress", userAddress);
 //                }
                 // get list order payment by order id

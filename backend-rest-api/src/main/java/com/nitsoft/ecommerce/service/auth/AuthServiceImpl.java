@@ -7,7 +7,6 @@
  */
 package com.nitsoft.ecommerce.service.auth;
 
-import com.nitsoft.ecommerce.api.response.model.APIResponse;
 import com.nitsoft.ecommerce.api.response.util.APIStatus;
 import com.nitsoft.ecommerce.auth.AuthUser;
 import com.nitsoft.ecommerce.auth.AuthUserFactory;
@@ -22,7 +21,6 @@ import com.nitsoft.util.DateUtil;
 import com.nitsoft.util.UniqueID;
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 /**
@@ -47,7 +45,7 @@ public class AuthServiceImpl extends AbstractBaseService implements AuthService{
             UserToken userToken = new UserToken();
             userToken.setToken(UniqueID.getUUID());
             userToken.setCompanyId(userLogin.getCompanyId());
-            userToken.setUserId(userLogin.getUserId());
+            userToken.setUserId(userLogin.getId());
             Date currentDate = new Date();
             userToken.setLoginDate(DateUtil.convertToUTC(currentDate));
             Date expirationDate = keepMeLogin ? new Date(currentDate.getTime() + Constant.DEFAULT_REMEMBER_LOGIN_MILISECONDS) : new Date(currentDate.getTime() + Constant.DEFAULT_SESSION_TIME_OUT);
@@ -69,8 +67,8 @@ public class AuthServiceImpl extends AbstractBaseService implements AuthService{
     }
 
     @Override
-    public User getUserByUserIdAndCompanyIdAndStatus(String userId, Long companyId, int status) {
-        return userRepository.findByUserIdAndCompanyIdAndStatus(userId ,companyId, Constant.USER_STATUS.ACTIVE.getStatus());
+    public User getUserByUserIdAndCompanyIdAndStatus(Long userId, Long companyId, int status) {
+        return userRepository.findByIdAndCompanyIdAndStatus(userId ,companyId, Constant.USER_STATUS.ACTIVE.getStatus());
     }
 
     @Override

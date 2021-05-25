@@ -26,9 +26,9 @@ public class AuthUserFactoryImpl implements AuthUserFactory{
     @Override
     public AuthUser createAuthUser(User user) {
         return new AuthUser(
-                    user.getUserId(),
+                    user.getId(),
                     user.getEmail(),
-                    user.getPasswordHash(),
+                    null,
                     getUserRoleString(user.getRoleId()),
                     user.getFirstName(),
                     user.getLastName(),

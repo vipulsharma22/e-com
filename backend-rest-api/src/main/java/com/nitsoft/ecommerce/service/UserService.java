@@ -22,12 +22,16 @@ public class UserService {
         return userRepository.findByEmailAndCompanyIdAndStatus(email, companyId, status);
     }
 
+    public User getUserByPhoneNumber(String phone, int status) {
+        return userRepository.findByPhoneAndStatus(phone, status);
+    }
+
     public User save(User users) {
         return userRepository.save(users);
     }
 
-    public User getUserByUserIdAndComIdAndStatus(String userId, Long companyId, int status) {
-        return userRepository.findByUserIdAndCompanyIdAndStatus(userId, companyId, status);
+    public User getUserByUserIdAndComIdAndStatus(Long userId, Long companyId, int status) {
+        return userRepository.findByIdAndCompanyIdAndStatus(userId, companyId, status);
     }
 
     public User getUserByActivationCode(String token) {
@@ -40,7 +44,7 @@ public class UserService {
         }
     }
     
-    public Page<User> doFilterSearchSortPagingUser(String userId,long companyId, String searchKey, int sortKey, boolean isAscSort, int pSize, int pNumber) {
+    public Page<User> doFilterSearchSortPagingUser(Long userId,long companyId, String searchKey, int sortKey, boolean isAscSort, int pSize, int pNumber) {
         return userRepository.findAll(new UserSpecification(userId, companyId, searchKey, sortKey, isAscSort), PageRequest.of(pNumber, pSize));
     }
 }

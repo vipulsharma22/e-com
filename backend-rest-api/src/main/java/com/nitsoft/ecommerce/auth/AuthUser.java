@@ -7,22 +7,13 @@
  */
 package com.nitsoft.ecommerce.auth;
 
-import java.util.Collection;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import lombok.Data;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import java.util.ArrayList;
-import java.util.List;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+@Data
+public class AuthUser {
 
-/**
- * Created by Johnny 2/27/2017.
- */
-public class AuthUser implements UserDetails {
-
-    private final String id;
+    private final Long id;
     private final String username;
     private final String password;
     private String firstName;
@@ -31,7 +22,7 @@ public class AuthUser implements UserDetails {
     private String role;
     
     public AuthUser(
-            String id,
+            Long id,
             String username,
             String password, String role, String firstName, String lastName,
             boolean enabled
@@ -43,68 +34,6 @@ public class AuthUser implements UserDetails {
         this.lastName = lastName;
         this.role = role;
         this.enabled = enabled;
-    }
-    
-    @JsonIgnore
-    public String getId() {
-        return id;
-    }
-
-    @Override
-    public String getUsername() {
-        return username;
-    }
-
-    @JsonIgnore
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @JsonIgnore
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @JsonIgnore
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @JsonIgnore
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(this.role));
-        return authorities;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
     }
 
     @Override

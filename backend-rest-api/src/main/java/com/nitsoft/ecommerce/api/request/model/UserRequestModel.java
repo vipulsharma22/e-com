@@ -1,35 +1,18 @@
-/*
- * Copyright (c) NIT-Software. All Rights Reserved.
- * This software is the confidential and proprietary information of NIT-Software,
- * ("Confidential Information").
- * You shall not disclose such Confidential Information and shall use it only in accordance
- * with the terms of the license agreement you entered into with NIT-Software.
- */
 package com.nitsoft.ecommerce.api.request.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-/**
- *
- * @author Trinhlbk
- */
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 public class UserRequestModel {
-    public String userId;
-    public String firstName;
-    public String lastName;
-    public String middleName;
-    public String email;
-    public String phone;
-    public String fax;
-    public String address;
-    public String city;
-    public String country;
+    private Long userId;
+    private String firstName;
+    private String lastName;
+    private String middleName;
+    private String email;
+    private String phone;
+    private String address;
+    private String city;
+    private String country;
+    private Integer otp;
     
 }

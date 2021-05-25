@@ -41,7 +41,7 @@ public class Review implements Serializable {
 
     @Basic(optional = false)
     @Column(name = "user_id")
-    private String userId;
+    private Long userId;
 
     @Basic(optional = false)
     @Column(name = "product_id")

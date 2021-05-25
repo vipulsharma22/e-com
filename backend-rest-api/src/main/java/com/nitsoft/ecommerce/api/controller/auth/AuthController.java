@@ -21,14 +21,9 @@ import com.nitsoft.ecommerce.exception.ApplicationException;
 import com.nitsoft.ecommerce.service.UserAddressService;
 import com.nitsoft.ecommerce.service.auth.AuthService;
 import com.nitsoft.util.Constant;
-import com.nitsoft.util.MD5Hash;
-import java.security.NoSuchAlgorithmException;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -63,37 +58,27 @@ public class AuthController extends AbstractBaseController {
             throw new ApplicationException(APIStatus.ERR_USER_NOT_EXIST);
         } else {
             String passwordHash = null;
-            try {
-                passwordHash = MD5Hash.MD5Encrypt(authRequestModel.password + adminUser.getSalt());
-            } catch (NoSuchAlgorithmException ex) {
-                throw new RuntimeException("User login encrypt password error", ex);
-            }
 
-            if (passwordHash.equals(adminUser.getPasswordHash())) {
-                // Check role
-                if (adminUser.getRoleId() == Constant.USER_ROLE.SYS_ADMIN.getRoleId()
-                        || adminUser.getRoleId() == Constant.USER_ROLE.STORE_MANAGER.getRoleId()
-                        || adminUser.getRoleId() == Constant.USER_ROLE.STORE_ADMIN.getRoleId()) {
-
-                    // TODO login
-                    UserToken userToken = authService.createUserToken(adminUser, authRequestModel.isKeepMeLogin());
-                    // Create Auth User -> Set to filter config
-                    // Perform the security
-                    Authentication authentication = new UsernamePasswordAuthenticationToken(
-                            adminUser.getEmail(),
-                            adminUser.getPasswordHash()
-                    );
-                    //final Authentication authentication = authenticationManager.authenticate();
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
-                    return responseUtil.successResponse(userToken.getToken());
-                } else {
-                    throw new ApplicationException(APIStatus.ERR_PERMISSION_DENIED);
-                }
-            } else {
-                throw new ApplicationException(APIStatus.ERR_USER_NOT_VALID);
-            }
+//            if (passwordHash.equals(adminUser.getPasswordHash())) {
+//                // Check role
+//                if (adminUser.getRoleId() == Constant.USER_ROLE.SYS_ADMIN.getRoleId()
+//                        || adminUser.getRoleId() == Constant.USER_ROLE.STORE_MANAGER.getRoleId()
+//                        || adminUser.getRoleId() == Constant.USER_ROLE.STORE_ADMIN.getRoleId()) {
+//
+//                    // TODO login
+//                    UserToken userToken = authService.createUserToken(adminUser, authRequestModel.isKeepMeLogin());
+//                    // Create Auth User -> Set to filter config
+//                    // Perform the security
+//                    return responseUtil.successResponse(userToken.getToken());
+//                } else {
+//                    throw new ApplicationException(APIStatus.ERR_PERMISSION_DENIED);
+//                }
+//            } else {
+//                throw new ApplicationException(APIStatus.ERR_USER_NOT_VALID);
+//            }
 
         }
+        return null;
     }
 
     @RequestMapping(path = APIName.SESSION_DATA, method = RequestMethod.GET)
@@ -101,13 +86,13 @@ public class AuthController extends AbstractBaseController {
             HttpServletRequest request,
             @PathVariable("company_id") Long companyId
     ) {
-        String userId = getAuthUserFromSession(request).getId();
+        Long userId = getAuthUserFromSession(request).getId();
         if (userId != null && !"".equals(userId)) {
             User user = authService.getUserByUserIdAndCompanyIdAndStatus(userId, companyId, Constant.USER_STATUS.ACTIVE.getStatus());
             UserAddress userAddress = userAddressService.getAddressByUserIdAndStatus(userId, Constant.STATUS.ACTIVE_STATUS.getValue());
             if (user != null) {
                 UserDetailResponseModel userResponse = new UserDetailResponseModel();
-                userResponse.setUserId(user.getUserId());
+                userResponse.setUserId(user.getId());
                 userResponse.setCompanyId(user.getCompanyId());
                 userResponse.setEmail(user.getEmail());
                 userResponse.setFirstName(user.getFirstName());

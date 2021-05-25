@@ -20,9 +20,9 @@ public class UserSpecification implements Specification<User> {
     private final String searchKey;
     private final int sortCase;
     private final boolean isAscSort;
-    private final String userId;
+    private final Long userId;
 
-    public UserSpecification(String userId, long companyId, String searchKey, int sortCase, boolean isAscSort) {
+    public UserSpecification(Long userId, long companyId, String searchKey, int sortCase, boolean isAscSort) {
         this.companyId = companyId;
         this.searchKey = searchKey;
         this.sortCase = sortCase;

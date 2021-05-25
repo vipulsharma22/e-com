@@ -78,4 +78,7 @@ public class APIName {
     // Upload file API
     public static final String UPLOAD_API = VERSION + "/upload";
     public static final String UPLOAD_FILE = "/file";
+
+    //Health check
+    public static final String HEALTH_API = "/health";
 }

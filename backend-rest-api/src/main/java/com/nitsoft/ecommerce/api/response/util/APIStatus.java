@@ -5,7 +5,7 @@ public enum APIStatus {
     ERR_INVALID_DATA(100, "Input data is not valid."),
     ERR_USER_NOT_EXIST(110, "User does not exist"),
     ERR_USER_NOT_VALID(111, "User name or password is not correct"),
-    USER_ALREADY_EXIST(112, "Email already exist"),
+    USER_ALREADY_EXIST(112, "User already exist"),
     USER_PENDING_STATUS(113, "User have not activated"),
     INVALID_PARAMETER(200, "Invalid request parameter"),
     ERR_UNAUTHORIZED(401, "Unauthorized or Access Token is expired"),

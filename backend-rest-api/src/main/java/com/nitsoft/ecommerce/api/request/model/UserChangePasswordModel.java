@@ -21,7 +21,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserChangePasswordModel {
-    public String userId;
+    public Long userId;
     public String oldPassword;
     public String newPassword;
 }

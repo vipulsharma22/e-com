@@ -15,7 +15,7 @@ public class UserAddressService {
         return userAddressRepository.save(userAddress);
     }
 
-    public UserAddress getAddressByUserIdAndStatus(String userId, int status) {
+    public UserAddress getAddressByUserIdAndStatus(Long userId, int status) {
         return userAddressRepository.findByUserIdAndStatus(userId, status);
     }
 

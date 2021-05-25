@@ -2,22 +2,15 @@ package com.nitsoft.ecommerce.api.orders;
 
 import com.nitsoft.ecommerce.api.APIName;
 import com.nitsoft.ecommerce.api.AbstractBaseAPI;
-import com.nitsoft.ecommerce.api.request.model.AuthRequestModel;
 import com.nitsoft.ecommerce.api.request.model.OrderRequestModel;
 import com.nitsoft.ecommerce.api.request.model.ProductInfo;
 import com.nitsoft.ecommerce.api.response.model.APIResponse;
-import com.nitsoft.ecommerce.api.response.util.APIStatus;
 import com.nitsoft.ecommerce.api.response.model.StatusResponse;
 import com.nitsoft.ecommerce.api.response.util.ResponseUtil;
-import com.nitsoft.ecommerce.database.model.OrderAddress;
 import com.nitsoft.ecommerce.database.model.OrderDetail;
 import com.nitsoft.ecommerce.database.model.Orders;
-import com.nitsoft.ecommerce.database.model.Payment;
 import com.nitsoft.ecommerce.database.model.Product;
-import com.nitsoft.ecommerce.database.model.User;
 import com.nitsoft.ecommerce.database.model.UserAddress;
-import com.nitsoft.ecommerce.database.model.UserToken;
-import com.nitsoft.ecommerce.exception.ApplicationException;
 import com.nitsoft.ecommerce.service.UserService;
 import com.nitsoft.ecommerce.service.OrdersService;
 import com.nitsoft.ecommerce.service.UserAddressService;
@@ -26,15 +19,12 @@ import com.nitsoft.ecommerce.service.orders.OrderAddressImpl;
 import com.nitsoft.ecommerce.service.orders.OrderDetailImpl;
 import com.nitsoft.ecommerce.service.product.ProductService;
 import com.nitsoft.util.Constant;
-import com.nitsoft.util.UniqueID;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import java.util.ArrayList;
+
 import java.util.Date;
-import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -79,12 +69,11 @@ public class OrdersAPI extends AbstractBaseAPI {
 
         //Crerate User address
         UserAddress userAddress = null;
-        if (orderRequest.getUser().getUserId() == null || orderRequest.getUser().getUserId().isEmpty()) {
+        if (orderRequest.getUser().getUserId() == null) {
             userAddress = new UserAddress();
             userAddress.setUserId(orderRequest.getUser().getUserId());
             userAddress.setAdress(orderRequest.getUser().getAddress());
             userAddress.setPhone(orderRequest.getUser().getPhone());
-            userAddress.setFax(orderRequest.getUser().getFax());
             userAddress.setCity(orderRequest.getUser().getCity());
             userAddress.setCountry(orderRequest.getUser().getCountry());
             userAddress.setStatus(Constant.STATUS.ACTIVE_STATUS.getValue());
@@ -101,7 +90,7 @@ public class OrdersAPI extends AbstractBaseAPI {
         orders.setCustomerMiddlename(orderRequest.getUser().getMiddleName());
         orders.setCustomerLastname(orderRequest.getUser().getLastName());
         orders.setPaymentId(orderRequest.getPaymentId());
-        orders.setAdressId(userAddress.getAdressId());
+        orders.setAdressId(userAddress.getId());
         orders.setStatus(Constant.ORDER_STATUS.PENDING.getStatus());
         orders.setCreatedAt(createDate);
         orders.setUpdatedAt(createDate);

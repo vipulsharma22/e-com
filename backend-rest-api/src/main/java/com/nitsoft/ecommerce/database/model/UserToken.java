@@ -44,7 +44,7 @@ public class UserToken implements Serializable {
     
     @Basic(optional = false)
     @Column(name = "user_id")
-    private String userId;
+    private Long userId;
     
     @Basic(optional = false)
     @Column(name = "login_date")

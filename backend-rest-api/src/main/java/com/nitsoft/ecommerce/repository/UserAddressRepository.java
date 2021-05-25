@@ -4,7 +4,7 @@ import com.nitsoft.ecommerce.database.model.UserAddress;
 import org.springframework.data.repository.CrudRepository;
 
 public interface UserAddressRepository extends CrudRepository<UserAddress, String> {
-    UserAddress findByUserIdAndStatus(String userId, int status);
+    UserAddress findByUserIdAndStatus(Long userId, int status);
     
-    UserAddress findByAdressIdAndStatus(Long adressId, int status);
+    UserAddress findByIdAndStatus(Long adressId, int status);
 }

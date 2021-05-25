@@ -21,7 +21,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDetailResponseModel {
-    private String userId;
+    private Long userId;
     private Long companyId;
     private int roleId;
     private String email;

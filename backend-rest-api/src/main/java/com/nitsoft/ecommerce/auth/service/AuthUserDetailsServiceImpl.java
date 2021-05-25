@@ -14,7 +14,6 @@ import com.nitsoft.ecommerce.database.model.UserToken;
 import com.nitsoft.ecommerce.exception.ApplicationException;
 import com.nitsoft.ecommerce.repository.UserTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 /**
@@ -28,14 +27,7 @@ public class AuthUserDetailsServiceImpl implements CustomUserAuthService {
     
     @Autowired
     private UserTokenRepository userTokenRepository;
-    
-    @Override
-    public UserDetails loadUserByUsername(String userId) {
-        // Not implement
-        return null;
-    }
-    
-    
+
     @Override
     public AuthUser loadUserByAccessToken(String token) {
         UserToken session = userTokenRepository.findById(token).get();

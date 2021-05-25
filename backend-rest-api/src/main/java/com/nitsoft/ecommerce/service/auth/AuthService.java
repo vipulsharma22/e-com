@@ -20,7 +20,7 @@ public interface AuthService {
 
     public UserToken createUserToken(User adminUser, boolean keepMeLogin);
     
-    public User getUserByUserIdAndCompanyIdAndStatus (String userId, Long companyId, int status);
+    public User getUserByUserIdAndCompanyIdAndStatus (Long userId, Long companyId, int status);
     
     public UserToken getUserTokenById (String id);
     

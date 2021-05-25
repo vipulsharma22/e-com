@@ -64,9 +64,9 @@ public class ReviewAPI extends AbstractBaseAPI {
                 User user = userService.getUserByUserIdAndComIdAndStatus(usertoken.getUserId(), companyId, Constant.USER_STATUS.ACTIVE.getStatus());
 
                 // validate user
-                if (user != null && user.getUserId() != null && !user.getUserId().isEmpty()) {
+                if (user != null && user.getId() != null) {
                     // set user id for review
-                    reviewBody.setUserId(user.getUserId());
+                    reviewBody.setUserId(user.getId());
                     // set company id
                     reviewBody.setCompanyId(companyId);
                     // set date created

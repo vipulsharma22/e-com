@@ -8,12 +8,11 @@
 package com.nitsoft.ecommerce.auth.service;
 
 import com.nitsoft.ecommerce.auth.AuthUser;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**
  *
  * @author Quy Duong
  */
-public interface CustomUserAuthService extends UserDetailsService{
+public interface CustomUserAuthService {
     AuthUser loadUserByAccessToken(String token);
 }
