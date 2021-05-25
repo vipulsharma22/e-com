@@ -7,4 +7,6 @@ public interface UserAddressRepository extends CrudRepository<UserAddress, Strin
     UserAddress findByUserIdAndStatus(Long userId, int status);
     
     UserAddress findByIdAndStatus(Long adressId, int status);
+
+    UserAddress findByAddressIdAndUserId(Long addressId, Long userId);
 }

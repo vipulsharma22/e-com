@@ -1,5 +1,6 @@
 package com.nitsoft.ecommerce.validators;
 
+import com.nitsoft.ecommerce.api.request.model.AuthRequestModel;
 import com.nitsoft.ecommerce.api.request.model.UserRequestModel;
 import com.nitsoft.ecommerce.api.response.util.APIStatus;
 import com.nitsoft.ecommerce.exception.ApplicationException;
@@ -17,9 +18,23 @@ public class UserValidator {
             throw new ApplicationException(APIStatus.ERR_INVALID_DATA);
         }
 
+        if (user.getPhone().length() != 10 || StringUtils.isAlpha(user.getPhone())) {
+            throw new ApplicationException(APIStatus.ERR_INVALID_DATA);
+        }
+
         if (!EmailUtil.isEmailFormat(user.getEmail())) {
             throw new ApplicationException(APIStatus.ERR_INVALID_DATA);
 
+        }
+    }
+
+    public static void login(AuthRequestModel user) {
+        if (user == null || StringUtils.isEmpty(user.getPhone()) || user.getOtp() == null) {
+            throw new ApplicationException(APIStatus.ERR_INVALID_DATA);
+        }
+
+        if (user.getPhone().length() != 10 || StringUtils.isAlpha(user.getPhone())) {
+            throw new ApplicationException(APIStatus.ERR_INVALID_DATA);
         }
     }
 }

@@ -47,7 +47,7 @@ public class ValidationExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleMissingServletRequestParameter(MissingServletRequestParameterException ex,
             HttpHeaders headers, HttpStatus status, WebRequest request) {
 
-        return new ResponseEntity(new APIResponse<>(APIStatus.ERR_BAD_REQUEST, null), headers, status);
+        return new ResponseEntity(new APIResponse(APIStatus.ERR_BAD_REQUEST, null), headers, status);
     }
 
     @ExceptionHandler(value = Exception.class)

@@ -39,8 +39,8 @@ public class Orders implements Serializable {
     private Long userId;
     
     @Basic(optional = false)
-    @Column(name = "adress_id")
-    private Long adressId;
+    @Column(name = "address_id")
+    private Long addressId;
     
     @Basic(optional = false)
     @Column(name = "payment_id")

@@ -3,8 +3,6 @@
 
 package com.nitsoft.util;
 
-import com.nitsoft.util.EmailUtil;
-import com.nitsoft.util.FileUtil;
 import java.io.BufferedInputStream;
 import java.io.BufferedWriter;
 import java.io.File;

@@ -27,32 +27,28 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public class UserAddress extends AbstractEntity {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Basic(optional = false)
     @Column(name = "user_id")
     private Long userId;
     
     @Basic(optional = false)
-    @Column(name = "adress")
-    private String adress;
-    
+    @Column(name = "address")
+    private String address;
+
+    @Basic(optional = false)
+    @Column(name = "pin_code")
+    private String pinCode;
+
+    @Basic(optional = false)
+    @Column(name = "land_mark")
+    private String landMark;
+
     @Basic(optional = false)
     @Column(name = "phone")
     private String phone;
     
     @Basic(optional = false)
-    @Column(name = "fax")
-    private String fax;
-    
-    @Basic(optional = false)
     @Column(name = "city")
     private String city;
-    
-    @Basic(optional = false)
-    @Column(name = "country")
-    private String country;
-    
-    @Basic(optional = false)
-    @Column(name = "status")
-    private int status;
 }

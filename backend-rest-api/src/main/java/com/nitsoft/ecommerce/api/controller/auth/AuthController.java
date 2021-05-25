@@ -99,9 +99,8 @@ public class AuthController extends AbstractBaseController {
                 userResponse.setLastName(user.getLastName());
                 userResponse.setRoleId(user.getRoleId());
                 if (userAddress != null) {
-                    userResponse.setAddress(userAddress.getAdress());
+                    userResponse.setAddress(userAddress.getAddress());
                     userResponse.setCity(userAddress.getCity());
-                    userResponse.setCountry(userAddress.getCountry());
                     userResponse.setPhone(userAddress.getPhone());
                 }
                 return responseUtil.successResponse(userResponse);

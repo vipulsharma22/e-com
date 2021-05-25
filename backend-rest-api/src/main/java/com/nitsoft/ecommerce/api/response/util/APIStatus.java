@@ -40,7 +40,9 @@ public enum APIStatus {
     ERR_GET_DETAIL_ORDERS(801, "Can not get detail orders"),
     ERR_ORDER_ID_EMPTY(802, "Order can't empty"),
     ERR_DELETE_ORDER(803, "Delete order is fail"),
-    ERR_ORDER_ID_NOT_FOUND(804, "Order id not found");
+    ERR_ORDER_ID_NOT_FOUND(804, "Order id not found"),
+    USER_ADDRESS_NOT_FOUND(804, "User address not found"),
+    INVALID_OTP(408, "Invalid OTP");
 
     private final int code;
     private final String description;

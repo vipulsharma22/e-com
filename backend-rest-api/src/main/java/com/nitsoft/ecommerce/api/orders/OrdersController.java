@@ -32,10 +32,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- *
- * @author Louis Duong
- */
 @RestController
 @RequestMapping(APIName.ORDERS)
 public class OrdersController extends AbstractBaseController {
@@ -123,7 +119,7 @@ public class OrdersController extends AbstractBaseController {
 //                OrderAddress orderAddress = orderAddresslService.getOrderAddressByOrderId(orderId);
 //                if (orderAddress != null) {
                 //get user address
-                UserAddress userAddress = userAddressRepository.findByIdAndStatus(order.getAdressId(), Constant.STATUS.ACTIVE_STATUS.getValue());
+                UserAddress userAddress = userAddressRepository.findByIdAndStatus(order.getId(), Constant.STATUS.ACTIVE_STATUS.getValue());
                 resultOrders.put("orderAddress", userAddress);
 //                }
                 // get list order payment by order id

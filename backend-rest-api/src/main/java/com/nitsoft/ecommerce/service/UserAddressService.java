@@ -19,4 +19,8 @@ public class UserAddressService {
         return userAddressRepository.findByUserIdAndStatus(userId, status);
     }
 
+    public UserAddress getAddressByIdAndUserId(Long addressId, Long userId) {
+        return userAddressRepository.findByAddressIdAndUserId(addressId,userId);
+    }
+
 }

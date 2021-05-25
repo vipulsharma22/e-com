@@ -13,6 +13,6 @@ public class UserRequestModel {
     private String address;
     private String city;
     private String country;
-    private Integer otp;
+    private String otp;
     
 }

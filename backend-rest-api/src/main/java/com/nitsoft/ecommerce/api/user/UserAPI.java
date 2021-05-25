@@ -14,19 +14,17 @@ import com.nitsoft.ecommerce.database.model.User;
 import com.nitsoft.ecommerce.database.model.UserAddress;
 import com.nitsoft.ecommerce.database.model.UserToken;
 import com.nitsoft.ecommerce.exception.ApplicationException;
+import com.nitsoft.ecommerce.service.OtpService;
 import com.nitsoft.ecommerce.service.UserAddressService;
 import com.nitsoft.ecommerce.service.UserService;
 import com.nitsoft.ecommerce.service.UserTokenService;
 import com.nitsoft.ecommerce.service.auth.AuthService;
 import com.nitsoft.ecommerce.validators.UserValidator;
 import com.nitsoft.util.Constant;
-import com.nitsoft.util.UniqueID;
 
 import java.security.NoSuchAlgorithmException;
-import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -49,43 +47,16 @@ public class UserAPI extends AbstractBaseController {
     @Autowired
     private AuthService authService;
 
+    @Autowired
+    private OtpService otpService;
+
     @RequestMapping(value = APIName.USERS_LOGIN, method = RequestMethod.POST, produces = APIName.CHARSET)
-    public ResponseEntity<APIResponse> login(
-            @PathVariable Long company_id,
-            @RequestBody AuthRequestModel authRequestModel
-    ) {
-
-        if ("".equals(authRequestModel.getUsername()) || "".equals(authRequestModel.getPassword())) {
-            // invalid paramaters
-            throw new ApplicationException(APIStatus.INVALID_PARAMETER);
-        } else {
-            User userLogin = userService.getUserByEmail(authRequestModel.getUsername(), company_id, Constant.USER_STATUS.ACTIVE.getStatus());
-
-            if (userLogin != null) {
-                String passwordHash = null;
-//                try {
-//                    passwordHash = MD5Hash.MD5Encrypt(authRequestModel.getPassword() + userLogin.getSalt());
-//                } catch (NoSuchAlgorithmException ex) {
-//                    throw new RuntimeException("User login encrypt password error", ex);
-//                }
-
-//                if (passwordHash.equals(userLogin.getPasswordHash())) {
-//                    UserToken userToken = authService.createUserToken(userLogin, authRequestModel.isKeepMeLogin());
-//                    // Create Auth User -> Set to filter config
-//                    // Perform the security
-//                    //final Authentication authentication = authenticationManager.authenticate();
-//                    return responseUtil.successResponse(userToken.getToken());
-//                } else {
-//                    // wrong password
-//                    throw new ApplicationException(APIStatus.ERR_USER_NOT_VALID);
-//                }
-
-            } else {
-                // can't find user by email address in database
-                throw new ApplicationException(APIStatus.ERR_USER_NOT_EXIST);
-            }
+    public ResponseEntity<APIResponse> login(@PathVariable Long company_id, @RequestBody AuthRequestModel authRequestModel) {
+        UserValidator.login(authRequestModel);
+        if (!otpService.verifyOtp(authRequestModel.getPhone(), authRequestModel.getOtp())) {
+            throw new ApplicationException(APIStatus.INVALID_OTP);
         }
-        return null;
+        return responseUtil.successResponse(APIStatus.OK);
     }
 
     @RequestMapping(value = APIName.USERS_LOGOUT, method = RequestMethod.POST, produces = APIName.CHARSET)
@@ -108,6 +79,9 @@ public class UserAPI extends AbstractBaseController {
     public ResponseEntity<APIResponse> register(@PathVariable Long company_id, @RequestBody UserRequestModel user) {
 
         UserValidator.registerUser(user);
+        if (!otpService.verifyOtp(user.getPhone(), user.getOtp())) {
+            throw new ApplicationException(APIStatus.INVALID_OTP);
+        }
         User existedUser = userService.getUserByPhoneNumber(user.getPhone(), Constant.USER_STATUS.ACTIVE.getStatus());
         if (existedUser == null) {
             User userSignUp = new User();
@@ -163,10 +137,7 @@ public class UserAPI extends AbstractBaseController {
                 response.setMiddleName(existedUser.getMiddleName());
                 response.setEmail(existedUser.getEmail());
                 response.setPhone(userAddress.getPhone());
-                response.setFax(userAddress.getFax());
-                response.setAddress(userAddress.getAdress());
                 response.setCity(userAddress.getCity());
-                response.setCountry(userAddress.getCountry());
                 return responseUtil.successResponse(response);
             } else {
                 // notify user already exists
@@ -196,9 +167,7 @@ public class UserAPI extends AbstractBaseController {
             userService.save(existedUser);
             UserAddress userAddress = userAddressService.getAddressByUserIdAndStatus(user.getUserId(), Constant.STATUS.ACTIVE_STATUS.getValue());
             if (userAddress != null) {
-                userAddress.setAdress(user.getAddress());
                 userAddress.setCity(user.getCity());
-                userAddress.setCountry(user.getCountry());
                 userAddress.setPhone(user.getPhone());
                 userAddressService.save(userAddress);
             } else {
@@ -223,12 +192,6 @@ public class UserAPI extends AbstractBaseController {
                 if (user != null) {
                     user.setStatus(Constant.USER_STATUS.INACTIVE.getStatus());
                     userService.save(user);
-
-                    UserAddress userAddress = userAddressService.getAddressByUserIdAndStatus(userId, Constant.STATUS.ACTIVE_STATUS.getValue());
-                    if (userAddress != null) {
-                        userAddress.setStatus(Constant.STATUS.DELETED_STATUS.getValue());
-                        userAddressService.save(userAddress);
-                    }
                 }
             }
             return responseUtil.successResponse("Delete User Successfully");

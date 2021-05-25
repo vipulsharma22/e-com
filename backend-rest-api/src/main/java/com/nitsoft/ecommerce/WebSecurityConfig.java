@@ -10,7 +10,7 @@
 //import com.nitsoft.ecommerce.auth.AuthEntryPointException;
 //import com.nitsoft.ecommerce.auth.AuthTokenFilter;
 //import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.context.annotation.Bean;
+//import org.springframework.context.annotation.Bean;backend-rest-api/src/main/java/com/nitsoft/ecommerce/api/orders/OrdersAPI.java
 //import org.springframework.context.annotation.Configuration;
 //import org.springframework.http.HttpMethod;
 //import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;

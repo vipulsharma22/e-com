@@ -43,6 +43,9 @@ public class APIName {
     public static final String USER_LIST = "/list";
     public static final String USERS_LOGIN = "/login";
     public static final String USERS_LOGOUT = "/logout";
+    public static final String UPDATE = "/update";
+    public static final String SAVE = "/save";
+    public static final String ADDRESS = "/address";
     public static final String USER_DETAILS = "/detail/{userId}";
     public static final String UPDATE_USER = "/update";
     public static final String DELETE_USER = "/delete";

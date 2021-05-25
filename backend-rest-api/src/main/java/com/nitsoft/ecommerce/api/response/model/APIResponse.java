@@ -5,7 +5,7 @@ import com.nitsoft.ecommerce.api.response.util.APIStatus;
 import java.io.Serializable;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class APIResponse<T extends Object> implements Serializable {
+public class APIResponse implements Serializable {
 
     /**
      * status & message fields have not setter. They are assigned value when
@@ -13,9 +13,9 @@ public class APIResponse<T extends Object> implements Serializable {
      */
     private int status;
     private String message;
-    private T data;
+    private Object data;
 
-    public APIResponse(APIStatus apiStatus, T data) {
+    public APIResponse(APIStatus apiStatus, Object data) {
 
         if (apiStatus == null) {
             throw new IllegalArgumentException("APIStatus must not be null");
@@ -26,6 +26,10 @@ public class APIResponse<T extends Object> implements Serializable {
         this.data = data;
     }
 
+    public static APIResponse successResponse(Object data){
+        return new APIResponse(APIStatus.OK,data);
+    }
+
     public int getStatus() {
         return status;
     }
@@ -34,11 +38,11 @@ public class APIResponse<T extends Object> implements Serializable {
         return message;
     }
 
-    public T getData() {
+    public Object getData() {
         return data;
     }
 
-    public void setData(T data) {
+    public void setData(Object data) {
         this.data = data;
     }
 
