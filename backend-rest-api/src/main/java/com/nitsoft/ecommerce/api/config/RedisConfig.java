@@ -22,16 +22,16 @@ public class RedisConfig {
     private Integer redisPort;
 
     @Bean
-    public JedisConnectionFactory redisConnectionFactory() {
-        JedisConnectionFactory redisConnectionFactory = new JedisConnectionFactory();
+    JedisConnectionFactory jedisConnectionFactory() {
         RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration(redisIp,redisPort);
+        JedisConnectionFactory redisConnectionFactory = new JedisConnectionFactory(redisStandaloneConfiguration);
         return redisConnectionFactory;
     }
 
     @Bean(name = "redisStringTemplate")
     public RedisTemplate<String, String> redisStringToStringTemplate() {
         RedisTemplate<String, String> redisTemplate = new RedisTemplate<String, String>();
-        redisTemplate.setConnectionFactory(redisConnectionFactory());
+        redisTemplate.setConnectionFactory(jedisConnectionFactory());
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         redisTemplate.setValueSerializer(new StringRedisSerializer());
         return redisTemplate;

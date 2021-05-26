@@ -13,6 +13,7 @@ import com.nitsoft.ecommerce.database.model.UserAddress;
 import com.nitsoft.ecommerce.exception.ApplicationException;
 import com.nitsoft.ecommerce.repository.PaymentRepository;
 import com.nitsoft.ecommerce.repository.UserAddressRepository;
+import com.nitsoft.ecommerce.service.UserAddressService;
 import com.nitsoft.ecommerce.service.orders.OrderAddressService;
 import com.nitsoft.ecommerce.service.orders.OrderDetailService;
 import com.nitsoft.ecommerce.service.orders.OrderPaymentService;
@@ -52,7 +53,7 @@ public class OrdersController extends AbstractBaseController {
     ProductService productService;
 
     @Autowired
-    UserAddressRepository userAddressRepository;
+    UserAddressService userAddressService;
 
     @Autowired
     PaymentRepository paymentRepository;
@@ -119,7 +120,7 @@ public class OrdersController extends AbstractBaseController {
 //                OrderAddress orderAddress = orderAddresslService.getOrderAddressByOrderId(orderId);
 //                if (orderAddress != null) {
                 //get user address
-                UserAddress userAddress = userAddressRepository.findByIdAndStatus(order.getId(), Constant.STATUS.ACTIVE_STATUS.getValue());
+                UserAddress userAddress = null;//userAddressService.findByIdAndStatus(order.getId(), Constant.STATUS.ACTIVE_STATUS.getValue());
                 resultOrders.put("orderAddress", userAddress);
 //                }
                 // get list order payment by order id
@@ -144,7 +145,6 @@ public class OrdersController extends AbstractBaseController {
      * @param companyId
      * @param orderId
      * @param status
-     * @param orders
      * @return
      */
     @RequestMapping(path = APIName.CHANGE_STATUS_ORDERS_BY_COMPANY, method = RequestMethod.GET)
