@@ -12,7 +12,7 @@ public interface UserRepository extends PagingAndSortingRepository<User, Long>, 
 
     User findByPhoneAndStatus(String phone, int status);
 
-    User findByIdAAndStatus(Long userId, int status);
+    User findByIdAndStatus(Long userId, int status);
     
     @Query("SELECT u FROM User u WHERE u.email = :email AND u.companyId = :companyId")
     User findByEmail(@Param("email") String email, @Param("companyId") long companyId);

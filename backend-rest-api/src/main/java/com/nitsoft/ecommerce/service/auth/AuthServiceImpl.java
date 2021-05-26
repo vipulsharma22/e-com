@@ -68,7 +68,7 @@ public class AuthServiceImpl extends AbstractBaseService implements AuthService{
 
     @Override
     public User getUserByUserIdAndStatus(Long userId) {
-        return userRepository.findByIdAAndStatus(userId, Constant.USER_STATUS.ACTIVE.getStatus());
+        return userRepository.findByIdAndStatus(userId, Constant.USER_STATUS.ACTIVE.getStatus());
     }
 
     @Override

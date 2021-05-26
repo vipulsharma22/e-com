@@ -16,11 +16,11 @@ public class UserAddressService {
     }
 
     public UserAddress getAddressByUserIdAndStatus(Long userId, int status) {
-        return userAddressRepository.findByUserIdAndStatus(userId, status);
+        return userAddressRepository.findByUserId(userId);
     }
 
     public UserAddress getAddressByIdAndUserId(Long addressId, Long userId) {
-        return userAddressRepository.findByAddressIdAndUserId(addressId,userId);
+        return userAddressRepository.findByIdAndUserId(addressId,userId);
     }
 
 }
