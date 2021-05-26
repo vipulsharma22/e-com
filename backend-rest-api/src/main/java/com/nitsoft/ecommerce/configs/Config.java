@@ -23,10 +23,10 @@ public class Config {
     private String emailPassword;
 
     @Bean
-    private Message91Client getMessage91Client(){
+    public Message91Client getMessage91Client(){
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("")//todo: set message91 base url
+                .baseUrl("http://testngetjp.irctc.co.in/eticketing/webservices/")//todo: set message91 base url
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(httpClient.build())
                 .build();
