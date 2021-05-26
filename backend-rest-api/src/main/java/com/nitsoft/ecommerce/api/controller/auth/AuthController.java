@@ -53,7 +53,7 @@ public class AuthController extends AbstractBaseController {
             @PathVariable("company_id") Long companyId,
             @RequestBody AuthRequestModel authRequestModel
     ) {
-        User adminUser = authService.getUserByEmailAndCompanyIdAndStatus(authRequestModel.getUsername(), companyId, Constant.USER_STATUS.ACTIVE.getStatus());
+        User adminUser = authService.getUserByEmailAndCompanyIdAndStatus(authRequestModel.getPhone(), companyId, Constant.USER_STATUS.ACTIVE.getStatus());
         if (adminUser == null) {
             throw new ApplicationException(APIStatus.ERR_USER_NOT_EXIST);
         } else {
