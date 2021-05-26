@@ -22,18 +22,19 @@ import org.springframework.stereotype.Service;
 public class AuthUserFactoryImpl implements AuthUserFactory{
     @Autowired
     RoleRepository roleRepository;
-    
+
     @Override
     public AuthUser createAuthUser(User user) {
         return new AuthUser(
-                    user.getId(),
-                    user.getEmail(),
-                    null,
-                    getUserRoleString(user.getRoleId()),
-                    user.getFirstName(),
-                    user.getLastName(),
-                    user.getStatus() == Constant.STATUS.ACTIVE_STATUS.getValue()
-            );
+                user.getId(),
+                user.getEmail(),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getStatus() == Constant.STATUS.ACTIVE_STATUS.getValue(),
+                "1",
+                user.getEmail(),
+                user.getPhone()
+        );
     }
     
     private String getUserRoleString (int roleId){

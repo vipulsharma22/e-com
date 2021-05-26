@@ -8,37 +8,19 @@
 package com.nitsoft.ecommerce.auth;
 
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class AuthUser {
 
-    private final Long id;
-    private final String username;
-    private final String password;
+    private Long id;
+    private String username;
     private String firstName;
     private String lastName;
-    private final boolean enabled;
+    private boolean active;
     private String role;
-    
-    public AuthUser(
-            Long id,
-            String username,
-            String password, String role, String firstName, String lastName,
-            boolean enabled
-    ) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.role = role;
-        this.enabled = enabled;
-    }
-
-    @Override
-    public String toString() {
-        return "AuthUser{" + "id=" + id + ", username=" + username + ", password=" + password + ", role=" + role + ", enabled=" + enabled + '}';
-    }
-
+    private String email;
+    private String phone;
 }

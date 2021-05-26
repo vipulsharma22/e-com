@@ -5,6 +5,8 @@ import com.nitsoft.ecommerce.repository.UserTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service
 public class UserTokenService {
 
@@ -20,7 +22,8 @@ public class UserTokenService {
     }
 
     public void invalidateToken(UserToken userToken) {
-        userTokenRepository.delete(userToken);
+        userToken.setExpirationDate(new Date());
+        userTokenRepository.save(userToken);
     }
 
 }

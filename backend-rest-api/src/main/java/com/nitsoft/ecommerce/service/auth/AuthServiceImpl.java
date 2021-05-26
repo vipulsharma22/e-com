@@ -67,18 +67,28 @@ public class AuthServiceImpl extends AbstractBaseService implements AuthService{
     }
 
     @Override
-    public User getUserByUserIdAndCompanyIdAndStatus(Long userId, Long companyId, int status) {
-        return userRepository.findByIdAndCompanyIdAndStatus(userId ,companyId, Constant.USER_STATUS.ACTIVE.getStatus());
+    public User getUserByUserIdAndStatus(Long userId) {
+        return userRepository.findByIdAAndStatus(userId, Constant.USER_STATUS.ACTIVE.getStatus());
     }
 
     @Override
     public UserToken getUserTokenById(String id) {
-        return userTokenRepository.findById(id).get();
+        return userTokenRepository.findById(id).orElse(null);
     }
 
     @Override
     public void deleteUserToken(UserToken userToken) {
         userTokenRepository.delete(userToken);
     }
-    
+
+    public UserToken getOrCreateUserTokenByUserId(User user) {
+        UserToken token = userTokenRepository.findByUserIdAndExpirationDateGreaterThan(user.getId(), new Date());
+        if (token != null) return token;
+        return createUserToken(user, true);
+    }
+
+    public UserToken getByToken(String token){
+        return userTokenRepository.findByToken(token);
+    }
+
 }

@@ -88,7 +88,7 @@ public class AuthController extends AbstractBaseController {
     ) {
         Long userId = getAuthUserFromSession(request).getId();
         if (userId != null && !"".equals(userId)) {
-            User user = authService.getUserByUserIdAndCompanyIdAndStatus(userId, companyId, Constant.USER_STATUS.ACTIVE.getStatus());
+            User user = authService.getUserByUserIdAndStatus(userId);
             UserAddress userAddress = userAddressService.getAddressByUserIdAndStatus(userId, Constant.STATUS.ACTIVE_STATUS.getValue());
             if (user != null) {
                 UserDetailResponseModel userResponse = new UserDetailResponseModel();

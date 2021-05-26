@@ -3,12 +3,12 @@ package com.nitsoft.ecommerce.api.user;
 import com.nitsoft.ecommerce.api.APIName;
 import com.nitsoft.ecommerce.api.controller.AbstractBaseController;
 import com.nitsoft.ecommerce.api.request.model.AuthRequestModel;
-import com.nitsoft.ecommerce.api.request.model.UserChangePasswordModel;
 import com.nitsoft.ecommerce.api.request.model.UserListRequestModel;
 import com.nitsoft.ecommerce.api.request.model.UserRequestModel;
 import com.nitsoft.ecommerce.api.response.model.APIResponse;
 import com.nitsoft.ecommerce.api.response.model.PagingResponseModel;
 import com.nitsoft.ecommerce.api.response.model.UserDetailResponseModel;
+import com.nitsoft.ecommerce.api.response.model.UserLogInResponse;
 import com.nitsoft.ecommerce.api.response.util.APIStatus;
 import com.nitsoft.ecommerce.database.model.User;
 import com.nitsoft.ecommerce.database.model.UserAddress;
@@ -22,12 +22,12 @@ import com.nitsoft.ecommerce.service.auth.AuthService;
 import com.nitsoft.ecommerce.validators.UserValidator;
 import com.nitsoft.util.Constant;
 
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,19 +51,22 @@ public class UserAPI extends AbstractBaseController {
     private OtpService otpService;
 
     @RequestMapping(value = APIName.USERS_LOGIN, method = RequestMethod.POST, produces = APIName.CHARSET)
-    public ResponseEntity<APIResponse> login(@PathVariable Long company_id, @RequestBody AuthRequestModel authRequestModel) {
+    public ResponseEntity<APIResponse> login(@PathVariable Long companyId, @RequestBody AuthRequestModel authRequestModel) {
         UserValidator.login(authRequestModel);
         if (!otpService.verifyOtp(authRequestModel.getPhone(), authRequestModel.getOtp())) {
             throw new ApplicationException(APIStatus.INVALID_OTP);
         }
-        return responseUtil.successResponse(APIStatus.OK);
+        User existedUser = userService.getUserByPhoneNumber(authRequestModel.getPhone(), Constant.USER_STATUS.ACTIVE.getStatus());
+        if (existedUser == null) {
+            throw new ApplicationException(APIStatus.ERR_USER_NOT_FOUND);
+        }
+        UserToken token = authService.getOrCreateUserTokenByUserId(existedUser);
+        UserLogInResponse response = UserLogInResponse.builder().token(token.getToken()).userName(existedUser.getEmail()).build();
+        return responseUtil.successResponse(response);
     }
 
     @RequestMapping(value = APIName.USERS_LOGOUT, method = RequestMethod.POST, produces = APIName.CHARSET)
-    public ResponseEntity<APIResponse> logout(
-            @PathVariable Long company_id,
-            HttpServletRequest request) {
-
+    public ResponseEntity<APIResponse> logout(@PathVariable Long companyId, HttpServletRequest request) {
         String authToken = request.getHeader(Constant.HEADER_TOKEN);
         UserToken userToken = userTokenService.getTokenById(authToken);
         if (userToken != null) {
@@ -72,12 +75,10 @@ public class UserAPI extends AbstractBaseController {
         } else {
             throw new ApplicationException(APIStatus.ERR_UNAUTHORIZED);
         }
-
     }
 
     @RequestMapping(path = APIName.USER_REGISTER, method = RequestMethod.POST, produces = APIName.CHARSET)
-    public ResponseEntity<APIResponse> register(@PathVariable Long company_id, @RequestBody UserRequestModel user) {
-
+    public ResponseEntity<APIResponse> register(@PathVariable Long companyId, @RequestBody UserRequestModel user) {
         UserValidator.registerUser(user);
         if (!otpService.verifyOtp(user.getPhone(), user.getOtp())) {
             throw new ApplicationException(APIStatus.INVALID_OTP);
@@ -92,9 +93,12 @@ public class UserAPI extends AbstractBaseController {
             userSignUp.setRoleId(Constant.USER_ROLE.NORMAL_USER.getRoleId());
             userSignUp.setStatus(Constant.USER_STATUS.ACTIVE.getStatus());
             userSignUp.setPhone(user.getPhone());
-            userSignUp.setCompanyId(company_id);
+            userSignUp.setCompanyId(companyId);
             userService.save(userSignUp);
-            return responseUtil.successResponse(userSignUp);
+            UserToken token = authService.createUserToken(userSignUp, true);
+            UserLogInResponse response = UserLogInResponse.builder().userName(user.getEmail()).
+                    token(token.getToken()).build();
+            return responseUtil.successResponse(response);
         } else {
             throw new ApplicationException(APIStatus.USER_ALREADY_EXIST);
         }
@@ -103,12 +107,12 @@ public class UserAPI extends AbstractBaseController {
     @RequestMapping(value = APIName.USER_LIST, method = RequestMethod.POST, produces = APIName.CHARSET)
     public ResponseEntity<APIResponse> getUserList(
             HttpServletRequest httpRequest,
-            @PathVariable Long company_id,
+            @PathVariable Long companyId,
             @RequestBody UserListRequestModel request) {
 
         try {
             Long userId = getAuthUserFromSession(httpRequest).getId();
-            Page<User> users = userService.doFilterSearchSortPagingUser(userId, company_id, request.getSearchKey(), request.getSortCase(), request.getAscSort(), request.getPageSize(), request.getPageNumber());
+            Page<User> users = userService.doFilterSearchSortPagingUser(userId, companyId, request.getSearchKey(), request.getSortCase(), request.getAscSort(), request.getPageSize(), request.getPageNumber());
             PagingResponseModel finalRes = new PagingResponseModel(users.getContent(), users.getTotalElements(), users.getTotalPages(), users.getNumber());
             return responseUtil.successResponse(finalRes);
         } catch (Exception ex) {
@@ -119,12 +123,12 @@ public class UserAPI extends AbstractBaseController {
 
     @RequestMapping(path = APIName.USER_DETAILS, method = RequestMethod.GET, produces = APIName.CHARSET)
     public ResponseEntity<APIResponse> getUserDetails(
-            @PathVariable Long company_id,
+            @PathVariable Long companyId,
             @PathVariable Long userId
     ) {
 
         // check user already exists
-        User existedUser = userService.getUserByUserIdAndComIdAndStatus(userId, company_id, Constant.USER_STATUS.ACTIVE.getStatus());
+        User existedUser = userService.getUserByUserIdAndComIdAndStatus(userId, companyId, Constant.USER_STATUS.ACTIVE.getStatus());
         if (existedUser != null) {
             UserAddress userAddress = userAddressService.getAddressByUserIdAndStatus(userId, Constant.STATUS.ACTIVE_STATUS.getValue());
             if (userAddress != null) {
@@ -182,13 +186,13 @@ public class UserAPI extends AbstractBaseController {
 
     @RequestMapping(path = APIName.DELETE_USER, method = RequestMethod.POST, produces = APIName.CHARSET)
     public ResponseEntity<APIResponse> deleteUsers(
-            @PathVariable Long company_id,
+            @PathVariable Long companyId,
             @RequestBody List<Long> userIds
     ) {
-        if (userIds != null && userIds.size() > 0) {
+        if (!CollectionUtils.isEmpty(userIds)) {
 
             for (Long userId : userIds) {
-                User user = userService.getUserByUserIdAndComIdAndStatus(userId, company_id, Constant.USER_STATUS.ACTIVE.getStatus());
+                User user = userService.getUserByUserIdAndComIdAndStatus(userId, companyId, Constant.USER_STATUS.ACTIVE.getStatus());
                 if (user != null) {
                     user.setStatus(Constant.USER_STATUS.INACTIVE.getStatus());
                     userService.save(user);
@@ -198,35 +202,5 @@ public class UserAPI extends AbstractBaseController {
         } else {
             throw new ApplicationException(APIStatus.ERR_BAD_REQUEST);
         }
-
-    }
-
-    @RequestMapping(path = APIName.CHANGE_PASSWORD_USER, method = RequestMethod.POST, produces = APIName.CHARSET)
-    public ResponseEntity<APIResponse> changePasswordUser(
-            @PathVariable Long company_id,
-            @RequestBody UserChangePasswordModel user
-    ) throws NoSuchAlgorithmException {
-
-        // check user already exists
-        User existedUser = userService.getUserByUserIdAndComIdAndStatus(user.getUserId(), company_id, Constant.USER_STATUS.ACTIVE.getStatus());
-        if (existedUser != null) {
-//            String oldHashPassword = MD5Hash.MD5Encrypt(user.getOldPassword() + existedUser.getSalt());
-//            if (oldHashPassword.equals(existedUser.getPasswordHash())) {
-//                if (user.getNewPassword() != null || !user.getNewPassword().isEmpty()) {
-//                    existedUser.setPasswordHash(MD5Hash.MD5Encrypt(user.getNewPassword() + existedUser.getSalt()));
-//                    userService.save(existedUser);
-//                    return responseUtil.successResponse(existedUser);
-//                } else {
-//                    throw new ApplicationException(APIStatus.ERR_MISSING_PASSWORD);
-//                }
-//            } else {
-//                throw new ApplicationException(APIStatus.ERR_UNCORRECT_PASSWORD);
-//            }
-
-        } else {
-            // notify user already exists
-            throw new ApplicationException(APIStatus.ERR_USER_NOT_FOUND);
-        }
-        return null;
     }
 }

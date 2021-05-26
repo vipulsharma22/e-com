@@ -1,10 +1,13 @@
 package com.nitsoft.ecommerce.repository;
 
 import com.nitsoft.ecommerce.database.model.UserToken;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
+
+import java.util.Date;
 
 public interface UserTokenRepository extends CrudRepository<UserToken, String> {
 
+    UserToken findByUserIdAndExpirationDateGreaterThan(Long userId, Date currentDate);
+
+    UserToken findByToken(String token);
 }

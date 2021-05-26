@@ -31,7 +31,7 @@ public class UserService {
     }
 
     public User getUserByUserIdAndComIdAndStatus(Long userId, Long companyId, int status) {
-        return userRepository.findByIdAndCompanyIdAndStatus(userId, companyId, status);
+        return userRepository.findByIdAAndStatus(userId, status);
     }
 
     public User getUserByActivationCode(String token) {
