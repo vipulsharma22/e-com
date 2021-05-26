@@ -2,9 +2,12 @@ package com.nitsoft.ecommerce.api.response.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.nitsoft.ecommerce.api.response.util.APIStatus;
+import lombok.NoArgsConstructor;
+
 import java.io.Serializable;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@NoArgsConstructor
 public class APIResponse implements Serializable {
 
     /**

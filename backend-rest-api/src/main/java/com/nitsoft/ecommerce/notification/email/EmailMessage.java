@@ -1,7 +1,5 @@
 package com.nitsoft.ecommerce.notification.email;
 
-import com.nitsoft.ecommerce.notification.email.transport.EmailTransportException;
-import com.nitsoft.ecommerce.notification.email.transport.PostalService;
 import com.nitsoft.ecommerce.notification.email.validation.EmailAddressValidator;
 import com.nitsoft.ecommerce.notification.email.validation.IncompleteEmailException;
 import com.nitsoft.ecommerce.notification.email.validation.InvalidEmailAddressException;
@@ -12,7 +10,6 @@ import java.util.Set;
 public class EmailMessage implements EmailBuilder, Email {
 
 	private static EmailAddressValidator emailAddressValidator = new EmailAddressValidator();
-	private static PostalService postalService = new PostalService();
 
 	private String fromAddress;
 	private Set<String> toAddresses = new HashSet<String>();
@@ -25,7 +22,6 @@ public class EmailMessage implements EmailBuilder, Email {
 	public void send() {
 		validateRequiredInfo();
 		validateAddresses();
-		sendMessage();
 	}
 
 	protected void validateRequiredInfo() {
@@ -44,14 +40,6 @@ public class EmailMessage implements EmailBuilder, Email {
 		}
 	}
 
-	protected void sendMessage() {
-		try {
-			postalService.send(this);
-		} catch (Exception e) {
-			throw new EmailTransportException("Email could not be sent: "
-					+ e.getMessage(), e);
-		}
-	}
 
 	public EmailBuilder from(String address) {
 		this.fromAddress = address;
@@ -141,10 +129,6 @@ public class EmailMessage implements EmailBuilder, Email {
 	public static void setEmailAddressValidator(
 			EmailAddressValidator emailAddressValidator) {
 		EmailMessage.emailAddressValidator = emailAddressValidator;
-	}
-
-	public static void setPostalService(PostalService postalService) {
-		EmailMessage.postalService = postalService;
 	}
 
 
