@@ -30,10 +30,6 @@ public class SchedulerService {
     private ApplicationContext appContext;
     private static ThreadPoolTaskExecutor taskExecutor;
 
-  
-    @Autowired
-    private EmailNotificationWorker emailNotificationWorker;
-
 
     
 

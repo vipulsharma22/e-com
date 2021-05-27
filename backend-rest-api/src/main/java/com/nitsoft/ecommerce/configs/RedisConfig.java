@@ -1,4 +1,4 @@
-package com.nitsoft.ecommerce.api.config;
+package com.nitsoft.ecommerce.configs;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
