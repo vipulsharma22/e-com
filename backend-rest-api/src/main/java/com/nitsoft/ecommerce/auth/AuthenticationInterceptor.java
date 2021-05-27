@@ -43,20 +43,20 @@ public class AuthenticationInterceptor extends WebContentInterceptor {
         if (null != method) {
             Authenticated authAnnotation = jointPoint.getTarget().getClass().getMethod(method.getName(), method.getParameterTypes()).getAnnotation(Authenticated.class);
             HttpServletRequest httpRequest = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-            if (null != httpRequest) {
-                String token = fetchAuthToken(httpRequest);
-                String userType = getUserType(httpRequest);
-                if (token != null) {
-                    List<PermissionEnum> requiredPermissionEnumList = fetchRequiredPermissionEnumList(authAnnotation);
-                    UserToken userToken = authService.getByToken(token);
-                    if (userToken == null || userToken.getExpirationDate().after(new Date())) {
-                        throw new AuthenticationException();
-                    }
-                    User user = authService.getUserByUserIdAndStatus(userToken.getUserId());
-                    setAuthUmsDTOParameterInMethodSignatureIfPresent(user, jointPoint);
-                    return jointPoint.proceed();
-
+            String token = fetchAuthToken(httpRequest);
+            if (token != null) {
+                List<PermissionEnum> requiredPermissionEnumList = fetchRequiredPermissionEnumList(authAnnotation);
+                UserToken userToken = authService.getByToken(token);
+                if (userToken == null || userToken.getExpirationDate().before(new Date())) {
+                    throw new AuthenticationException();
                 }
+                User user = authService.getUserByUserIdAndStatus(userToken.getUserId());
+                if (!isAuthorised(user, requiredPermissionEnumList)) {
+                    throw new AuthenticationException();
+                }
+                setAuthUmsDTOParameterInMethodSignatureIfPresent(user, jointPoint);
+                return jointPoint.proceed();
+
             }
         }
 
@@ -65,9 +65,16 @@ public class AuthenticationInterceptor extends WebContentInterceptor {
 
     private List<PermissionEnum> fetchRequiredPermissionEnumList(Authenticated authAnnotation) {
         PermissionEnum[] requiredPermissionEnums = authAnnotation.permissions();
-        List<PermissionEnum> requiredPermissionEnumList = new ArrayList<>(Arrays.asList(requiredPermissionEnums));
-        requiredPermissionEnumList.add(PermissionEnum.ALL);
-        return requiredPermissionEnumList;
+        return new ArrayList<>(Arrays.asList(requiredPermissionEnums));
+    }
+
+    private boolean isAuthorised(User user, List<PermissionEnum> permissionEnums) {
+        for (PermissionEnum p : permissionEnums) {
+            int roleId = p.getRole().getRoleId();
+            if (roleId < user.getRoleId())
+                return false;
+        }
+        return true;
     }
 
     private String fetchAuthToken(HttpServletRequest httpRequest) {
@@ -81,19 +88,6 @@ public class AuthenticationInterceptor extends WebContentInterceptor {
         }
         return token;
     }
-
-    private String getUserType(HttpServletRequest httpRequest) {
-        String userType = httpRequest.getHeader("X-USER-TYPE");
-        if (StringUtils.isNotEmpty((userType))) {
-            return userType;
-        }
-        userType = httpRequest.getParameter("X-USER-TYPE");
-        if (StringUtils.isNotEmpty((userType))) {
-            return userType;
-        }
-        return userType;
-    }
-
 
     private void setAuthUmsDTOParameterInMethodSignatureIfPresent(User user, ProceedingJoinPoint jointPoint) {
         for (Object parameter : jointPoint.getArgs()) {

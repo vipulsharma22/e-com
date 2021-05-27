@@ -50,6 +50,8 @@ public class APIName {
     public static final String UPDATE_USER = "/update";
     public static final String DELETE_USER = "/delete";
     public static final String CHANGE_PASSWORD_USER = "/changePassword";
+    public static final String SEND_OTP = "/sendOTP";
+
 
     //review api link
     public static final String REVIEWS = VERSION + "/reviews";

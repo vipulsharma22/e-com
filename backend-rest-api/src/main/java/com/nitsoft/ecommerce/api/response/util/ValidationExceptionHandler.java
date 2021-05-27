@@ -1,6 +1,7 @@
 package com.nitsoft.ecommerce.api.response.util;
 
 import com.nitsoft.ecommerce.api.response.model.APIResponse;
+import com.nitsoft.ecommerce.auth.AuthenticationException;
 import com.nitsoft.ecommerce.exception.ApplicationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,6 +56,13 @@ public class ValidationExceptionHandler extends ResponseEntityExceptionHandler {
 
         LOGGER.error("handleUncatchException", ex);
         return responseUtil.buildResponse(APIStatus.ERR_INTERNAL_SERVER, "Please contact System Admin to resolve problem", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(value = AuthenticationException.class)
+    public ResponseEntity<APIResponse> handleAuthenticationException(AuthenticationException ex, WebRequest request) {
+
+        LOGGER.error("handleUncatchException", ex);
+        return responseUtil.buildResponse(APIStatus.ERR_PERMISSION_DENIED, "User does not have access", HttpStatus.UNAUTHORIZED);
     }
 
 }

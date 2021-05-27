@@ -10,14 +10,13 @@ import com.nitsoft.ecommerce.api.response.model.PagingResponseModel;
 import com.nitsoft.ecommerce.api.response.model.UserDetailResponseModel;
 import com.nitsoft.ecommerce.api.response.model.UserLogInResponse;
 import com.nitsoft.ecommerce.api.response.util.APIStatus;
+import com.nitsoft.ecommerce.auth.service.Authenticated;
 import com.nitsoft.ecommerce.database.model.User;
 import com.nitsoft.ecommerce.database.model.UserAddress;
 import com.nitsoft.ecommerce.database.model.UserToken;
+import com.nitsoft.ecommerce.enums.PermissionEnum;
 import com.nitsoft.ecommerce.exception.ApplicationException;
-import com.nitsoft.ecommerce.service.OtpService;
-import com.nitsoft.ecommerce.service.UserAddressService;
-import com.nitsoft.ecommerce.service.UserService;
-import com.nitsoft.ecommerce.service.UserTokenService;
+import com.nitsoft.ecommerce.service.*;
 import com.nitsoft.ecommerce.service.auth.AuthService;
 import com.nitsoft.ecommerce.validators.UserValidator;
 import com.nitsoft.util.Constant;
@@ -28,11 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(APIName.USERS)
@@ -51,7 +46,7 @@ public class UserAPI extends AbstractBaseController {
     private OtpService otpService;
 
     @RequestMapping(value = APIName.USERS_LOGIN, method = RequestMethod.POST, produces = APIName.CHARSET)
-    public ResponseEntity<APIResponse> login(@PathVariable Long companyId, @RequestBody AuthRequestModel authRequestModel) {
+    public ResponseEntity<APIResponse> login(@PathVariable(value = "company_id") Long companyId, @RequestBody AuthRequestModel authRequestModel) {
         UserValidator.login(authRequestModel);
         if (!otpService.verifyOtp(authRequestModel.getPhone(), authRequestModel.getOtp())) {
             throw new ApplicationException(APIStatus.INVALID_OTP);
@@ -78,7 +73,7 @@ public class UserAPI extends AbstractBaseController {
     }
 
     @RequestMapping(path = APIName.USER_REGISTER, method = RequestMethod.POST, produces = APIName.CHARSET)
-    public ResponseEntity<APIResponse> register(@PathVariable Long companyId, @RequestBody UserRequestModel user) {
+    public ResponseEntity<APIResponse> register(@PathVariable(value = "company_id") Long companyId, @RequestBody UserRequestModel user) {
         UserValidator.registerUser(user);
         if (!otpService.verifyOtp(user.getPhone(), user.getOtp())) {
             throw new ApplicationException(APIStatus.INVALID_OTP);
@@ -202,5 +197,12 @@ public class UserAPI extends AbstractBaseController {
         } else {
             throw new ApplicationException(APIStatus.ERR_BAD_REQUEST);
         }
+    }
+
+    @Authenticated(permissions = PermissionEnum.PRODUCT_CRUD)
+    @RequestMapping(value = APIName.SEND_OTP, method = RequestMethod.POST, produces = APIName.CHARSET)
+    public ResponseEntity<APIResponse> sentOTP(@RequestParam String phone) {
+        otpService.sendOtp(phone);
+        return responseUtil.successResponse("OTP sent successfully");
     }
 }
