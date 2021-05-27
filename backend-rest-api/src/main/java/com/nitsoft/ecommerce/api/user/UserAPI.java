@@ -16,6 +16,7 @@ import com.nitsoft.ecommerce.database.model.UserAddress;
 import com.nitsoft.ecommerce.database.model.UserToken;
 import com.nitsoft.ecommerce.enums.PermissionEnum;
 import com.nitsoft.ecommerce.exception.ApplicationException;
+import com.nitsoft.ecommerce.notification.email.EmailService;
 import com.nitsoft.ecommerce.service.*;
 import com.nitsoft.ecommerce.service.auth.AuthService;
 import com.nitsoft.ecommerce.validators.UserValidator;
@@ -41,9 +42,10 @@ public class UserAPI extends AbstractBaseController {
     private UserAddressService userAddressService;
     @Autowired
     private AuthService authService;
-
     @Autowired
     private OtpService otpService;
+    @Autowired
+    private EmailService emailService;
 
     @RequestMapping(value = APIName.USERS_LOGIN, method = RequestMethod.POST, produces = APIName.CHARSET)
     public ResponseEntity<APIResponse> login(@PathVariable(value = "company_id") Long companyId, @RequestBody AuthRequestModel authRequestModel) {
@@ -203,6 +205,12 @@ public class UserAPI extends AbstractBaseController {
     @RequestMapping(value = APIName.SEND_OTP, method = RequestMethod.POST, produces = APIName.CHARSET)
     public ResponseEntity<APIResponse> sentOTP(@RequestParam String phone) {
         otpService.sendOtp(phone);
+        return responseUtil.successResponse("OTP sent successfully");
+    }
+
+    @RequestMapping(value = "/test", produces = APIName.CHARSET)
+    public ResponseEntity<APIResponse> test(@RequestParam String phone) {
+        emailService.sendSimpleMessage("vipul13103557@gmail.com","Test","Testing mail");
         return responseUtil.successResponse("OTP sent successfully");
     }
 }
