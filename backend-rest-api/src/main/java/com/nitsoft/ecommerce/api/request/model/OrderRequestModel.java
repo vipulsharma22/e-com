@@ -22,7 +22,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderRequestModel {
-    private UserRequestModel user;
-    private List<ProductInfo> productList;    
-    private Long paymentId;
+    private List<ProductInfo> productList;
+    private Long addressId;
 }

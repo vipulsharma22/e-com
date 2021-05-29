@@ -61,54 +61,41 @@ public class OrdersAPI extends AbstractBaseAPI {
     @RequestMapping(value = APIName.ORDER_CREATE, method = RequestMethod.POST, produces = APIName.CHARSET)
     @ResponseBody
     public ResponseEntity<APIResponse> addOrders(
-            @PathVariable Long company_id,
             @RequestBody OrderRequestModel orderRequest) {
 
         Date createDate = new Date();
 
         //Crerate User address
         UserAddress userAddress = null;
-        if (orderRequest.getUser().getUserId() == null) {
-            userAddress = new UserAddress();
-            userAddress.setUserId(orderRequest.getUser().getUserId());
-            userAddress.setPhone(orderRequest.getUser().getPhone());
-            userAddress.setCity(orderRequest.getUser().getCity());
-            userAddressService.save(userAddress);
-        } else {
-            userAddress = userAddressService.getAddressByUserIdAndStatus(orderRequest.getUser().getUserId(), Constant.STATUS.ACTIVE_STATUS.getValue());
-            //Create Order General Info
-            Orders orders = new Orders();
-            orders.setUserId(orderRequest.getUser().getUserId());
-            orders.setCompanyId(company_id);
-            orders.setCustomerEmail(orderRequest.getUser().getEmail());
-            orders.setCustomerFirstname(orderRequest.getUser().getFirstName());
-            orders.setCustomerMiddlename(orderRequest.getUser().getMiddleName());
-            orders.setCustomerLastname(orderRequest.getUser().getLastName());
-            orders.setPaymentId(orderRequest.getPaymentId());
-            orders.setAddressId(userAddress.getId());
-            orders.setStatus(Constant.ORDER_STATUS.PENDING.getStatus());
-            orders.setCreatedAt(createDate);
-            orders.setUpdatedAt(createDate);
-            ordersService.save(orders);
+        userAddress = userAddressService.getAddressByIdAndUserId(orderRequest.getUser().getUserId(), Constant.STATUS.ACTIVE_STATUS.getValue());
+        //Create Order General Info
+        Orders orders = new Orders();
+        orders.setUserId(orderRequest.getUser().getUserId());
+        orders.setCompanyId(1L);
+        orders.setCustomerEmail(orderRequest.getUser().getEmail());
+        orders.setPaymentId(orderRequest.getPaymentId());
+        orders.setAddressId(userAddress.getId());
+        orders.setStatus(Constant.ORDER_STATUS.PENDING.getStatus());
+        orders.setCreatedAt(createDate);
+        orders.setUpdatedAt(createDate);
+        ordersService.save(orders);
 
-            if (orderRequest.getProductList().size() > 0) {
-                for (ProductInfo productInfo : orderRequest.getProductList()) {
-                    Product product = productService.getProductById(company_id, productInfo.getProductId());
-                    if (product != null) {
-                        OrderDetail orderDetail = new OrderDetail();
-                        orderDetail.setOrderId(orders.getId());
-                        orderDetail.setProductId(product.getProductId());
-                        orderDetail.setName(product.getName());
-                        orderDetail.setPrice(product.getSalePrice());
-                        orderDetail.setQuantity(productInfo.getQuantity());
-                        orderDetail.setCreatedAt(createDate);
-                        orderDetailImpl.saveOrUpdate(orderDetail);
-                    }
+        if (orderRequest.getProductList().size() > 0) {
+            for (ProductInfo productInfo : orderRequest.getProductList()) {
+                Product product = productService.getProductById(company_id, productInfo.getProductId());
+                if (product != null) {
+                    OrderDetail orderDetail = new OrderDetail();
+                    orderDetail.setOrderId(orders.getId());
+                    orderDetail.setProductId(product.getProductId());
+                    orderDetail.setName(product.getName());
+                    orderDetail.setPrice(product.getSalePrice());
+                    orderDetail.setQuantity(productInfo.getQuantity());
+                    orderDetail.setCreatedAt(createDate);
+                    orderDetailImpl.saveOrUpdate(orderDetail);
                 }
             }
-            return responseUtil.successResponse(orders);
         }
-        return null;
+        return responseUtil.successResponse(orders);
     }
 
     @ApiOperation(value = "get orders by company id", notes = "")
