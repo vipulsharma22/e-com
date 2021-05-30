@@ -74,4 +74,8 @@ public class Product extends AbstractEntity {
     @Column(name = "sku")
     private String sku;
 
+    @Basic(optional = false)
+    @Column(name = "browsing_name")
+    private String browsingName;
+
 }

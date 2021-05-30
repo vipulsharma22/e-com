@@ -16,6 +16,6 @@ public class CompanyService {
     }
 
     public Company findByCompanyId(long companyId) {
-        return companyRepository.findByCompanyId(companyId);
+        return companyRepository.findByIdAndDeletedFalse(companyId);
     }
 }
