@@ -23,9 +23,9 @@ public interface ProductService {
     //get product by id
 //    List<Object[]> getProductById(long productId);
     // get by company id
-    Page<Product> getByCompanyId(long companyId, int pageNumber, int pageSize);
+    Page<Product> getAll(int pageNumber, int pageSize);
     //get by company id category id
-    Page<Product> getByCompanyIdAndCategoryId(long companyId, long categoryId, int pageNumber, int pageSize);
+    List<Product> getByCompanyIdAndCategoryId(long companyId, long categoryId, int pageNumber, int pageSize);
     //get filter
     Page<Product> doFilterSearchSortPagingProduct(long comId, long catId, long attrId, String searchKey, double mnPrice, double mxPrice, int minRank, int maxRank, int sortKey, boolean isAscSort, int pSize, int pNumber);
     //get list product by id
@@ -34,8 +34,7 @@ public interface ProductService {
     Product save(Product product);
     //update product
     Product update(Product product);
-    //save product category
-    void saveProductCategory(ProductCategory product);
-    //delete product category
+    void saveProductCategory(ProductCategoryId product);
+
     void deleteProductCategory(ProductCategory product);
 }

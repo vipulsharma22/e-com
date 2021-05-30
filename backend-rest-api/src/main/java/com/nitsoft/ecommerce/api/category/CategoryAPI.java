@@ -62,7 +62,7 @@ public class CategoryAPI extends AbstractBaseAPI {
     @RequestMapping(value = APIName.CATEGORIES_ID, method = RequestMethod.DELETE, produces = APIName.CHARSET)
     public String deleteCategory(@PathVariable(value = "id") Long categoryId) {
         System.out.println("category " + categoryId);
-        Category category = repository.findByCategoryId(categoryId);
+        Category category = repository.findByIdAndDeletedFalse(categoryId);
         if (category != null) {
             repository.delete(category);
             statusResponse = new StatusResponse(APIStatus.OK.getCode(), "delete account successfully");
@@ -83,7 +83,7 @@ public class CategoryAPI extends AbstractBaseAPI {
             @RequestParam(name = "position", required = false) Integer position,
             @RequestParam(name = "description", required = false) String description) {
 
-        Category category = repository.findByCategoryId(categoryId);
+        Category category = repository.findByIdAndDeletedFalse(categoryId);
 
         if (category != null) {
             if (!name.equals("")) {

@@ -97,7 +97,7 @@ public class OrdersAPI extends AbstractBaseAPI {
                     if (product != null) {
                         OrderDetail orderDetail = new OrderDetail();
                         orderDetail.setOrderId(orders.getId());
-                        orderDetail.setProductId(product.getProductId());
+                        orderDetail.setProductId(product.getId());
                         orderDetail.setName(product.getName());
                         orderDetail.setPrice(product.getSalePrice());
                         orderDetail.setQuantity(productInfo.getQuantity());
