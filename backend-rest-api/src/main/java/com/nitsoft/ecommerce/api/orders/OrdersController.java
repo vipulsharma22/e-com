@@ -5,11 +5,7 @@ import com.nitsoft.ecommerce.api.controller.AbstractBaseController;
 import com.nitsoft.ecommerce.api.request.model.OrdersRequestModel;
 import com.nitsoft.ecommerce.api.response.model.APIResponse;
 import com.nitsoft.ecommerce.api.response.util.APIStatus;
-import com.nitsoft.ecommerce.database.model.OrderDetail;
-import com.nitsoft.ecommerce.database.model.Orders;
-import com.nitsoft.ecommerce.database.model.Payment;
-import com.nitsoft.ecommerce.database.model.Product;
-import com.nitsoft.ecommerce.database.model.UserAddress;
+import com.nitsoft.ecommerce.database.model.*;
 import com.nitsoft.ecommerce.exception.ApplicationException;
 import com.nitsoft.ecommerce.repository.PaymentRepository;
 import com.nitsoft.ecommerce.repository.UserAddressRepository;
@@ -58,6 +54,9 @@ public class OrdersController extends AbstractBaseController {
     @Autowired
     PaymentRepository paymentRepository;
 
+    @Autowired
+    OrderAddressService orderAddressService;
+
     /**
      * Get list orders by company have paging, search, sort and filter
      *
@@ -85,15 +84,14 @@ public class OrdersController extends AbstractBaseController {
      * @param orderId
      * @return
      */
-    @RequestMapping(path = APIName.ORDERS_DETAIL_BY_COMPANY, method = RequestMethod.GET)
+    @RequestMapping(path = APIName.ORDERS_DETAIL_BY_ID, method = RequestMethod.GET)
     public ResponseEntity<APIResponse> getDetailOrders(
-            @PathVariable("company_id") Long companyId,
             @PathVariable("order_id") Long orderId
     ) {
         Map<String, Object> resultOrders = new HashMap<String, Object>();
         try {
             //get order by id
-            Orders order = orderService.getOrderByOrderIdAndCompanyID(orderId, companyId);
+            Orders order = orderService.getOrderByOrderIdAndCompanyID(orderId, 1L);
             if (order != null) {
                 resultOrders.put("orders", order);
 
@@ -104,7 +102,7 @@ public class OrdersController extends AbstractBaseController {
                     for (OrderDetail orderDetail : orderDetailByOrderId) {
                         Map<String, Object> detail = new HashMap<String, Object>();
                         //find product by proId
-                        Product product = productService.getProductById(companyId, orderDetail.getProductId());
+                        Product product = productService.getProductById(1L, orderDetail.getProductId());
                         Payment payment = paymentRepository.findByPaymentId(order.getPaymentId());
                         if (product != null && payment != null) {
                             detail.put("product", product);
@@ -120,8 +118,8 @@ public class OrdersController extends AbstractBaseController {
 //                OrderAddress orderAddress = orderAddresslService.getOrderAddressByOrderId(orderId);
 //                if (orderAddress != null) {
                 //get user address
-                UserAddress userAddress = null;//userAddressService.findByIdAndStatus(order.getId(), Constant.STATUS.ACTIVE_STATUS.getValue());
-                resultOrders.put("orderAddress", userAddress);
+                OrderAddress orderAddress = orderAddressService.getOrderAddressByOrderId(orderId);
+                resultOrders.put("orderAddress", orderAddress);
 //                }
                 // get list order payment by order id
 //                OrderPayment orderPayment = orderPaymentService.getOrderPaymentByOrderId(orderId);
@@ -131,7 +129,6 @@ public class OrdersController extends AbstractBaseController {
 //                    resultOrders.put("orderPayment", payMent);
 //                }
             }
-
             return responseUtil.successResponse(resultOrders);
         } catch (Exception e) {
             System.out.println("error get orders detail" + e.getMessage());
@@ -151,7 +148,7 @@ public class OrdersController extends AbstractBaseController {
     public ResponseEntity<APIResponse> changeOrders(
             @PathVariable("company_id") Long companyId,
             @PathVariable("order_id") Long orderId,
-            @PathVariable("status") int status
+            @PathVariable("status") String status
     ) {
         try {
             // check param company , order
@@ -159,25 +156,11 @@ public class OrdersController extends AbstractBaseController {
                 if (orderId != null) {
                     // get order id by company id and status active
                     // check valid orderId
-                    Orders order = orderService.getOrderByOrderIdAndCompanyID(orderId, companyId);
+                    Orders order = orderService.getOrderByOrderIdAndCompanyID(orderId, 1L);
                     if (order != null) {
                         // Update status order (update status = completed)
-                        switch (status) {
-                            case 0:
-                                order.setStatus(Constant.ORDER_STATUS.PENDING.getStatus());
-                                break;
-                            case 1:
-                                order.setStatus(Constant.ORDER_STATUS.SHIPPING.getStatus());
-                                break;
-                            case 2:
-                                order.setStatus(Constant.ORDER_STATUS.COMPLETED.getStatus());
-                                break;
-                            default:
-                                order.setStatus(Constant.ORDER_STATUS.PENDING.getStatus());
-                                break;
-                        }
+                        order.setStatus(Constant.ORDER_STATUS.valueOf(status).name());
                         orderService.updateStatusOrder(order);
-
                     } else {
                         throw new ApplicationException(APIStatus.ERR_ORDER_ID_NOT_FOUND);
                     }

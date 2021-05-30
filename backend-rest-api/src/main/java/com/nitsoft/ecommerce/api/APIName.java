@@ -61,8 +61,9 @@ public class APIName {
     //Orders
     public static final String ORDERS = VERSION + "/orders";
     public static final String ORDER_CREATE = "/create";
+    public static final String ORDER_GET = "/get";
     public static final String ORDERS_BY_COMPANY = "/listOrder";
-    public static final String ORDERS_DETAIL_BY_COMPANY = "detail/{order_id}";
+    public static final String ORDERS_DETAIL_BY_ID = "detail/{order_id}";
     public static final String CHANGE_STATUS_ORDERS_BY_COMPANY = "/delete/{order_id}/{status}";
     
     // auth APIs

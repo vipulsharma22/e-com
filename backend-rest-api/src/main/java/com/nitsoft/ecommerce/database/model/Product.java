@@ -49,9 +49,6 @@ public class Product implements Serializable {
     @Column(name = "name")
     private String name;
     
-    @Column(name = "browsing_name")
-    private String browsingName;
-    
     @Basic(optional = false)
     @Column(name = "sale_price")
     private double salePrice;
@@ -81,15 +78,7 @@ public class Product implements Serializable {
     
     @Column(name = "description")
     private String description;
-    
-    @Basic(optional = false)
-    @Column(name = "rank")
-    private int rank;
-    
-    @Basic(optional = false)
-    @Column(name = "sku")
-    private String sku;
-    
+
     @Basic(optional = false)
     @Column(name = "created_on")
     @Temporal(TemporalType.TIMESTAMP)

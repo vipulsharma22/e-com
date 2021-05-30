@@ -119,7 +119,8 @@ public class Constant {
     }
     
     public static enum ORDER_STATUS {
-        INITIATED,
+        ORDER_INITIATED,
+        PAYMENT_INITIATED,
         PENDING,
         SHIPPING,
         COMPLETED

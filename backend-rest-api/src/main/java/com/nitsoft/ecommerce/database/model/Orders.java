@@ -63,8 +63,8 @@ public class Orders implements Serializable {
     @Column(name = "coupon_id")
     private String couponId;
     
-    @Column(name = "total_amount")
-    private BigDecimal totalAmount;
+    @Column(name = "total_items_cost")
+    private BigDecimal totalItemsCost;
 
     @Column(name = "delivery_charge")
     private BigDecimal deliveryCharge;
@@ -74,9 +74,6 @@ public class Orders implements Serializable {
 
     @Column(name = "final_amount")
     private BigDecimal finalAmount;
-    
-    @Column(name = "checkout_comment")
-    private String checkoutComment;
     
     @Column(name = "customer_email")
     private String customerEmail;
