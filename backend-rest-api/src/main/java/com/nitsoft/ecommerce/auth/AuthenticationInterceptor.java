@@ -32,6 +32,9 @@ public class AuthenticationInterceptor extends WebContentInterceptor {
     @Autowired
     private AuthService authService;
 
+    @Autowired
+    HttpServletRequest httpServletRequest;
+
     @Pointcut("@annotation(com.nitsoft.ecommerce.auth.service.Authenticated)")
     public void authentication() {
     }
@@ -54,6 +57,7 @@ public class AuthenticationInterceptor extends WebContentInterceptor {
                 if (!isAuthorised(user, requiredPermissionEnumList)) {
                     throw new AuthenticationException();
                 }
+                httpServletRequest.setAttribute("user", user);
                 setAuthUmsDTOParameterInMethodSignatureIfPresent(user, jointPoint);
                 return jointPoint.proceed();
 
