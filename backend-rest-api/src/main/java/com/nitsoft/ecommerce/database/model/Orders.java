@@ -53,7 +53,7 @@ public class Orders implements Serializable {
     
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "items_quantity")
-    private BigDecimal itemsQuantity;
+    private Integer itemsQuantity;
 
     @Basic(optional = false)
     @Column(name = "delivery_id")

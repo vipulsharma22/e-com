@@ -42,10 +42,6 @@ public class OrderAddress implements Serializable {
     private Long id;
 
     @Basic(optional = false)
-    @Column(name = "order_id")
-    private Long orderId;
-
-    @Basic(optional = false)
     @Column(name = "address")
     private String address;
 

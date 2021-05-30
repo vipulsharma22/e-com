@@ -7,10 +7,7 @@ import com.nitsoft.ecommerce.api.request.model.ProductInfo;
 import com.nitsoft.ecommerce.api.response.model.APIResponse;
 import com.nitsoft.ecommerce.api.response.model.StatusResponse;
 import com.nitsoft.ecommerce.api.response.util.ResponseUtil;
-import com.nitsoft.ecommerce.database.model.OrderDetail;
-import com.nitsoft.ecommerce.database.model.Orders;
-import com.nitsoft.ecommerce.database.model.Product;
-import com.nitsoft.ecommerce.database.model.UserAddress;
+import com.nitsoft.ecommerce.database.model.*;
 import com.nitsoft.ecommerce.service.UserService;
 import com.nitsoft.ecommerce.service.OrdersService;
 import com.nitsoft.ecommerce.service.UserAddressService;
@@ -67,15 +64,19 @@ public class OrdersAPI extends AbstractBaseAPI {
 
         //Crerate User address
         UserAddress userAddress = null;
-        userAddress = userAddressService.getAddressByIdAndUserId(orderRequest.getUser().getUserId(), Constant.STATUS.ACTIVE_STATUS.getValue());
+        userAddress = userAddressService.getAddressByIdAndUserId(orderRequest.getAddressId(), 1l);// pass userId here
+        OrderAddress orderAddress = saveOrderAddress(userAddress);
         //Create Order General Info
         Orders orders = new Orders();
-        orders.setUserId(orderRequest.getUser().getUserId());
+        orders.setUserId(1l);
+        orders.setOrderAddressId(orderAddress.getId());
         orders.setCompanyId(1L);
         orders.setCustomerEmail(orderRequest.getUser().getEmail());
-        orders.setPaymentId(orderRequest.getPaymentId());
-        orders.setAddressId(userAddress.getId());
-        orders.setStatus(Constant.ORDER_STATUS.PENDING.getStatus());
+        orders.setStatus(Constant.ORDER_STATUS.PENDING.name());
+        orders.setItemsCount(orderRequest.getProductList().size());
+        orders.setItemsQuantity(orderRequest.getProductList()
+                .stream().map(t -> t.getQuantity())
+                .reduce((q1,q2) -> q1+q2).get());
         orders.setCreatedAt(createDate);
         orders.setUpdatedAt(createDate);
         ordersService.save(orders);
@@ -110,4 +111,17 @@ public class OrdersAPI extends AbstractBaseAPI {
         return writeObjectToJson(new StatusResponse(200, orders.getContent(), orders.getTotalElements()));
 
     }
+
+    private OrderAddress saveOrderAddress(UserAddress userAddress){
+        OrderAddress orderAddress = new OrderAddress();
+        orderAddress.setAddress(userAddress.getAddress());
+        orderAddress.setCustomerName(userAddress.getUserName());
+        orderAddress.setCity(userAddress.getCity());
+        orderAddress.setLandMark(userAddress.getLandMark());
+        orderAddress.setPhone(userAddress.getPhone());
+        orderAddress.setPinCode(userAddress.getPinCode());
+        return orderAddressImpl.saveOrUpdate(orderAddress);
+    }
+
+    private List<Order>
 }

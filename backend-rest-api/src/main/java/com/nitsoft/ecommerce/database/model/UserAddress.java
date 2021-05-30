@@ -45,6 +45,10 @@ public class UserAddress extends AbstractEntity {
     private String landMark;
 
     @Basic(optional = false)
+    @Column(name = "user_name")
+    private String userName;
+
+    @Basic(optional = false)
     @Column(name = "phone")
     private String phone;
     
