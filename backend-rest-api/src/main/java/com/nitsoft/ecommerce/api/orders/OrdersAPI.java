@@ -5,12 +5,10 @@ import com.nitsoft.ecommerce.api.AbstractBaseAPI;
 import com.nitsoft.ecommerce.api.request.model.OrderRequestModel;
 import com.nitsoft.ecommerce.api.request.model.ProductInfo;
 import com.nitsoft.ecommerce.api.response.model.APIResponse;
+import com.nitsoft.ecommerce.api.response.model.OrderResponseModel;
 import com.nitsoft.ecommerce.api.response.model.StatusResponse;
 import com.nitsoft.ecommerce.api.response.util.ResponseUtil;
-import com.nitsoft.ecommerce.database.model.OrderDetail;
-import com.nitsoft.ecommerce.database.model.Orders;
-import com.nitsoft.ecommerce.database.model.Product;
-import com.nitsoft.ecommerce.database.model.UserAddress;
+import com.nitsoft.ecommerce.database.model.*;
 import com.nitsoft.ecommerce.service.UserService;
 import com.nitsoft.ecommerce.service.OrdersService;
 import com.nitsoft.ecommerce.service.UserAddressService;
@@ -21,7 +19,10 @@ import com.nitsoft.ecommerce.service.product.ProductService;
 import com.nitsoft.util.Constant;
 import io.swagger.annotations.ApiOperation;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -33,6 +34,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author NHU LINH
@@ -57,70 +60,86 @@ public class OrdersAPI extends AbstractBaseAPI {
     OrderDetailImpl orderDetailImpl;
     @Autowired
     ResponseUtil responseUtil;
+    @Autowired
+    HttpServletRequest httpServletRequest;
 
     @RequestMapping(value = APIName.ORDER_CREATE, method = RequestMethod.POST, produces = APIName.CHARSET)
     @ResponseBody
     public ResponseEntity<APIResponse> addOrders(
-            @PathVariable Long company_id,
             @RequestBody OrderRequestModel orderRequest) {
 
         Date createDate = new Date();
-
+        Orders orders = new Orders();
         //Crerate User address
         UserAddress userAddress = null;
-        if (orderRequest.getUser().getUserId() == null) {
-            userAddress = new UserAddress();
-            userAddress.setUserId(orderRequest.getUser().getUserId());
-            userAddress.setPhone(orderRequest.getUser().getPhone());
-            userAddress.setCity(orderRequest.getUser().getCity());
-            userAddressService.save(userAddress);
-        } else {
-            userAddress = userAddressService.getAddressByUserIdAndStatus(orderRequest.getUser().getUserId(), Constant.STATUS.ACTIVE_STATUS.getValue());
-            //Create Order General Info
-            Orders orders = new Orders();
-            orders.setUserId(orderRequest.getUser().getUserId());
-            orders.setCompanyId(company_id);
-            orders.setCustomerEmail(orderRequest.getUser().getEmail());
-            orders.setCustomerFirstname(orderRequest.getUser().getFirstName());
-            orders.setCustomerMiddlename(orderRequest.getUser().getMiddleName());
-            orders.setCustomerLastname(orderRequest.getUser().getLastName());
-            orders.setPaymentId(orderRequest.getPaymentId());
-            orders.setAddressId(userAddress.getId());
-            orders.setStatus(Constant.ORDER_STATUS.PENDING.getStatus());
-            orders.setCreatedAt(createDate);
-            orders.setUpdatedAt(createDate);
-            ordersService.save(orders);
-
-            if (orderRequest.getProductList().size() > 0) {
-                for (ProductInfo productInfo : orderRequest.getProductList()) {
-                    Product product = productService.getProductById(company_id, productInfo.getProductId());
-                    if (product != null) {
-                        OrderDetail orderDetail = new OrderDetail();
-                        orderDetail.setOrderId(orders.getId());
-                        orderDetail.setProductId(product.getId());
-                        orderDetail.setName(product.getName());
-                        orderDetail.setPrice(product.getSalePrice());
-                        orderDetail.setQuantity(productInfo.getQuantity());
-                        orderDetail.setCreatedAt(createDate);
-                        orderDetailImpl.saveOrUpdate(orderDetail);
-                    }
+        User user = (User)httpServletRequest.getAttribute("user");
+        if(orderRequest.getAddressId() != null){
+            userAddress = userAddressService.getAddressByIdAndUserId(orderRequest.getAddressId(), user.getId());
+            OrderAddress orderAddress = saveOrderAddress(userAddress);
+            orders.setOrderAddressId(orderAddress.getId());
+        }else{
+            orders.setOrderAddressId(1L);//todo: get last ordered address
+        }
+        //Create Order General Info
+        orders.setUserId(user.getId());
+        orders.setCompanyId(1L);
+        orders.setCustomerEmail(user.getEmail());
+        orders.setStatus(Constant.ORDER_STATUS.ORDER_INITIATED.name());
+        orders.setItemsCount(orderRequest.getProductList().size());
+        orders.setDeliveryCharge(BigDecimal.ONE);//todo: fetch delivery charge
+        orders.setTotalItemsCost(orderRequest.getTotalItemsCost());
+        orders.setFinalAmount(orders.getTotalItemsCost().add(orders.getDeliveryCharge()));
+        orders.setItemsQuantity(orderRequest.getProductList()
+                .stream().map(t -> t.getQuantity())
+                .reduce((q1,q2) -> q1+q2).get());
+        orders.setCreatedAt(createDate);
+        orders.setUpdatedAt(createDate);
+        orders = ordersService.save(orders);
+        List<OrderDetail> orderDetails = new ArrayList<>();
+        if (orderRequest.getProductList().size() > 0) {
+            for (OrderDetail orderDetailRequest : orderRequest.getProductList()) {
+                Product product = productService.getProductById(1,orderDetailRequest.getProductId());
+                if (product != null) {
+                    OrderDetail orderDetail = new OrderDetail();
+                    orderDetail.setOrderId(orders.getId());
+                    orderDetail.setProductId(product.getId());
+                    orderDetail.setName(product.getName());
+                    orderDetail.setDescription(product.getDescription());
+                    orderDetail.setSalePrice(product.getSalePrice());
+                    orderDetail.setListPrice(product.getListPrice());
+                    orderDetail.setQuantity(orderDetailRequest.getQuantity());
+                    orderDetail.setCreatedAt(createDate);
+                    orderDetail.setUpdatedAt(createDate);
+                    orderDetails.add(orderDetailImpl.saveOrUpdate(orderDetail));
                 }
             }
-            return responseUtil.successResponse(orders);
         }
-        return null;
+        OrderResponseModel orderResponseModel = new OrderResponseModel();
+        orderResponseModel.setOrders(orders);
+        orderResponseModel.setProductList(orderDetails);
+        orderResponseModel.setUserAddress(userAddress);
+        return responseUtil.successResponse(orders);
     }
 
-    @ApiOperation(value = "get orders by company id", notes = "")
-    @RequestMapping(value = APIName.ORDERS_BY_COMPANY, method = RequestMethod.GET, produces = APIName.CHARSET)
+    @ApiOperation(value = "get orders", notes = "")
+    @RequestMapping(value = APIName.ORDER_GET, method = RequestMethod.GET, produces = APIName.CHARSET)
     public String getOrdersCompanyId(
-            @PathVariable(value = "id") Long companyId,
             @RequestParam(defaultValue = Constant.DEFAULT_PAGE_NUMBER, required = false) int pageNumber,
             @RequestParam(defaultValue = Constant.DEFAULT_PAGE_SIZE, required = false) int pageSize) {
-
+        User user = (User)httpServletRequest.getAttribute("user");
         //http://localhost:8080/api/orders/1?pagenumber=1&pagesize=2
-        Page<Orders> orders = ordersService.findAllByCompanyId(companyId, pageNumber, pageSize);
+        Page<Orders> orders = ordersService.findAllByUserId(user.getId(), pageNumber, pageSize);
         return writeObjectToJson(new StatusResponse(200, orders.getContent(), orders.getTotalElements()));
+    }
 
+    private OrderAddress saveOrderAddress(UserAddress userAddress){
+        OrderAddress orderAddress = new OrderAddress();
+        orderAddress.setAddress(userAddress.getAddress());
+        orderAddress.setCustomerName(userAddress.getUserName());
+        orderAddress.setCity(userAddress.getCity());
+        orderAddress.setLandMark(userAddress.getLandMark());
+        orderAddress.setPhone(userAddress.getPhone());
+        orderAddress.setPinCode(userAddress.getPinCode());
+        return orderAddressImpl.saveOrUpdate(orderAddress);
     }
 }

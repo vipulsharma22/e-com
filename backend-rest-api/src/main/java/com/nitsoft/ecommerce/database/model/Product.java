@@ -36,9 +36,6 @@ public class Product extends AbstractEntity {
     @Column(name = "name")
     private String name;
     
-    @Column(name = "browsing_name")
-    private String browsingName;
-    
     @Basic(optional = false)
     @Column(name = "sale_price")
     private double salePrice;
@@ -68,7 +65,7 @@ public class Product extends AbstractEntity {
     
     @Column(name = "description")
     private String description;
-    
+
     @Basic(optional = false)
     @Column(name = "rank")
     private int rank;

@@ -28,4 +28,8 @@ public class OrdersService {
     public Page<Orders> findAllByCompanyId(long companyId, int pageNumber, int pageSize) {
         return ordersRepository.findAllByCompanyId(companyId, PageRequest.of(pageNumber, pageSize));
     }
+
+    public Page<Orders> findAllByUserId(long userId, int pageNumber, int pageSize) {
+        return ordersRepository.findAllByUserId(userId, PageRequest.of(pageNumber, pageSize));
+    }
 }

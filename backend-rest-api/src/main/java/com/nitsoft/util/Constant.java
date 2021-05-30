@@ -119,19 +119,11 @@ public class Constant {
     }
     
     public static enum ORDER_STATUS {
-        PENDING(0),
-        SHIPPING(1),
-        COMPLETED(2);
-        
-        private final int status;
-        
-        private ORDER_STATUS(int status) {
-            this.status = status;
-        }
-        
-        public int getStatus() {
-            return status;
-        }
+        ORDER_INITIATED,
+        PAYMENT_INITIATED,
+        PENDING,
+        SHIPPING,
+        COMPLETED
     }
     
     public static enum PRODUCT_ATTRIBUTE {

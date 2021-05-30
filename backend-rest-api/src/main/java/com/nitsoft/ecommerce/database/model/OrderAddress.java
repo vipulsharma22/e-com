@@ -38,12 +38,8 @@ public class OrderAddress implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "address_id")
-    private Long addressId;
-
-    @Basic(optional = false)
-    @Column(name = "order_id")
-    private Long orderId;
+    @Column(name = "id")
+    private Long id;
 
     @Basic(optional = false)
     @Column(name = "address")
@@ -57,6 +53,9 @@ public class OrderAddress implements Serializable {
     @Column(name = "land_mark")
     private String landMark;
 
+    @Column(name = "customer_name")
+    private String customerName;
+
     @Basic(optional = false)
     @Column(name = "phone")
     private String phone;
@@ -65,7 +64,7 @@ public class OrderAddress implements Serializable {
     @Column(name = "city")
     private String city;
     
-    @Column(name = "updated_at")
+    @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date updatedAt;
+    private Date createdDate;
 }

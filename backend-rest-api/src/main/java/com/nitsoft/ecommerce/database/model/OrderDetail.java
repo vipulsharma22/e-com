@@ -42,9 +42,6 @@ public class OrderDetail implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "parent_id")
-    private Long parentId;
-
     @Basic(optional = false)
     @Column(name = "order_id")
     private Long orderId;
@@ -62,42 +59,22 @@ public class OrderDetail implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
 
-    @Column(name = "is_virtual")
-    private Short isVirtual;
-
-    @Column(name = "sku")
-    private String sku;
-
     @Column(name = "name")
     private String name;
 
     @Column(name = "description")
     private String description;
 
-    @Column(name = "free_shipping")
-    private boolean freeShipping;
-
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "weight")
-    private BigDecimal weight;
-
     @Column(name = "quantity")
     private int quantity;
 
-    @Column(name = "price")
-    private double price;
+    @Basic(optional = false)
+    @Column(name = "sale_price")
+    private double salePrice;
 
-    @Column(name = "base_price")
-    private BigDecimal basePrice;
-
-    @Column(name = "row_total")
-    private BigDecimal rowTotal;
-
-    @Column(name = "base_row_total")
-    private BigDecimal baseRowTotal;
-
-    @Column(name = "row_weight")
-    private BigDecimal rowWeight;
+    @Basic(optional = false)
+    @Column(name = "list_price")
+    private double listPrice;
 
     @Column(name = "product_type")
     private String productType;
