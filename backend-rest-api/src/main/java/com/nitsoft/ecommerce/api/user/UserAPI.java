@@ -19,6 +19,7 @@ import com.nitsoft.ecommerce.exception.ApplicationException;
 import com.nitsoft.ecommerce.notification.email.EmailService;
 import com.nitsoft.ecommerce.service.*;
 import com.nitsoft.ecommerce.service.auth.AuthService;
+import com.nitsoft.ecommerce.service.CartAndWishListService;
 import com.nitsoft.ecommerce.validators.UserValidator;
 import com.nitsoft.util.Constant;
 
@@ -46,6 +47,8 @@ public class UserAPI extends AbstractBaseController {
     private OtpService otpService;
     @Autowired
     private EmailService emailService;
+    @Autowired
+    private CartAndWishListService cartAndWishListService;
 
     @RequestMapping(value = APIName.USERS_LOGIN, method = RequestMethod.POST, produces = APIName.CHARSET)
     public ResponseEntity<APIResponse> login(@PathVariable(value = "company_id") Long companyId, @RequestBody AuthRequestModel authRequestModel) {
