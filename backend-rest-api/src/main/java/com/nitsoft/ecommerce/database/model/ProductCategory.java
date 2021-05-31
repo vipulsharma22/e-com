@@ -1,14 +1,11 @@
 package com.nitsoft.ecommerce.database.model;
 
-import java.io.Serializable;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
-import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import com.nitsoft.ecommerce.enums.CategoryType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,19 +24,12 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @DynamicUpdate
 @Table(name = "product_categories")
 @XmlRootElement
-public class ProductCategory {
+public class ProductCategory extends AbstractEntity {
     
-    @EmbeddedId
-    private ProductCategoryId id;
+    private String name;
 
-//    @Id
-//    @Basic(optional = false)
-//    @Column(name = "product_id")
-//    private Long productId;
-//
-//    @Id
-//    @Basic(optional = false)
-//    @Column(name = "category_id")
-//    private Long categoryId;
+    private String description;
+
+    private CategoryType type;
 
 }

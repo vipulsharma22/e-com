@@ -2,6 +2,7 @@ package com.nitsoft.ecommerce.database.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 @Getter
 @Setter
+@ToString
 abstract class AbstractEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -40,11 +42,6 @@ abstract class AbstractEntity implements Serializable {
     @PreUpdate
     protected void onUpdate() {
         this.updatedAt = LocalDateTime.now();
-    }
-
-    @Override
-    public String toString() {
-        return "AbstractEntity{" + "createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", id=" + id + ", deleted=" + deleted + '}';
     }
 }
 

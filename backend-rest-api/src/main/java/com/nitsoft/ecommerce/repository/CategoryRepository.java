@@ -12,12 +12,12 @@ import java.util.List;
 
 public interface CategoryRepository extends PagingAndSortingRepository<Category, Long>, JpaSpecificationExecutor<Category> {
 
-    Category findByCategoryId(@Param("categoryId") Long categoryId);
+    Category findByIdAndDeletedFalse(Long categoryId);
 
     Iterable<Category> findByCompanyId(@Param("companyId") Long companyId);
 
-    Category findByCategoryIdAndStatus(long categoryId, int status);
+    Category findByIdAndStatus(long categoryId, int status);
 
-    List<Category> findAllByCategoryIdInAndCompanyIdAndStatus(List<Long> categoryIds, long companyId, int status);
+    List<Category> findAllByIdInAndCompanyIdAndStatus(List<Long> categoryIds, long companyId, int status);
 
 }

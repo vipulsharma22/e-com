@@ -11,10 +11,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
-/**
- *
- * @author Louis Duong
- */
 @Component
 public class OrderServiceImpl extends AbstractBaseService implements OrderService {
 
@@ -26,8 +22,7 @@ public class OrderServiceImpl extends AbstractBaseService implements OrderServic
     */
     @Override
     public Page<Orders> doPagingOrders(OrdersRequestModel ordersRequestModel,Long companyId) {
-        Page<Orders> listOrders = ordersRepository.findAll(new OrdersSpecification(companyId,ordersRequestModel.getSearchKey(), ordersRequestModel.getSortCase(), ordersRequestModel.isAscSort(),ordersRequestModel.getStatus()), PageRequest.of(ordersRequestModel.getPageNumber(), ordersRequestModel.getPageSize()));
-        return listOrders;
+        return ordersRepository.findAll(new OrdersSpecification(companyId,ordersRequestModel.getSearchKey(), ordersRequestModel.getSortCase(), ordersRequestModel.isAscSort(),ordersRequestModel.getStatus()), PageRequest.of(ordersRequestModel.getPageNumber(), ordersRequestModel.getPageSize()));
     }
 
     @Override

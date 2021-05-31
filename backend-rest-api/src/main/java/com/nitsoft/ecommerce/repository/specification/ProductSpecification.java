@@ -71,11 +71,11 @@ public class ProductSpecification implements Specification<Product> {
 
         if (minPrice < maxPrice) {
             // minPrice <= price <= maxPrice
-            predicates.add(cb.between(root.<Double>get("salePrice"), minPrice, maxPrice));
+            predicates.add(cb.between(root.get("salePrice"), minPrice, maxPrice));
         } else if (minPrice > 0) {
             if (maxPrice == -1) {
                 // price >= minPrice
-                predicates.add(cb.greaterThanOrEqualTo(root.<Double>get("salePrice"), minPrice));
+                predicates.add(cb.greaterThanOrEqualTo(root.get("salePrice"), minPrice));
             } else if (minPrice == maxPrice) {
                 // price == minPrice
                 predicates.add(cb.equal(root.get("salePrice"), minPrice));
@@ -87,10 +87,10 @@ public class ProductSpecification implements Specification<Product> {
         }
 
         if (minRank < maxRank) {
-            predicates.add(cb.between(root.<Integer>get("rank"), minRank, maxRank));
+            predicates.add(cb.between(root.get("rank"), minRank, maxRank));
         } else if (minRank > 0) {
             if (maxRank == -1) {
-                predicates.add(cb.greaterThanOrEqualTo(root.<Integer>get("rank"), minRank));
+                predicates.add(cb.greaterThanOrEqualTo(root.get("rank"), minRank));
             } else if (minRank == maxRank) {
                 predicates.add(cb.equal(root.get("rank"), minRank));
             }

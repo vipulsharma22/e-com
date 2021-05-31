@@ -1,17 +1,10 @@
 package com.nitsoft.ecommerce.database.model;
 
-import java.io.Serializable;
-import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,15 +24,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @DynamicUpdate
 @Table(name = "products")
 @XmlRootElement
-public class Product implements Serializable {
+public class Product extends AbstractEntity {
 
     private static final long serialVersionUID = 1L;
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "product_id")
-    private Long productId;
     
     @Basic(optional = false)
     @Column(name = "company_id")
@@ -80,12 +67,15 @@ public class Product implements Serializable {
     private String description;
 
     @Basic(optional = false)
-    @Column(name = "created_on")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdOn;
+    @Column(name = "rank")
+    private int rank;
     
-    @Column(name = "updated_on")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date updatedOn;
+    @Basic(optional = false)
+    @Column(name = "sku")
+    private String sku;
+
+    @Basic(optional = false)
+    @Column(name = "browsing_name")
+    private String browsingName;
 
 }
