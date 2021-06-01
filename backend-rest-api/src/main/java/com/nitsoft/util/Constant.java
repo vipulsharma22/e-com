@@ -58,6 +58,10 @@ public class Constant {
         }
     }
 
+    public enum TYPE{
+        CART,
+        WISHLIST
+    }
     public static enum MESSAGE_STATUS {
         UNREAD(0, "unread"),
         READED(1, "readed");

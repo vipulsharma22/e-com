@@ -1,17 +1,19 @@
 package com.nitsoft.ecommerce.database.model;
 
 
+import com.nitsoft.util.Constant;
 import lombok.Data;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.util.Date;
 
+
 @Entity
 @Data
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = "cart")
-public class Cart {
+@Table(name = "user_choices")
+public class UserChoices {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -25,6 +27,10 @@ public class Cart {
     @Basic(optional = false)
     @Column(name = "data")
     private String data;
+
+    @Basic(optional = false)
+    @Column(name = "type")
+    private Constant.TYPE type;
 
     @Basic(optional = false)
     @Column(name = "created_on")

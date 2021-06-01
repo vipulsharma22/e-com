@@ -11,9 +11,7 @@ import com.nitsoft.ecommerce.api.response.model.UserDetailResponseModel;
 import com.nitsoft.ecommerce.api.response.model.UserLogInResponse;
 import com.nitsoft.ecommerce.api.response.util.APIStatus;
 import com.nitsoft.ecommerce.auth.service.Authenticated;
-import com.nitsoft.ecommerce.database.model.User;
-import com.nitsoft.ecommerce.database.model.UserAddress;
-import com.nitsoft.ecommerce.database.model.UserToken;
+import com.nitsoft.ecommerce.database.model.*;
 import com.nitsoft.ecommerce.enums.PermissionEnum;
 import com.nitsoft.ecommerce.exception.ApplicationException;
 import com.nitsoft.ecommerce.notification.email.EmailService;
@@ -49,6 +47,8 @@ public class UserAPI extends AbstractBaseController {
     private EmailService emailService;
     @Autowired
     private CartAndWishListService cartAndWishListService;
+    @Autowired
+    private HttpServletRequest httpServletRequest;
 
     @RequestMapping(value = APIName.USERS_LOGIN, method = RequestMethod.POST, produces = APIName.CHARSET)
     public ResponseEntity<APIResponse> login(@PathVariable(value = "company_id") Long companyId, @RequestBody AuthRequestModel authRequestModel) {
@@ -211,9 +211,27 @@ public class UserAPI extends AbstractBaseController {
         return responseUtil.successResponse("OTP sent successfully");
     }
 
-    @RequestMapping(value = "/test", produces = APIName.CHARSET)
-    public ResponseEntity<APIResponse> test(@RequestParam String phone) {
-        emailService.sendSimpleMessage("vipul13103557@gmail.com","Test","Testing mail");
-        return responseUtil.successResponse("OTP sent successfully");
+    @RequestMapping(value = "/wishList", method = RequestMethod.GET,produces = APIName.CHARSET)
+    public ResponseEntity<APIResponse> wishList() {
+        User user = (User)httpServletRequest.getAttribute("user");
+        return responseUtil.successResponse(cartAndWishListService.getWishListById(user.getId()));
+    }
+
+    @RequestMapping(value = "/wishList", method = RequestMethod.POST,produces = APIName.CHARSET)
+    public ResponseEntity<APIResponse> saveInWishList(@RequestBody CartWishListData cartWishListData) {
+        User user = (User)httpServletRequest.getAttribute("user");
+        return responseUtil.successResponse(cartAndWishListService.saveProductInCart(user.getId(),cartWishListData.getProductId(),cartWishListData.getQuantity()));
+    }
+
+    @RequestMapping(value = "/cart",method = RequestMethod.GET, produces = APIName.CHARSET)
+    public ResponseEntity<APIResponse> cart() {
+        User user = (User)httpServletRequest.getAttribute("user");
+        return responseUtil.successResponse(cartAndWishListService.getCartById(user.getId()));
+    }
+
+    @RequestMapping(value = "/cart", method = RequestMethod.POST,produces = APIName.CHARSET)
+    public ResponseEntity<APIResponse> saveInCart(@RequestBody CartWishListData cartWishListData) {
+        User user = (User)httpServletRequest.getAttribute("user");
+        return responseUtil.successResponse(cartAndWishListService.saveProductInCart(user.getId(),cartWishListData.getProductId(),cartWishListData.getQuantity()));
     }
 }
