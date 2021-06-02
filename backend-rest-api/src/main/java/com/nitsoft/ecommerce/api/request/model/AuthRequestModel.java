@@ -12,5 +12,6 @@ import lombok.Setter;
 public class AuthRequestModel {
     public String phone;
     public String otp;
+    public String password;
     public boolean keepMeLogin;
 }

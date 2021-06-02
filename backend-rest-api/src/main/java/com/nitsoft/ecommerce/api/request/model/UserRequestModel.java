@@ -14,5 +14,6 @@ public class UserRequestModel {
     private String city;
     private String country;
     private String otp;
+    private String password;
     
 }

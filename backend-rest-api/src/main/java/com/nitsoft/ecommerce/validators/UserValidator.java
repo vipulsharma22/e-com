@@ -29,7 +29,7 @@ public class UserValidator {
     }
 
     public static void login(AuthRequestModel user) {
-        if (user == null || StringUtils.isEmpty(user.getPhone()) || user.getOtp() == null) {
+        if (user == null || StringUtils.isEmpty(user.getPhone()) || (user.getOtp() == null && user.getPassword() ==null)) {
             throw new ApplicationException(APIStatus.ERR_INVALID_DATA);
         }
 
