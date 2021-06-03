@@ -28,6 +28,8 @@ public class APIName {
     public static final String PRODUCT_CREATE = "/create";
     public static final String PRODUCTS_DELETE = "/delete";
     public static final String PRODUCTS_UPDATE = "/update";
+    public static final String PRODUCTS_IMAGE_UPLOAD = "/upload/image";
+    public static final String PRODUCTS_IMAGE = "/image";
 
     // category api links
     public static final String CATEGORIES = VERSION + "/categories";

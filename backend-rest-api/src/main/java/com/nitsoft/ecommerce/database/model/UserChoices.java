@@ -1,7 +1,6 @@
 package com.nitsoft.ecommerce.database.model;
 
 
-import com.nitsoft.util.Constant;
 import lombok.Data;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -30,7 +29,7 @@ public class UserChoices {
 
     @Basic(optional = false)
     @Column(name = "type")
-    private Constant.TYPE type;
+    private String type;
 
     @Basic(optional = false)
     @Column(name = "created_on")
