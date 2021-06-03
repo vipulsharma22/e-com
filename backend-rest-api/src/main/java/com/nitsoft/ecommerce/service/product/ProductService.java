@@ -9,7 +9,10 @@ import com.nitsoft.ecommerce.database.model.Product;
 import com.nitsoft.ecommerce.database.model.ProductCategory;
 import com.nitsoft.ecommerce.database.model.ProductCategoryId;
 import java.util.List;
+
+import com.nitsoft.util.Constant;
 import org.springframework.data.domain.Page;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -34,7 +37,12 @@ public interface ProductService {
     Product save(Product product);
     //update product
     Product update(Product product);
+
     void saveProductCategory(ProductCategoryId product);
 
     void deleteProductCategory(ProductCategory product);
+
+    void uploadImage(MultipartFile multipartFile);
+
+    List<String> getImages(Long id, List<Constant.IMAGE_TYPE> imageTypes);
 }

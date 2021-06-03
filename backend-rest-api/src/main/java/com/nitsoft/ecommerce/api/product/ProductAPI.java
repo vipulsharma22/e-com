@@ -3,15 +3,18 @@ package com.nitsoft.ecommerce.api.product;
 import com.nitsoft.ecommerce.api.APIName;
 import com.nitsoft.ecommerce.api.controller.AbstractBaseController;
 import com.nitsoft.ecommerce.api.request.model.CreateProductModel;
+import com.nitsoft.ecommerce.api.request.model.ImageRequest;
 import com.nitsoft.ecommerce.api.request.model.ListProductModel;
 import com.nitsoft.ecommerce.api.response.model.APIResponse;
 import com.nitsoft.ecommerce.api.response.model.PagingResponseModel;
 import com.nitsoft.ecommerce.api.response.util.APIStatus;
 import com.nitsoft.ecommerce.database.model.Category;
+import com.nitsoft.ecommerce.database.model.Image;
 import com.nitsoft.ecommerce.database.model.Product;
 import com.nitsoft.ecommerce.database.model.ProductCategoryId;
 import com.nitsoft.ecommerce.exception.ApplicationException;
 import com.nitsoft.ecommerce.repository.CategoryRepository;
+import com.nitsoft.ecommerce.repository.ImageRepository;
 import com.nitsoft.ecommerce.repository.ProductCategoryIdMappingRepo;
 import com.nitsoft.ecommerce.service.ProductAttributeDetailService;
 import com.nitsoft.ecommerce.service.product.ProductServiceImpl;
@@ -27,6 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Api(value = "products")
 @RestController
@@ -43,6 +47,9 @@ public class ProductAPI extends AbstractBaseController {
 
     @Autowired
     private CategoryRepository categoryRepository;
+
+    @Autowired
+    private ImageRepository imageRepository;
 
     @GetMapping
     @ApiOperation(value = "get product by company id", notes = "")
@@ -223,6 +230,27 @@ public class ProductAPI extends AbstractBaseController {
 
         } catch (Exception ex) {
             throw new ApplicationException(APIStatus.UPDATE_PRODUCT_ERROR);
+        }
+    }
+
+    //@ApiOperation(value = "delete product list", notes = "")
+    @RequestMapping(value = APIName.PRODUCTS_IMAGE_UPLOAD, method = RequestMethod.POST, produces = APIName.CHARSET)
+    public ResponseEntity<APIResponse> uploadImage(@RequestParam("imageFile") MultipartFile file) {
+        try {
+            productService.uploadImage(file);
+            return responseUtil.successResponse(null);
+        } catch (Exception ex) {
+            throw new ApplicationException(APIStatus.DELETE_PRODUCT_ERROR);
+        }
+    }
+
+    //@ApiOperation(value = "delete product list", notes = "")
+    @RequestMapping(value = APIName.PRODUCTS_IMAGE, method = RequestMethod.POST, produces = APIName.CHARSET)
+    public ResponseEntity<APIResponse> getImage(ImageRequest imageRequest) {
+        try {
+            return responseUtil.successResponse(productService.getImages(imageRequest.getProductId(),imageRequest.getImageTypes()));
+        } catch (Exception ex) {
+            throw new ApplicationException(APIStatus.DELETE_PRODUCT_ERROR);
         }
     }
 }

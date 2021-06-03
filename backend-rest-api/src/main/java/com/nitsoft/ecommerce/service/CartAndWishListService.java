@@ -4,8 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import com.nitsoft.ecommerce.database.model.UserChoices;
 import com.nitsoft.ecommerce.database.model.CartWishListData;
-import com.nitsoft.ecommerce.repository.CartRepository;
-import com.nitsoft.ecommerce.repository.WishListRepository;
+import com.nitsoft.ecommerce.repository.UserChoicesRepository;
 import com.nitsoft.util.Constant;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,38 +16,36 @@ import java.util.List;
 @Slf4j
 public class CartAndWishListService {
     @Autowired
-    private CartRepository cartRepository;
+    private UserChoicesRepository cartRepository;
 
     @Autowired
     private ObjectMapper objectMapper;
 
-    @Autowired
-    private WishListRepository wishListRepository;
 
     public List<CartWishListData> getCartById(Long userId){
-        return getProducts(cartRepository.findByUserIdAndType(userId, Constant.TYPE.CART.name()));
+        return getProducts(cartRepository.findByUserIdAndType(userId, Constant.USER_CHOICE_TYPE.CART.name()));
     }
 
     public UserChoices saveProductInCart(Long userId,Long productId,Integer quantity){
-        UserChoices cart = cartRepository.findByUserIdAndType(userId,Constant.TYPE.CART.name());
+        UserChoices cart = cartRepository.findByUserIdAndType(userId, Constant.USER_CHOICE_TYPE.CART.name());
         if(cart == null){
             cart = new UserChoices();
             cart.setUserId(userId);
-            cart.setType(Constant.TYPE.CART);
+            cart.setType(Constant.USER_CHOICE_TYPE.CART.name());
         }
         return getUpdatedCart(cart,productId,quantity);
     }
 
     public List<CartWishListData> getWishListById(Long userId){
-        return getProducts(cartRepository.findByUserIdAndType(userId,Constant.TYPE.WISHLIST.name()));
+        return getProducts(cartRepository.findByUserIdAndType(userId, Constant.USER_CHOICE_TYPE.WISHLIST.name()));
     }
 
     public UserChoices saveProductInWishList(Long userId, Long productId){
-        UserChoices wishList = cartRepository.findByUserIdAndType(userId,Constant.TYPE.WISHLIST.name());
+        UserChoices wishList = cartRepository.findByUserIdAndType(userId, Constant.USER_CHOICE_TYPE.WISHLIST.name());
         if(wishList == null){
             wishList = new UserChoices();
             wishList.setUserId(userId);
-            wishList.setType(Constant.TYPE.WISHLIST);
+            wishList.setType(Constant.USER_CHOICE_TYPE.WISHLIST.name());
         }
         return getUpdatedCart(wishList,productId,null);
     }
@@ -69,7 +66,7 @@ public class CartAndWishListService {
         }
         if(!found){
             CartWishListData cartWishListData = CartWishListData.builder().productId(productId).build();
-            if(userChoices.getType().equals(Constant.TYPE.CART)){
+            if(userChoices.getType().equals(Constant.USER_CHOICE_TYPE.CART.name())){
                 cartWishListData.setQuantity(1);
             }
             list.add(cartWishListData);

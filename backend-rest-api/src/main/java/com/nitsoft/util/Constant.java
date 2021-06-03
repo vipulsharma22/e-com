@@ -58,10 +58,20 @@ public class Constant {
         }
     }
 
-    public enum TYPE{
+    public enum USER_CHOICE_TYPE {
         CART,
         WISHLIST
     }
+
+    public enum IMAGE_TYPE{
+        THUMBNAIL,
+        RIGHT,
+        LEFT,
+        FRONT,
+        BACK,
+        DETAILS
+    }
+
     public static enum MESSAGE_STATUS {
         UNREAD(0, "unread"),
         READED(1, "readed");
