@@ -2,6 +2,7 @@ package com.nitsoft.ecommerce.service;
 
 import com.nitsoft.ecommerce.database.model.User;
 import com.nitsoft.ecommerce.database.model.UserToken;
+import com.nitsoft.util.EmailUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.nitsoft.ecommerce.repository.UserRepository;
@@ -18,12 +19,21 @@ public class UserService {
     @Autowired
     private UserTokenRepository userTokenRepository;
     
-    public User getUserByEmail(String email, long companyId, int status) {
-        return userRepository.findByEmailAndCompanyIdAndStatus(email, companyId, status);
+    public User getUserByEmail(String email, int status) {
+        return userRepository.findByEmailAndStatus(email, status);
     }
 
     public User getUserByPhoneNumber(String phone, int status) {
         return userRepository.findByPhoneAndStatus(phone, status);
+    }
+
+    public User getUserByEmailOrNumber(String userName, int status) {
+        if (EmailUtil.isEmailFormat(userName)) {
+            return getUserByEmail(userName, status);
+        } else {
+            return userRepository.findByPhoneAndStatus(userName, status);
+
+        }
     }
 
     public User save(User users) {

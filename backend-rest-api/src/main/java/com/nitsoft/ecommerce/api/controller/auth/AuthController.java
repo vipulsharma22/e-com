@@ -1,10 +1,3 @@
-/*
- * Copyright (c) NIT-Software. All Rights Reserved.
- * This software is the confidential and proprietary information of NIT-Software,
- * ("Confidential Information").
- * You shall not disclose such Confidential Information and shall use it only in accordance
- * with the terms of the license agreement you entered into with NIT-Software.
- */
 package com.nitsoft.ecommerce.api.controller.auth;
 
 import com.nitsoft.ecommerce.api.APIName;
@@ -31,10 +24,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- *
- * @author Quy Duong
- */
 @RestController
 @RequestMapping(APIName.AUTH_API)
 public class AuthController extends AbstractBaseController {
@@ -49,10 +38,8 @@ public class AuthController extends AbstractBaseController {
     UserAddressService userAddressService;
 
     @RequestMapping(path = APIName.ADMIN_LOGIN_API, method = RequestMethod.POST)
-    public ResponseEntity<APIResponse> adminLogin(
-            @PathVariable("company_id") Long companyId,
-            @RequestBody AuthRequestModel authRequestModel
-    ) {
+    public ResponseEntity<APIResponse> adminLogin(@PathVariable("company_id") Long companyId,
+            @RequestBody AuthRequestModel authRequestModel) {
         User adminUser = authService.getUserByEmailAndCompanyIdAndStatus(authRequestModel.getPhone(), companyId, Constant.USER_STATUS.ACTIVE.getStatus());
         if (adminUser == null) {
             throw new ApplicationException(APIStatus.ERR_USER_NOT_EXIST);

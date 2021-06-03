@@ -70,7 +70,7 @@ public class UserAPI extends AbstractBaseController {
     @RequestMapping(value = APIName.USERS_LOGIN_PASSWORD, method = RequestMethod.POST, produces = APIName.CHARSET)
     public ResponseEntity<APIResponse> loginWithPassword(@PathVariable(value = "company_id") Long companyId, @RequestBody AuthRequestModel authRequestModel) {
         UserValidator.login(authRequestModel);
-        User existedUser = userService.getUserByPhoneNumber(authRequestModel.getPhone(), Constant.USER_STATUS.ACTIVE.getStatus());
+        User existedUser = userService.getUserByEmailOrNumber(authRequestModel.getUserName(), Constant.USER_STATUS.ACTIVE.getStatus());
         if (existedUser == null) {
             throw new ApplicationException(APIStatus.ERR_USER_NOT_FOUND);
         }
