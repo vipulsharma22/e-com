@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface UserRepository extends PagingAndSortingRepository<User, Long>, JpaSpecificationExecutor<User> {
 
-    User findByEmailAndCompanyIdAndStatus(String email, Long companyId, int status);
+    User findByEmailAndStatus(String email, int status);
 
     User findByPhoneAndStatus(String phone, int status);
 

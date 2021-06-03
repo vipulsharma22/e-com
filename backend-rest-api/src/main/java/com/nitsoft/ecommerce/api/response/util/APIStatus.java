@@ -42,7 +42,8 @@ public enum APIStatus {
     ERR_DELETE_ORDER(803, "Delete order is fail"),
     ERR_ORDER_ID_NOT_FOUND(804, "Order id not found"),
     USER_ADDRESS_NOT_FOUND(804, "User address not found"),
-    INVALID_OTP(408, "Invalid OTP");
+    INVALID_OTP(408, "Invalid OTP"),
+    INVALID_PASSWORD(408, "Invalid Password");
 
     private final int code;
     private final String description;

@@ -56,4 +56,12 @@ public class User extends AbstractEntity {
     @Basic(optional = false)
     @Column(name = "phone")
     private String phone;
+
+    @Basic(optional = false)
+    @Column(name = "encrypted_pw")
+    private String encryptedPassword;
+
+    @Basic(optional = false)
+    @Column(name = "salt")
+    private String salt;
 }

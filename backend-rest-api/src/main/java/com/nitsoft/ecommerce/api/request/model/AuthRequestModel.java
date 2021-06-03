@@ -10,7 +10,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AuthRequestModel {
+    public String userName;
     public String phone;
     public String otp;
+    public String password;
     public boolean keepMeLogin;
 }
