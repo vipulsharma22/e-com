@@ -26,7 +26,7 @@ public class Config {
     public Message91Client getMessage91Client(){
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://testngetjp.irctc.co.in/eticketing/webservices/")//todo: set message91 base url
+                .baseUrl("http://api.msg91.com/api")//todo: set message91 base url
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(httpClient.build())
                 .build();
