@@ -1,9 +1,9 @@
 package com.nitsoft.ecommerce.repository;
 
-import com.nitsoft.ecommerce.database.model.Payment;
+import com.nitsoft.ecommerce.database.model.Payments;
 import org.springframework.data.repository.CrudRepository;
 
-public interface PaymentRepository extends CrudRepository<Payment, Long> {
+public interface PaymentRepository extends CrudRepository<Payments, Long> {
     
-    Payment findByPaymentId(Long paymentId);
+    Payments findByPaymentId(Long paymentId);
 }

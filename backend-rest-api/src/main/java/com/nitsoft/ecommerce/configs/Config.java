@@ -1,6 +1,8 @@
 package com.nitsoft.ecommerce.configs;
 
 import com.nitsoft.ecommerce.client.Message91Client;
+import com.razorpay.RazorpayClient;
+import com.razorpay.RazorpayException;
 import okhttp3.OkHttpClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -22,6 +24,12 @@ public class Config {
     @Value("${email.password}")
     private String emailPassword;
 
+    @Value("${secret.key}")
+    private String secretKey;
+
+    @Value("${secret.id}")
+    private String secretId;
+
     @Bean
     public Message91Client getMessage91Client(){
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
@@ -32,6 +40,11 @@ public class Config {
                 .build();
         Message91Client message91Client = retrofit.create(Message91Client.class);
         return message91Client;
+    }
+
+    @Bean
+    public RazorpayClient getRazorpayClient() throws RazorpayException {
+        return new RazorpayClient(secretId,secretKey);
     }
 
 

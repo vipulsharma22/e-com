@@ -25,6 +25,24 @@ public class Constant {
         LASTYEAR
     }
 
+    public enum PG_PROVIDER{
+        RAZOR_PAY
+    }
+
+    public enum PLATFORM{
+        WEB,
+        ANDROID,
+        IOS
+    }
+
+    public enum PAYMENT_STATUS{
+        INITIATED,
+        AUTHORIZED,
+        CAPTURED,
+        REFUNDED,
+        FAILED
+    }
+
     public static final int LASTWEEK_CODE = 0;
     public static final int LAST2WEEKS_CODE = 1;
     public static final int LASTMONTH_CODE = 2;
@@ -135,7 +153,7 @@ public class Constant {
     public static enum ORDER_STATUS {
         ORDER_INITIATED,
         PAYMENT_INITIATED,
-        PENDING,
+        PAYMENT_COMPLETED,
         SHIPPING,
         COMPLETED
     }

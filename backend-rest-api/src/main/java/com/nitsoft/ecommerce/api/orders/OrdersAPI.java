@@ -3,6 +3,7 @@ package com.nitsoft.ecommerce.api.orders;
 import com.nitsoft.ecommerce.api.APIName;
 import com.nitsoft.ecommerce.api.AbstractBaseAPI;
 import com.nitsoft.ecommerce.api.request.model.OrderRequestModel;
+import com.nitsoft.ecommerce.api.request.model.PaymentRequest;
 import com.nitsoft.ecommerce.api.request.model.ProductInfo;
 import com.nitsoft.ecommerce.api.response.model.APIResponse;
 import com.nitsoft.ecommerce.api.response.model.OrderResponseModel;
@@ -15,19 +16,24 @@ import com.nitsoft.ecommerce.service.UserAddressService;
 import com.nitsoft.ecommerce.service.UserTokenService;
 import com.nitsoft.ecommerce.service.orders.OrderAddressImpl;
 import com.nitsoft.ecommerce.service.orders.OrderDetailImpl;
+import com.nitsoft.ecommerce.service.orders.PaymentService;
 import com.nitsoft.ecommerce.service.product.ProductService;
 import com.nitsoft.util.Constant;
+import com.razorpay.Order;
+import com.razorpay.RazorpayClient;
+import com.razorpay.RazorpayException;
 import io.swagger.annotations.ApiOperation;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -62,11 +68,15 @@ public class OrdersAPI extends AbstractBaseAPI {
     ResponseUtil responseUtil;
     @Autowired
     HttpServletRequest httpServletRequest;
+    @Autowired
+    RazorpayClient razorpayClient;
+    @Autowired
+    PaymentService paymentService;
 
     @RequestMapping(value = APIName.ORDER_CREATE, method = RequestMethod.POST, produces = APIName.CHARSET)
     @ResponseBody
     public ResponseEntity<APIResponse> addOrders(
-            @RequestBody OrderRequestModel orderRequest) {
+            @RequestBody OrderRequestModel orderRequest) throws Exception{
 
         Date createDate = new Date();
         Orders orders = new Orders();
@@ -121,7 +131,33 @@ public class OrdersAPI extends AbstractBaseAPI {
         return responseUtil.successResponse(orders);
     }
 
+    private Order createRazorPayOrder(Orders order) throws RazorpayException {
+        JSONObject options = new JSONObject();
+        options.put("amount", convertRupeeToPaise(order.getFinalAmount()));
+        options.put("currency", "INR");
+        options.put("receipt", order.getId());
+        return razorpayClient.Orders.create(options);
+    }
+
+    private String convertRupeeToPaise(BigDecimal paise) {
+        BigDecimal value = paise.multiply(new BigDecimal("100"));
+        return value.setScale(0, RoundingMode.UP).toString();
+    }
+
+
     @ApiOperation(value = "get orders", notes = "")
+    @RequestMapping(value = APIName.INITIATE_PAYMENT, method = RequestMethod.POST, produces = APIName.CHARSET)
+    public ResponseEntity<APIResponse> initPayment(PaymentRequest initPaymentRequest) throws Exception {
+        paymentService.initPayment(initPaymentRequest);
+        return responseUtil.successResponse("SUCCESS");
+    }
+
+    @RequestMapping(value = APIName.COMPLETE_PAYMENT, method = RequestMethod.POST, produces = APIName.CHARSET)
+    public ResponseEntity<APIResponse> completePayment(PaymentRequest paymentRequest) {
+        paymentService.completePayment(paymentRequest);
+        return responseUtil.successResponse("SUCCESS");
+    }
+
     @RequestMapping(value = APIName.ORDER_GET, method = RequestMethod.GET, produces = APIName.CHARSET)
     public String getOrdersCompanyId(
             @RequestParam(defaultValue = Constant.DEFAULT_PAGE_NUMBER, required = false) int pageNumber,
