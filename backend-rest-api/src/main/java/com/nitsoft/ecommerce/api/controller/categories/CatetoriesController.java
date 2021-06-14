@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.nitsoft.ecommerce.api.controller.categories;
 
 import com.nitsoft.ecommerce.api.APIName;
@@ -10,27 +5,19 @@ import com.nitsoft.ecommerce.api.controller.AbstractBaseController;
 import com.nitsoft.ecommerce.api.request.model.CreateCategoryRequestModel;
 import com.nitsoft.ecommerce.api.request.model.UpdateCategoryRequestModel;
 import com.nitsoft.ecommerce.api.response.model.APIResponse;
-import com.nitsoft.ecommerce.api.response.model.StatusResponse;
 import com.nitsoft.ecommerce.api.response.util.APIStatus;
 import com.nitsoft.ecommerce.database.model.Category;
 import com.nitsoft.ecommerce.database.model.Company;
 import com.nitsoft.ecommerce.exception.ApplicationException;
 import com.nitsoft.ecommerce.service.CompanyService;
 import com.nitsoft.ecommerce.service.categories.CategoriesService;
-import org.apache.commons.lang.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Arrays;
 import java.util.List;
-
-/**
- * @author tungn
- */
 
 @RestController
 @RequestMapping(APIName.CATEGORIES_API)
@@ -44,18 +31,8 @@ public class CatetoriesController extends AbstractBaseController {
 
     @RequestMapping(path = APIName.CATEGORIES_ADD, method = RequestMethod.POST)
     public ResponseEntity<APIResponse> addCategory(
-            @PathVariable(value = "company_id") long companyId,
-            @RequestBody @Valid CreateCategoryRequestModel categoryModel
-    ) {
-
-        Company company = companyService.findByCompanyId(companyId);
-
-        if (company == null) {
-            throw new ApplicationException(APIStatus.INVALID_PARAMETER);
-        }
-
+            @RequestBody @Valid CreateCategoryRequestModel categoryModel) {
         Category category = new Category();
-        category.setCompanyId(companyId);
         category.setParentId(categoryModel.getParentId());
         category.setName(categoryModel.getName());
         category.setStatus(1);

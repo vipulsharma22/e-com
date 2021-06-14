@@ -28,7 +28,6 @@ public class Product extends AbstractEntity {
 
     private static final long serialVersionUID = 1L;
     
-    @Basic(optional = false)
     @Column(name = "company_id")
     private Long companyId;
     
