@@ -1,8 +1,7 @@
 
 package com.nitsoft.ecommerce.service.orders;
 
-import com.nitsoft.ecommerce.database.model.OrderPayment;
-import java.util.List;
+import com.nitsoft.ecommerce.database.model.entity.OrderPayment;
 
 /**
  *

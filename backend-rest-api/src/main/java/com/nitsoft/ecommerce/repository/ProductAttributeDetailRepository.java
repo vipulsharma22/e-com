@@ -1,6 +1,6 @@
 package com.nitsoft.ecommerce.repository;
 
-import com.nitsoft.ecommerce.database.model.ProductAttributeDetail;
+import com.nitsoft.ecommerce.database.model.entity.ProductAttributeDetail;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;

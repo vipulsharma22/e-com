@@ -1,7 +1,7 @@
 
 package com.nitsoft.ecommerce.service.orders;
 
-import com.nitsoft.ecommerce.database.model.OrderDetail;
+import com.nitsoft.ecommerce.database.model.entity.OrderDetail;
 import java.util.List;
 
 /**

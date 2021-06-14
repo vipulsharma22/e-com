@@ -1,7 +1,7 @@
 
 package com.nitsoft.ecommerce.repository;
 
-import com.nitsoft.ecommerce.database.model.OrderDetail;
+import com.nitsoft.ecommerce.database.model.entity.OrderDetail;
 import java.util.List;
 import org.springframework.data.repository.PagingAndSortingRepository;
 

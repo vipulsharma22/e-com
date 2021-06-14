@@ -1,7 +1,6 @@
-package com.nitsoft.ecommerce.database.model;
+package com.nitsoft.ecommerce.database.model.entity;
 
 import java.io.Serializable;
-import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,52 +9,37 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
+import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
+@Data
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 @DynamicInsert
 @DynamicUpdate
-@Table(name = "histories")
+@Table(name = "roles")
 @XmlRootElement
-public class History implements Serializable {
+public class Role implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "history_id")
-    private Integer historyId;
+    @Column(name = "role_id")
+    private Integer roleId;
     
     @Basic(optional = false)
-    @Column(name = "company_id")
-    private int companyId;
+    @Column(name = "name")
+    private String name;
     
-    @Basic(optional = false)
-    @Column(name = "type")
-    private int type;
-    
-    @Basic(optional = false)
-    @Column(name = "create_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createDate;
-    
-    @Basic(optional = false)
-    @Column(name = "value")
-    private String value;
+    @Column(name = "description")
+    private String description;
+
     
 }

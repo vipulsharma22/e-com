@@ -1,6 +1,6 @@
 package com.nitsoft.ecommerce.repository;
 
-import com.nitsoft.ecommerce.database.model.Review;
+import com.nitsoft.ecommerce.database.model.entity.Review;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;

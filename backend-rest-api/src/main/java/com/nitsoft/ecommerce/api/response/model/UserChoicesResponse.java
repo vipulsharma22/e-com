@@ -1,6 +1,6 @@
 package com.nitsoft.ecommerce.api.response.model;
 
-import com.nitsoft.ecommerce.database.model.Product;
+import com.nitsoft.ecommerce.database.model.entity.Product;
 import lombok.Data;
 
 import java.util.List;

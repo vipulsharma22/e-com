@@ -2,8 +2,8 @@ package com.nitsoft.ecommerce.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
-import com.nitsoft.ecommerce.database.model.UserChoices;
-import com.nitsoft.ecommerce.database.model.CartWishListData;
+import com.nitsoft.ecommerce.database.model.entity.UserChoices;
+import com.nitsoft.ecommerce.database.model.entity.CartWishListData;
 import com.nitsoft.ecommerce.repository.UserChoicesRepository;
 import com.nitsoft.util.Constant;
 import lombok.extern.slf4j.Slf4j;

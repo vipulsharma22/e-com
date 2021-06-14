@@ -1,6 +1,6 @@
 package com.nitsoft.ecommerce.service.orders;
 
-import com.nitsoft.ecommerce.database.model.OrderPayment;
+import com.nitsoft.ecommerce.database.model.entity.OrderPayment;
 //import com.nitsoft.ecommerce.repository.OrderPaymentRepository;
 import com.nitsoft.ecommerce.service.AbstractBaseService;
 import org.springframework.stereotype.Component;

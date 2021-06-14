@@ -15,9 +15,7 @@ import lombok.Setter;
  *
  * @author acer
  */
-@Getter
-@Setter
-@NoArgsConstructor
+@Data
 @AllArgsConstructor
 public class PagingResponseModel {
     private List<?> data;

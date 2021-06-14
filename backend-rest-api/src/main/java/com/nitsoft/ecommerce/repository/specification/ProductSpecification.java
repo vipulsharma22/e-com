@@ -1,8 +1,8 @@
 package com.nitsoft.ecommerce.repository.specification;
 
-import com.nitsoft.ecommerce.database.model.Product;
-import com.nitsoft.ecommerce.database.model.ProductAttributeDetail;
-import com.nitsoft.ecommerce.database.model.ProductCategory;
+import com.nitsoft.ecommerce.database.model.entity.Product;
+import com.nitsoft.ecommerce.database.model.entity.ProductAttributeDetail;
+import com.nitsoft.ecommerce.database.model.entity.ProductCategory;
 import com.nitsoft.util.Constant;
 import java.util.LinkedList;
 import java.util.List;

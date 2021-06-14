@@ -10,9 +10,7 @@ import lombok.Setter;
  *
  * @author Louis Duong
  */
-@Getter
-@Setter
-@NoArgsConstructor
+@Data
 @AllArgsConstructor
 public class OrdersRequestModel {
     private String searchKey;

@@ -7,7 +7,7 @@
  */
 package com.nitsoft.ecommerce.auth;
 
-import com.nitsoft.ecommerce.database.model.User;
+import com.nitsoft.ecommerce.database.model.entity.User;
 import com.nitsoft.ecommerce.repository.RoleRepository;
 import com.nitsoft.util.Constant;
 import org.springframework.beans.factory.annotation.Autowired;

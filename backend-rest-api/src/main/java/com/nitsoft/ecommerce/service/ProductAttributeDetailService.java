@@ -1,6 +1,6 @@
 package com.nitsoft.ecommerce.service;
 
-import com.nitsoft.ecommerce.database.model.ProductAttributeDetail;
+import com.nitsoft.ecommerce.database.model.entity.ProductAttributeDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.nitsoft.ecommerce.repository.ProductAttributeDetailRepository;

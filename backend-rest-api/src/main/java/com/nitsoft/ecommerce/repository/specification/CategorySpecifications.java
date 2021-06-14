@@ -1,7 +1,6 @@
 package com.nitsoft.ecommerce.repository.specification;
 
-import com.nitsoft.ecommerce.database.model.Category;
-import com.nitsoft.util.Constant;
+import com.nitsoft.ecommerce.database.model.entity.Category;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 

@@ -1,6 +1,6 @@
 package com.nitsoft.ecommerce.service;
 
-import com.nitsoft.ecommerce.database.model.Company;
+import com.nitsoft.ecommerce.database.model.entity.Company;
 import com.nitsoft.ecommerce.repository.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

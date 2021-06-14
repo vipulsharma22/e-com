@@ -1,7 +1,7 @@
 package com.nitsoft.ecommerce.service;
 
-import com.nitsoft.ecommerce.database.model.User;
-import com.nitsoft.ecommerce.database.model.UserToken;
+import com.nitsoft.ecommerce.database.model.entity.User;
+import com.nitsoft.ecommerce.database.model.entity.UserToken;
 import com.nitsoft.util.EmailUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

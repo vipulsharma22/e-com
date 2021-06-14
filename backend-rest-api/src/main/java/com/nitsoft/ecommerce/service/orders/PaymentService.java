@@ -2,9 +2,9 @@ package com.nitsoft.ecommerce.service.orders;
 
 import com.nitsoft.ecommerce.api.request.model.InitPaymentResponse;
 import com.nitsoft.ecommerce.api.request.model.PaymentRequest;
-import com.nitsoft.ecommerce.database.model.Orders;
-import com.nitsoft.ecommerce.database.model.Payments;
-import com.nitsoft.ecommerce.database.model.User;
+import com.nitsoft.ecommerce.database.model.entity.Orders;
+import com.nitsoft.ecommerce.database.model.entity.Payments;
+import com.nitsoft.ecommerce.database.model.entity.User;
 import com.nitsoft.ecommerce.repository.OrdersRepository;
 import com.nitsoft.ecommerce.repository.PaymentRepository;
 import com.nitsoft.util.Constant;
@@ -13,11 +13,13 @@ import com.razorpay.RazorpayClient;
 import com.razorpay.RazorpayException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+@Service
 public class PaymentService {
 
     @Autowired
@@ -54,7 +56,7 @@ public class PaymentService {
 
     public void completePayment(PaymentRequest initPaymentRequest){
         User user = (User)httpServletRequest.getAttribute("user");
-        Payments payments = paymentRepository.findByPaymentId(initPaymentRequest.getPaymentId());
+        Payments payments = paymentRepository.findById(initPaymentRequest.getPaymentId()).get();
         payments.setStatus(Constant.PAYMENT_STATUS.AUTHORIZED.name());
         paymentRepository.save(payments);
         Orders orders = ordersRepository.findById(Long.valueOf(initPaymentRequest.getOrderId())).get();

@@ -1,6 +1,6 @@
 package com.nitsoft.ecommerce.service;
 
-import com.nitsoft.ecommerce.database.model.UserAddress;
+import com.nitsoft.ecommerce.database.model.entity.UserAddress;
 import com.nitsoft.ecommerce.repository.UserAddressRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

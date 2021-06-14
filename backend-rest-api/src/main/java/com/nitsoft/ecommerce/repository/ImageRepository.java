@@ -1,7 +1,7 @@
 package com.nitsoft.ecommerce.repository;
 
 
-import com.nitsoft.ecommerce.database.model.Image;
+import com.nitsoft.ecommerce.database.model.entity.Image;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 

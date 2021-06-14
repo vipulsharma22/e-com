@@ -5,7 +5,7 @@
  */
 package com.nitsoft.ecommerce.service.categories;
 
-import com.nitsoft.ecommerce.database.model.Category;
+import com.nitsoft.ecommerce.database.model.entity.Category;
 import org.springframework.data.domain.Page;
 
 import java.util.List;

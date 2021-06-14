@@ -7,7 +7,7 @@
  */
 package com.nitsoft.ecommerce.auth;
 
-import com.nitsoft.ecommerce.database.model.User;
+import com.nitsoft.ecommerce.database.model.entity.User;
 
 /**
  *

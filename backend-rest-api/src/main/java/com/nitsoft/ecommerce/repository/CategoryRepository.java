@@ -1,11 +1,8 @@
 package com.nitsoft.ecommerce.repository;
 
-import com.nitsoft.ecommerce.database.model.Category;
-import org.springframework.data.jpa.domain.Specification;
+import com.nitsoft.ecommerce.database.model.entity.Category;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
-import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;

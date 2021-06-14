@@ -1,6 +1,5 @@
 package com.nitsoft.ecommerce.database.model;
 
-import com.nitsoft.util.ImageUtil;
 import lombok.Builder;
 import lombok.Data;
 import org.apache.commons.io.FileUtils;

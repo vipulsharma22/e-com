@@ -1,6 +1,6 @@
 package com.nitsoft.ecommerce.repository;
 
-import com.nitsoft.ecommerce.database.model.UserToken;
+import com.nitsoft.ecommerce.database.model.entity.UserToken;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Date;

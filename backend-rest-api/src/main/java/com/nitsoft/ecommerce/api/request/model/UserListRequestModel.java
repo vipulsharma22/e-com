@@ -16,9 +16,7 @@ import lombok.Setter;
  *
  * @author Trinhlbk
  */
-@Getter
-@Setter
-@NoArgsConstructor
+@Data
 @AllArgsConstructor
 public class UserListRequestModel {
     public String searchKey;

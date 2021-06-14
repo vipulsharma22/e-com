@@ -1,6 +1,6 @@
 package com.nitsoft.ecommerce.repository;
 
-import com.nitsoft.ecommerce.database.model.ProductCategory;
+import com.nitsoft.ecommerce.database.model.entity.ProductCategory;
 import java.util.List;
 import javax.transaction.Transactional;
 

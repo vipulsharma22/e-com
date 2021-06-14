@@ -4,7 +4,7 @@ import com.nitsoft.ecommerce.api.APIName;
 import com.nitsoft.ecommerce.api.AbstractBaseAPI;
 import com.nitsoft.ecommerce.api.response.util.APIStatus;
 import com.nitsoft.ecommerce.api.response.model.StatusResponse;
-import com.nitsoft.ecommerce.database.model.Category;
+import com.nitsoft.ecommerce.database.model.entity.Category;
 import com.nitsoft.ecommerce.repository.CategoryRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

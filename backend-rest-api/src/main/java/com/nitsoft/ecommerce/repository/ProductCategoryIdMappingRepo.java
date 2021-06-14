@@ -1,6 +1,6 @@
 package com.nitsoft.ecommerce.repository;
 
-import com.nitsoft.ecommerce.database.model.ProductCategoryId;
+import com.nitsoft.ecommerce.database.model.entity.ProductCategoryId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;

@@ -10,7 +10,7 @@ package com.nitsoft.ecommerce.api.request.model;
 import java.math.BigDecimal;
 import java.util.List;
 
-import com.nitsoft.ecommerce.database.model.OrderDetail;
+import com.nitsoft.ecommerce.database.model.entity.OrderDetail;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,9 +20,7 @@ import lombok.Setter;
  *
  * @author Trinhlbk
  */
-@Getter
-@Setter
-@NoArgsConstructor
+@Data
 @AllArgsConstructor
 public class OrderRequestModel {
     private List<OrderDetail> productList;

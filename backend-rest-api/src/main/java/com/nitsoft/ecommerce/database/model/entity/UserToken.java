@@ -1,4 +1,4 @@
-package com.nitsoft.ecommerce.database.model;
+package com.nitsoft.ecommerce.database.model.entity;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -6,59 +6,54 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
+import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
+@Data
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 @DynamicInsert
 @DynamicUpdate
-@Table(name = "suppliers")
+@Table(name = "user_tokens")
 @XmlRootElement
-public class Supplier implements Serializable {
+public class UserToken implements Serializable {
 
     private static final long serialVersionUID = 1L;
-   
+    
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "supplier_id")
-    private Integer supplierId;
+    @Column(name = "token")
+    private String token;
     
     @Basic(optional = false)
     @Column(name = "company_id")
-    private int companyId;
+    private Long companyId;
     
     @Basic(optional = false)
-    @Column(name = "name")
-    private String name;
-    
-    @Column(name = "description")
-    private String description;
+    @Column(name = "user_id")
+    private Long userId;
     
     @Basic(optional = false)
-    @Column(name = "status")
-    private int status;
-    
-    @Basic(optional = false)
-    @Column(name = "create_date")
+    @Column(name = "login_date")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date createDate;
+    private Date loginDate;
+    
+    @Basic(optional = false)
+    @Column(name = "expiration_date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date expirationDate;
+    
+    @Basic(optional = false)
+    @Column(name = "session_data")
+    private String sessionData;
     
 }

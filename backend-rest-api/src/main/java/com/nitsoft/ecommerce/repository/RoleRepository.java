@@ -5,7 +5,7 @@
  */
 package com.nitsoft.ecommerce.repository;
 
-import com.nitsoft.ecommerce.database.model.Role;
+import com.nitsoft.ecommerce.database.model.entity.Role;
 import javax.transaction.Transactional;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;

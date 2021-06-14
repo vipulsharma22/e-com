@@ -1,7 +1,7 @@
 package com.nitsoft.ecommerce.service.auth;
 
-import com.nitsoft.ecommerce.database.model.User;
-import com.nitsoft.ecommerce.database.model.UserToken;
+import com.nitsoft.ecommerce.database.model.entity.User;
+import com.nitsoft.ecommerce.database.model.entity.UserToken;
 
 
 public interface AuthService {

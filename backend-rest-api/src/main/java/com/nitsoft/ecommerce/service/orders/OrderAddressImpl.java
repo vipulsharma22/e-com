@@ -1,7 +1,7 @@
 
 package com.nitsoft.ecommerce.service.orders;
 
-import com.nitsoft.ecommerce.database.model.OrderAddress;
+import com.nitsoft.ecommerce.database.model.entity.OrderAddress;
 import com.nitsoft.ecommerce.repository.OrderAddressRepository;
 import com.nitsoft.ecommerce.service.AbstractBaseService;
 import org.springframework.beans.factory.annotation.Autowired;

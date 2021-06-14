@@ -1,7 +1,7 @@
 
 package com.nitsoft.ecommerce.service.orders;
 
-import com.nitsoft.ecommerce.database.model.OrderAddress;
+import com.nitsoft.ecommerce.database.model.entity.OrderAddress;
 
 /**
  *

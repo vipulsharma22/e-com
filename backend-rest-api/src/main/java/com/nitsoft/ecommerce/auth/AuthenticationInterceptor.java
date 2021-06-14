@@ -1,8 +1,8 @@
 package com.nitsoft.ecommerce.auth;
 
 import com.nitsoft.ecommerce.auth.service.Authenticated;
-import com.nitsoft.ecommerce.database.model.User;
-import com.nitsoft.ecommerce.database.model.UserToken;
+import com.nitsoft.ecommerce.database.model.entity.User;
+import com.nitsoft.ecommerce.database.model.entity.UserToken;
 import com.nitsoft.ecommerce.enums.PermissionEnum;
 import com.nitsoft.ecommerce.service.auth.AuthService;
 import com.nitsoft.util.Constant;

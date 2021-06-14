@@ -10,22 +10,18 @@ import com.nitsoft.ecommerce.api.controller.AbstractBaseController;
 import com.nitsoft.ecommerce.api.request.model.CreateCategoryRequestModel;
 import com.nitsoft.ecommerce.api.request.model.UpdateCategoryRequestModel;
 import com.nitsoft.ecommerce.api.response.model.APIResponse;
-import com.nitsoft.ecommerce.api.response.model.StatusResponse;
 import com.nitsoft.ecommerce.api.response.util.APIStatus;
-import com.nitsoft.ecommerce.database.model.Category;
-import com.nitsoft.ecommerce.database.model.Company;
+import com.nitsoft.ecommerce.database.model.entity.Category;
+import com.nitsoft.ecommerce.database.model.entity.Company;
 import com.nitsoft.ecommerce.exception.ApplicationException;
 import com.nitsoft.ecommerce.service.CompanyService;
 import com.nitsoft.ecommerce.service.categories.CategoriesService;
-import org.apache.commons.lang.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Arrays;
 import java.util.List;
 
 /**

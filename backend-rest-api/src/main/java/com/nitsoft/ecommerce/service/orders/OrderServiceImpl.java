@@ -2,7 +2,7 @@
 package com.nitsoft.ecommerce.service.orders;
 
 import com.nitsoft.ecommerce.api.request.model.OrdersRequestModel;
-import com.nitsoft.ecommerce.database.model.Orders;
+import com.nitsoft.ecommerce.database.model.entity.Orders;
 import com.nitsoft.ecommerce.repository.OrdersRepository;
 import com.nitsoft.ecommerce.repository.specification.OrdersSpecification;
 import com.nitsoft.ecommerce.service.AbstractBaseService;

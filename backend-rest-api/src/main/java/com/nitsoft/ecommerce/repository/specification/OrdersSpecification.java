@@ -1,6 +1,6 @@
 package com.nitsoft.ecommerce.repository.specification;
 
-import com.nitsoft.ecommerce.database.model.Orders;
+import com.nitsoft.ecommerce.database.model.entity.Orders;
 import com.nitsoft.util.Constant;
 import java.util.LinkedList;
 import java.util.List;

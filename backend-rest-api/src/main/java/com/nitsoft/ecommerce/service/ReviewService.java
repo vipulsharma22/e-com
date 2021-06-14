@@ -1,6 +1,6 @@
 package com.nitsoft.ecommerce.service;
 
-import com.nitsoft.ecommerce.database.model.Review;
+import com.nitsoft.ecommerce.database.model.entity.Review;
 import com.nitsoft.ecommerce.repository.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

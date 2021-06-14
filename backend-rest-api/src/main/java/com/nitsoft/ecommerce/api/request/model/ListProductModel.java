@@ -14,9 +14,7 @@ import lombok.Setter;
  *
  * @author acer
  */
-@Getter
-@Setter
-@NoArgsConstructor
+@Data
 @AllArgsConstructor
 public class ListProductModel {
     private long categoryId;

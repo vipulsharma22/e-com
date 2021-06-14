@@ -5,10 +5,9 @@ import com.nitsoft.ecommerce.api.controller.AbstractBaseController;
 import com.nitsoft.ecommerce.api.request.model.OrdersRequestModel;
 import com.nitsoft.ecommerce.api.response.model.APIResponse;
 import com.nitsoft.ecommerce.api.response.util.APIStatus;
-import com.nitsoft.ecommerce.database.model.*;
+import com.nitsoft.ecommerce.database.model.entity.*;
 import com.nitsoft.ecommerce.exception.ApplicationException;
 import com.nitsoft.ecommerce.repository.PaymentRepository;
-import com.nitsoft.ecommerce.repository.UserAddressRepository;
 import com.nitsoft.ecommerce.service.UserAddressService;
 import com.nitsoft.ecommerce.service.orders.OrderAddressService;
 import com.nitsoft.ecommerce.service.orders.OrderDetailService;
@@ -80,7 +79,6 @@ public class OrdersController extends AbstractBaseController {
     /**
      * Get detail order by company
      *
-     * @param companyId
      * @param orderId
      * @return
      */
@@ -103,7 +101,7 @@ public class OrdersController extends AbstractBaseController {
                         Map<String, Object> detail = new HashMap<String, Object>();
                         //find product by proId
                         Product product = productService.getProductById(1L, orderDetail.getProductId());
-                        Payment payment = paymentRepository.findByPaymentId(order.getPaymentId());
+                        Payments payment = paymentRepository.findById(order.getPaymentId()).get();
                         if (product != null && payment != null) {
                             detail.put("product", product);
                             detail.put("payment", payment);

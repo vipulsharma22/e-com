@@ -5,7 +5,7 @@
  */
 package com.nitsoft.ecommerce.service;
 
-import com.nitsoft.ecommerce.database.model.Orders;
+import com.nitsoft.ecommerce.database.model.entity.Orders;
 import com.nitsoft.ecommerce.repository.OrdersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

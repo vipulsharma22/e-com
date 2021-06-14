@@ -1,43 +1,42 @@
-package com.nitsoft.ecommerce.database.model;
+package com.nitsoft.ecommerce.database.model.entity;
 
-import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
-import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
+import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
+@Data
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 @DynamicInsert
 @DynamicUpdate
-@Table(name = "supplier_products")
+@Table(name = "order_reports")
 @XmlRootElement
-public class SupplierProduct implements Serializable {
+public class OrderReport extends AbstractEntity {
 
     private static final long serialVersionUID = 1L;
 
-    @Id
     @Basic(optional = false)
-    @Column(name = "product_id")
-    private int productId;
-
-    @Id
+    @Column(name = "report_id")
+    private Long reportId;
+    
     @Basic(optional = false)
-    @Column(name = "supplier_id")
-    private int supplierId;
-
+    @Column(name = "order_id")
+    private Long orderId;
+    
+    @Basic(optional = false)
+    @Column(name = "status")
+    private boolean status;
+    
+    @Column(name = "note")
+    private String note;
+    
 }

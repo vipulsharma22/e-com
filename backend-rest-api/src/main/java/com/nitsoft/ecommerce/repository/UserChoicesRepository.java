@@ -1,6 +1,6 @@
 package com.nitsoft.ecommerce.repository;
 
-import com.nitsoft.ecommerce.database.model.UserChoices;
+import com.nitsoft.ecommerce.database.model.entity.UserChoices;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
