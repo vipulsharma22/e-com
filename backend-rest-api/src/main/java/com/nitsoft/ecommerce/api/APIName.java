@@ -68,6 +68,8 @@ public class APIName {
     public static final String ORDERS_BY_COMPANY = "/listOrder";
     public static final String ORDERS_DETAIL_BY_ID = "detail/{order_id}";
     public static final String CHANGE_STATUS_ORDERS_BY_COMPANY = "/delete/{order_id}/{status}";
+    public static final String INITIATE_PAYMENT = "/initiate/payment";
+    public static final String COMPLETE_PAYMENT = "/complete/payment";
     
     // auth APIs
     public static final String AUTH_API = VERSION + "/auth";

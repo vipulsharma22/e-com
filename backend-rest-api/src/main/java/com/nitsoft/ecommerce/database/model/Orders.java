@@ -50,8 +50,7 @@ public class Orders implements Serializable {
 
     @Column(name = "items_count")
     private Integer itemsCount;
-    
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+
     @Column(name = "items_quantity")
     private Integer itemsQuantity;
 
@@ -78,9 +77,16 @@ public class Orders implements Serializable {
     @Column(name = "customer_email")
     private String customerEmail;
 
+    @Column(name = "payment_partner_order_id")
+    private String paymentPartnerOrderId;
+
     @Basic(optional = false)
     @Column(name = "previous_status")
     private String previous_status;
+
+    @Basic(optional = false)
+    @Column(name = "platform")
+    private String platform;
 
     @Basic(optional = false)
     @Column(name = "created_at")
