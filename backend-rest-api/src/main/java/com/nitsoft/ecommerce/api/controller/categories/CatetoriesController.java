@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.nitsoft.ecommerce.api.controller.categories;
 
 import com.nitsoft.ecommerce.api.APIName;
@@ -24,10 +19,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-/**
- * @author tungn
- */
-
 @RestController
 @RequestMapping(APIName.CATEGORIES_API)
 public class CatetoriesController extends AbstractBaseController {
@@ -40,18 +31,8 @@ public class CatetoriesController extends AbstractBaseController {
 
     @RequestMapping(path = APIName.CATEGORIES_ADD, method = RequestMethod.POST)
     public ResponseEntity<APIResponse> addCategory(
-            @PathVariable(value = "company_id") long companyId,
-            @RequestBody @Valid CreateCategoryRequestModel categoryModel
-    ) {
-
-        Company company = companyService.findByCompanyId(companyId);
-
-        if (company == null) {
-            throw new ApplicationException(APIStatus.INVALID_PARAMETER);
-        }
-
+            @RequestBody @Valid CreateCategoryRequestModel categoryModel) {
         Category category = new Category();
-        category.setCompanyId(companyId);
         category.setParentId(categoryModel.getParentId());
         category.setName(categoryModel.getName());
         category.setStatus(1);

@@ -135,36 +135,32 @@ public class ProductAPI extends AbstractBaseController {
 
     @ApiOperation(value = "create product", notes = "")
     @RequestMapping(value = APIName.PRODUCT_CREATE, method = RequestMethod.POST, produces = APIName.CHARSET)
-    public ResponseEntity<APIResponse> createProduct(HttpServletRequest request,
-            @RequestBody CreateProductModel productRequest) {
-        try {
-            Product product = new Product();
-            product.setBrowsingName(productRequest.getBrowsingName());
-            product.setCompanyId(productRequest.getCompanyId());
-            product.setDefaultImage(productRequest.getDefaultImage());
-            product.setDescription(productRequest.getDescription());
-            product.setIsStockControlled(productRequest.getIsStockControlled());
-            product.setListPrice(productRequest.getListPrice());
-            product.setName(productRequest.getName());
-            product.setOverview(productRequest.getOverview());
-            product.setQuantity(productRequest.getQuantity());
-            product.setRank(productRequest.getRank());
-            product.setSalePrice(productRequest.getSalePrice());
-            product.setSku(productRequest.getSku());
-            product.setStatus(Constant.STATUS.ACTIVE_STATUS.getValue());
-            //create product
-            productService.save(product);
-            //create product categories
-            for (Long categoriesId : productRequest.getListCategoriesId()) {
-                ProductCategoryId productCategoryId = new ProductCategoryId();
-                productCategoryId.setCategoryId(categoriesId);
-                productCategoryId.setProductId(product.getId());
-                productService.saveProductCategory(productCategoryId);
-            }
-            return responseUtil.successResponse(product);
-        } catch (Exception ex) {
-            throw new ApplicationException(APIStatus.CREATE_PRODUCT_ERROR);
+    public ResponseEntity<APIResponse> createProduct(@RequestBody CreateProductModel productRequest) {
+        Product product = new Product();
+        product.setBrowsingName(productRequest.getBrowsingName());
+        product.setCompanyId(productRequest.getCompanyId());
+        product.setDefaultImage(productRequest.getDefaultImage());
+        product.setDescription(productRequest.getDescription());
+        product.setIsStockControlled(productRequest.getIsStockControlled());
+        product.setListPrice(productRequest.getListPrice());
+        product.setName(productRequest.getName());
+        product.setOverview(productRequest.getOverview());
+        product.setQuantity(productRequest.getQuantity());
+        product.setRank(productRequest.getRank());
+        product.setSalePrice(productRequest.getSalePrice());
+        product.setSku(productRequest.getSku());
+        product.setStatus(Constant.STATUS.ACTIVE_STATUS.getValue());
+        //create product
+        productService.save(product);
+        //create product categories
+        for (Long categoriesId : productRequest.getListCategoriesId()) {
+            ProductCategoryId productCategoryId = new ProductCategoryId();
+            productCategoryId.setCategoryId(categoriesId);
+            productCategoryId.setProductId(product.getId());
+            productService.saveProductCategory(productCategoryId);
         }
+        return responseUtil.successResponse(product);
+
     }
 
     @ApiOperation(value = "delete product list", notes = "")
