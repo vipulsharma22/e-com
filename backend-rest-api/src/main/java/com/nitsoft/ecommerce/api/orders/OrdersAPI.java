@@ -9,6 +9,7 @@ import com.nitsoft.ecommerce.api.response.model.OrderResponseModel;
 import com.nitsoft.ecommerce.api.response.model.StatusResponse;
 import com.nitsoft.ecommerce.api.response.util.ResponseUtil;
 import com.nitsoft.ecommerce.database.model.entity.*;
+import com.nitsoft.ecommerce.repository.OrdersRepository;
 import com.nitsoft.ecommerce.service.UserService;
 import com.nitsoft.ecommerce.service.OrdersService;
 import com.nitsoft.ecommerce.service.UserAddressService;
@@ -71,6 +72,8 @@ public class OrdersAPI extends AbstractBaseAPI {
     RazorpayClient razorpayClient;
     @Autowired
     PaymentService paymentService;
+    @Autowired
+    OrdersRepository ordersRepository;
 
     @RequestMapping(value = APIName.ORDER_CREATE, method = RequestMethod.POST, produces = APIName.CHARSET)
     @ResponseBody
@@ -154,6 +157,13 @@ public class OrdersAPI extends AbstractBaseAPI {
     @RequestMapping(value = APIName.COMPLETE_PAYMENT, method = RequestMethod.POST, produces = APIName.CHARSET)
     public ResponseEntity<APIResponse> completePayment(PaymentRequest paymentRequest) {
         paymentService.completePayment(paymentRequest);
+        return responseUtil.successResponse("SUCCESS");
+    }
+
+    @RequestMapping(value = APIName.CANCEL_ORDER, method = RequestMethod.GET, produces = APIName.CHARSET)
+    public ResponseEntity<APIResponse> cancelOrder(@RequestParam long orderId) {
+        Orders orders = ordersRepository.findById(orderId).get();
+        orders.setStatus(Constant.ORDER_STATUS.IN_CANCELLATION.name());
         return responseUtil.successResponse("SUCCESS");
     }
 

@@ -4,13 +4,16 @@ import com.nitsoft.ecommerce.api.request.model.InitPaymentResponse;
 import com.nitsoft.ecommerce.api.request.model.PaymentRequest;
 import com.nitsoft.ecommerce.database.model.entity.Orders;
 import com.nitsoft.ecommerce.database.model.entity.Payments;
+import com.nitsoft.ecommerce.database.model.entity.Refunds;
 import com.nitsoft.ecommerce.database.model.entity.User;
 import com.nitsoft.ecommerce.repository.OrdersRepository;
 import com.nitsoft.ecommerce.repository.PaymentRepository;
+import com.nitsoft.ecommerce.repository.RefundsRepository;
 import com.nitsoft.util.Constant;
 import com.razorpay.Order;
 import com.razorpay.RazorpayClient;
 import com.razorpay.RazorpayException;
+import com.razorpay.Refund;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,6 +36,9 @@ public class PaymentService {
 
     @Autowired
     private RazorpayClient razorpayClient;
+
+    @Autowired
+    private RefundsRepository refundsRepository;
 
     public InitPaymentResponse initPayment(PaymentRequest initPaymentRequest) throws Exception{
         User user = (User)httpServletRequest.getAttribute("user");
@@ -62,6 +68,33 @@ public class PaymentService {
         Orders orders = ordersRepository.findById(Long.valueOf(initPaymentRequest.getOrderId())).get();
         orders.setStatus(Constant.ORDER_STATUS.PAYMENT_COMPLETED.name());
         ordersRepository.save(orders);
+    }
+
+    public void refundPayment(Long orderId){
+        try{
+            Orders orders = ordersRepository.findById(Long.valueOf(orderId)).get();
+            Payments payment = paymentRepository.findById(orders.getPaymentId()).get();
+            Refund refund = razorpayClient.Payments.refund(payment.getPgTransactionId());
+            String status = refund.get("status");
+            if("pending".equals(status)){
+                payment.setStatus(Constant.PAYMENT_STATUS.REFUND_INITIATED.name());
+            }else{
+                payment.setStatus(Constant.PAYMENT_STATUS.REFUNDED.name());
+            }
+            paymentRepository.save(payment);
+            Refunds refunds = new Refunds();
+            refunds.setPaymentId(payment.getId());
+            refunds.setAmount(payment.getAmount());
+            refunds.setGatewayRefundResponse(refund.toString());
+            refunds.setRefundId(refund.get("id"));
+            refunds.setStatus(status);
+            refundsRepository.save(refunds);
+            orders.setStatus(Constant.ORDER_STATUS.CANCELLED.name());
+            ordersRepository.save(orders);
+        }catch (Exception ex){
+
+        }
+
     }
 
     private Order createRazorPayOrder(Orders order) throws RazorpayException {

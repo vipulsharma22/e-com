@@ -39,6 +39,7 @@ public class Constant {
         INITIATED,
         AUTHORIZED,
         CAPTURED,
+        REFUND_INITIATED,
         REFUNDED,
         FAILED
     }
@@ -155,7 +156,10 @@ public class Constant {
         PAYMENT_INITIATED,
         PAYMENT_COMPLETED,
         SHIPPING,
-        COMPLETED
+        COMPLETED,
+        IN_CANCELLATION,
+        CANCELLED
+
     }
     
     public static enum PRODUCT_ATTRIBUTE {

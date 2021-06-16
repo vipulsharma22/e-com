@@ -12,7 +12,6 @@ import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
 @Data
-@AllArgsConstructor
 @DynamicInsert
 @DynamicUpdate
 @Table(name = "order_addresses")

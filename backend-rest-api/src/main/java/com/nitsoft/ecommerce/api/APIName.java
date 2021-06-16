@@ -70,6 +70,7 @@ public class APIName {
     public static final String CHANGE_STATUS_ORDERS_BY_COMPANY = "/delete/{order_id}/{status}";
     public static final String INITIATE_PAYMENT = "/initiate/payment";
     public static final String COMPLETE_PAYMENT = "/complete/payment";
+    public static final String CANCEL_ORDER = "/cancel/order";
     
     // auth APIs
     public static final String AUTH_API = VERSION + "/auth";
