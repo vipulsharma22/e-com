@@ -10,12 +10,10 @@ import com.nitsoft.ecommerce.api.response.model.PagingResponseModel;
 import com.nitsoft.ecommerce.api.response.model.UserDetailResponseModel;
 import com.nitsoft.ecommerce.api.response.model.UserLogInResponse;
 import com.nitsoft.ecommerce.api.response.util.APIStatus;
-import com.nitsoft.ecommerce.auth.service.Authenticated;
 import com.nitsoft.ecommerce.database.model.entity.CartWishListData;
 import com.nitsoft.ecommerce.database.model.entity.User;
 import com.nitsoft.ecommerce.database.model.entity.UserAddress;
 import com.nitsoft.ecommerce.database.model.entity.UserToken;
-import com.nitsoft.ecommerce.enums.PermissionEnum;
 import com.nitsoft.ecommerce.exception.ApplicationException;
 import com.nitsoft.ecommerce.notification.email.EmailService;
 import com.nitsoft.ecommerce.service.*;
@@ -55,38 +53,13 @@ public class UserAPI extends AbstractBaseController {
     @Autowired
     private HttpServletRequest httpServletRequest;
 
-    @RequestMapping(value = APIName.USERS_LOGIN_OTP, method = RequestMethod.POST, produces = APIName.CHARSET)
-    public ResponseEntity<APIResponse> loginWithOTP(@PathVariable(value = "company_id") Long companyId, @RequestBody AuthRequestModel authRequestModel) {
-        UserValidator.login(authRequestModel);
-        if (!otpService.verifyOtp(authRequestModel.getPhone(), authRequestModel.getOtp())) {
-            throw new ApplicationException(APIStatus.INVALID_OTP);
-        }
-        User existedUser = userService.getUserByPhoneNumber(authRequestModel.getPhone(), Constant.USER_STATUS.ACTIVE.getStatus());
-        if (existedUser == null) {
-            throw new ApplicationException(APIStatus.ERR_USER_NOT_FOUND);
-        }
-        UserToken token = authService.getOrCreateUserTokenByUserId(existedUser);
-        UserLogInResponse response = UserLogInResponse.builder().token(token.getToken()).userName(existedUser.getEmail()).build();
-        return responseUtil.successResponse(response);
-    }
-
-    @RequestMapping(value = APIName.USERS_LOGIN_PASSWORD, method = RequestMethod.POST, produces = APIName.CHARSET)
-    public ResponseEntity<APIResponse> loginWithPassword(@PathVariable(value = "company_id") Long companyId, @RequestBody AuthRequestModel authRequestModel) {
-        UserValidator.login(authRequestModel);
-        User existedUser = userService.getUserByEmailOrNumber(authRequestModel.getUserName(), Constant.USER_STATUS.ACTIVE.getStatus());
-        if (existedUser == null) {
-            throw new ApplicationException(APIStatus.ERR_USER_NOT_FOUND);
-        }
-        if (!PasswordUtils.verifyUserPassword(authRequestModel.getPassword(), existedUser.getEncryptedPassword(), existedUser.getSalt())) {
-            throw new ApplicationException(APIStatus.INVALID_PASSWORD);
-        }
-        UserToken token = authService.getOrCreateUserTokenByUserId(existedUser);
-        UserLogInResponse response = UserLogInResponse.builder().token(token.getToken()).userName(existedUser.getEmail()).build();
-        return responseUtil.successResponse(response);
+    @RequestMapping(value = APIName.USERS_LOGIN, method = RequestMethod.POST, produces = APIName.CHARSET)
+    public ResponseEntity<APIResponse> login(@RequestBody AuthRequestModel authRequestModel) {
+        return responseUtil.successResponse(userService.login(authRequestModel));
     }
 
     @RequestMapping(value = APIName.USERS_LOGOUT, method = RequestMethod.POST, produces = APIName.CHARSET)
-    public ResponseEntity<APIResponse> logout(@PathVariable Long companyId, HttpServletRequest request) {
+    public ResponseEntity<APIResponse> logout(HttpServletRequest request) {
         String authToken = request.getHeader(Constant.HEADER_TOKEN);
         UserToken userToken = userTokenService.getTokenById(authToken);
         if (userToken != null) {
@@ -98,7 +71,7 @@ public class UserAPI extends AbstractBaseController {
     }
 
     @RequestMapping(path = APIName.USER_REGISTER, method = RequestMethod.POST, produces = APIName.CHARSET)
-    public ResponseEntity<APIResponse> register(@PathVariable(value = "company_id") Long companyId, @RequestBody UserRequestModel user) {
+    public ResponseEntity<APIResponse> register(@RequestBody UserRequestModel user) {
         UserValidator.registerUser(user);
         if (!otpService.verifyOtp(user.getPhone(), user.getOtp())) {
             throw new ApplicationException(APIStatus.INVALID_OTP);
@@ -113,7 +86,7 @@ public class UserAPI extends AbstractBaseController {
             userSignUp.setRoleId(Constant.USER_ROLE.NORMAL_USER.getRoleId());
             userSignUp.setStatus(Constant.USER_STATUS.ACTIVE.getStatus());
             userSignUp.setPhone(user.getPhone());
-            userSignUp.setCompanyId(companyId);
+            userSignUp.setCompanyId(1L);
             userSignUp.setSalt(PasswordUtils.getSalt(20));
             userSignUp.setEncryptedPassword(PasswordUtils.generateSecurePassword(user.getPassword(), userSignUp.getSalt()));
             userService.save(userSignUp);
@@ -228,12 +201,14 @@ public class UserAPI extends AbstractBaseController {
 
 
     @RequestMapping(value = APIName.CHANGE_PASSWORD_USER, method = RequestMethod.POST, produces = APIName.CHARSET)
-    public ResponseEntity<APIResponse> changePassword(@PathVariable(value = "company_id") Long companyId, @RequestBody AuthRequestModel authRequestModel) {
+    public ResponseEntity<APIResponse> changePassword(@RequestBody AuthRequestModel authRequestModel) {
         UserValidator.login(authRequestModel);
-        if (!otpService.verifyOtp(authRequestModel.getPhone(), authRequestModel.getOtp())) {
+        String userName = authRequestModel.getPhone() == null ? authRequestModel.getUserName() : authRequestModel.getPhone();
+
+        if (!otpService.verifyOtp(userName, authRequestModel.getOtp())) {
             throw new ApplicationException(APIStatus.INVALID_OTP);
         }
-        User existedUser = userService.getUserByPhoneNumber(authRequestModel.getPhone(), Constant.USER_STATUS.ACTIVE.getStatus());
+        User existedUser = userService.getUserByEmailOrNumber(userName, Constant.USER_STATUS.ACTIVE.getStatus());
         if (existedUser == null) {
             throw new ApplicationException(APIStatus.ERR_USER_NOT_FOUND);
         }
@@ -244,7 +219,6 @@ public class UserAPI extends AbstractBaseController {
         return responseUtil.successResponse(response);
     }
 
-    @Authenticated(permissions = PermissionEnum.PRODUCT_CRUD)
     @RequestMapping(value = APIName.SEND_OTP, method = RequestMethod.POST, produces = APIName.CHARSET)
     public ResponseEntity<APIResponse> sentOTP(@RequestParam String phone) {
         otpService.sendOtp(phone);

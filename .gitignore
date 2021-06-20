@@ -12,3 +12,8 @@
 /frontend-admin-site/.idea
 /frontend-admin-site/node_modules/moment
 /frontend-admin-site/frontend-admin-site.iml
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml

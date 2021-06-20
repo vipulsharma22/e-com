@@ -43,8 +43,7 @@ public class APIName {
     public static final String USERS = VERSION + "/users";
     public static final String USER_REGISTER = "/register";
     public static final String USER_LIST = "/list";
-    public static final String USERS_LOGIN_OTP = "/login/otp";
-    public static final String USERS_LOGIN_PASSWORD = "/login/passwoed";
+    public static final String USERS_LOGIN = "/login";
     public static final String USERS_LOGOUT = "/logout";
     public static final String UPDATE = "/update";
     public static final String SAVE = "/save";

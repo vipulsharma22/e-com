@@ -2,7 +2,15 @@ package com.nitsoft.ecommerce.service;
 
 import com.nitsoft.ecommerce.database.model.entity.User;
 import com.nitsoft.ecommerce.database.model.entity.UserToken;
+import com.nitsoft.ecommerce.api.request.model.AuthRequestModel;
+import com.nitsoft.ecommerce.api.response.model.UserLogInResponse;
+import com.nitsoft.ecommerce.api.response.util.APIStatus;
+import com.nitsoft.ecommerce.exception.ApplicationException;
+import com.nitsoft.ecommerce.service.auth.AuthService;
+import com.nitsoft.ecommerce.validators.UserValidator;
+import com.nitsoft.util.Constant;
 import com.nitsoft.util.EmailUtil;
+import com.nitsoft.util.PasswordUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.nitsoft.ecommerce.repository.UserRepository;
@@ -18,9 +26,36 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     private UserTokenRepository userTokenRepository;
-    
+    @Autowired
+    private OtpService otpService;
+    @Autowired
+    private AuthService authService;
+
+    public UserLogInResponse login(AuthRequestModel model) {
+        UserValidator.login(model);
+        String userName;
+        userName = model.getPhone() == null ? model.getUserName() : model.getPhone();
+        User existedUser = getUserByEmailOrNumber(userName, Constant.USER_STATUS.ACTIVE.getStatus());
+        if (existedUser == null) {
+            throw new ApplicationException(APIStatus.ERR_USER_NOT_FOUND);
+        }
+        if (model.getOtp() != null) {
+            if (!otpService.verifyOtp(model.getPhone(), model.getOtp())) {
+                throw new ApplicationException(APIStatus.INVALID_OTP);
+            }
+        } else if (model.getPassword() != null) {
+            if (!PasswordUtils.verifyUserPassword(model.getPassword(), existedUser.getEncryptedPassword(), existedUser.getSalt())) {
+                throw new ApplicationException(APIStatus.INVALID_PASSWORD);
+            }
+        } else {
+            throw new ApplicationException(APIStatus.INVALID_PARAMETER);
+        }
+        UserToken token = authService.getOrCreateUserTokenByUserId(existedUser);
+        return UserLogInResponse.builder().token(token.getToken()).userName(existedUser.getEmail()).build();
+    }
+
     public User getUserByEmail(String email, int status) {
-        return userRepository.findByEmailAndStatus(email, status);
+        return userRepository.findByEmailIgnoreCaseAndStatus(email, status);
     }
 
     public User getUserByPhoneNumber(String phone, int status) {
