@@ -36,7 +36,11 @@ public class UserValidator {
             throw new ApplicationException(APIStatus.ERR_INVALID_DATA);
         }
 
-        if (user.getPhone().length() != 10 || StringUtils.isAlpha(user.getPhone())) {
+        if(user.getUserName() == null && user.getPhone() == null){
+            throw new ApplicationException(APIStatus.ERR_INVALID_DATA);
+        }
+
+        if (user.getPhone()!=null && user.getPhone().length() != 10 || StringUtils.isAlpha(user.getPhone())) {
             throw new ApplicationException(APIStatus.ERR_INVALID_DATA);
         }
     }

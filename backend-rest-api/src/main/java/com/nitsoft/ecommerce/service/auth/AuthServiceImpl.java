@@ -63,7 +63,7 @@ public class AuthServiceImpl extends AbstractBaseService implements AuthService{
 
     @Override
     public User getUserByEmailAndCompanyIdAndStatus(String email, Long companyId, int status) {
-        return userRepository.findByEmailAndStatus(email, Constant.USER_STATUS.ACTIVE.getStatus());
+        return userRepository.findByEmailIgnoreCaseAndStatus(email, Constant.USER_STATUS.ACTIVE.getStatus());
     }
 
     @Override

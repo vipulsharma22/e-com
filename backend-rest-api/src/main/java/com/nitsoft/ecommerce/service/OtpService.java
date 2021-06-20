@@ -25,8 +25,8 @@ public class OtpService {
     }
 
 
-    public boolean verifyOtp(String phoneNumber,String otp){
-        String otpRedis = (String) redisTemplate.opsForValue().get(getKey(phoneNumber));
+    public boolean verifyOtp(String keyField,String otp){
+        String otpRedis = (String) redisTemplate.opsForValue().get(getKey(keyField));
         if(otpRedis != null && otpRedis.equals(otp.trim())){
          return true;
         }
