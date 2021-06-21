@@ -8,16 +8,14 @@
 package com.nitsoft.ecommerce.api.request.model;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 /**
  *
  * @author Trinhlbk
  */
 @Data
-@AllArgsConstructor
+
 public class ProductInfo {
     public long productId;
     public int quantity;

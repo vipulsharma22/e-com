@@ -11,7 +11,7 @@ import java.util.Date;
 
 
 @Data
-@AllArgsConstructor
+
 @XmlRootElement
 public class Company extends AbstractEntity {
 

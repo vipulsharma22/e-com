@@ -7,16 +7,14 @@ package com.nitsoft.ecommerce.api.request.model;
 
 import java.util.List;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 /**
  *
  * @author acer
  */
 @Data
-@AllArgsConstructor
+
 public class CreateProductModel {
     private long productId;
     private long companyId;

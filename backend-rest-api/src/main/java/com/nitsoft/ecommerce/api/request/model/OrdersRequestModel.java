@@ -2,16 +2,14 @@
 package com.nitsoft.ecommerce.api.request.model;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 /**
  *
  * @author Louis Duong
  */
 @Data
-@AllArgsConstructor
+
 public class OrdersRequestModel {
     private String searchKey;
     private int sortCase;

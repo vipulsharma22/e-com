@@ -11,7 +11,7 @@ import java.io.Serializable;
 
 
 @Data
-@AllArgsConstructor
+
 public class OrderReport implements Serializable {
 
     private static final long serialVersionUID = 1L;

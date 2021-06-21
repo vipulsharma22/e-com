@@ -13,7 +13,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @Data
-@AllArgsConstructor
+
 @EntityListeners(AuditingEntityListener.class)
 @DynamicInsert
 @DynamicUpdate

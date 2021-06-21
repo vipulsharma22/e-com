@@ -12,16 +12,14 @@ import java.util.List;
 
 import com.nitsoft.ecommerce.database.model.entity.OrderDetail;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 /**
  *
  * @author Trinhlbk
  */
 @Data
-@AllArgsConstructor
+
 public class OrderRequestModel {
     private List<OrderDetail> productList;
     private Long addressId;

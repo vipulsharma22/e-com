@@ -43,15 +43,6 @@ public class OrderDetail extends AbstractEntity {
     @Column(name = "product_id")
     private Long productId;
 
-    @Basic(optional = false)
-    @Column(name = "created_at")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdAt;
-
-    @Column(name = "updated_at")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date updatedAt;
-
     @Column(name = "name")
     private String name;
 

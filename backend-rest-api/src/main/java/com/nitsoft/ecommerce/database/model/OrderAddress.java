@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 
 @Data
-@AllArgsConstructor
+
 public class OrderAddress extends AbstractEntity {
 
     private static final long serialVersionUID = 1L;

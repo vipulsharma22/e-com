@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 
 @Data
-@AllArgsConstructor
+
 @XmlRootElement
 public class Category extends AbstractEntity {
 

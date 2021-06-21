@@ -8,16 +8,14 @@ package com.nitsoft.ecommerce.api.response.model;
 import java.util.Date;
 import java.util.List;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 /**
  *
  * @author Trinhlbk
  */
 @Data
-@AllArgsConstructor
+
 public class UserDetailResponseModel {
     private Long userId;
     private Long companyId;

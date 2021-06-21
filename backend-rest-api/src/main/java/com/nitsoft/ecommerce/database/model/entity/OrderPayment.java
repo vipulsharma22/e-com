@@ -9,16 +9,14 @@ import javax.persistence.IdClass;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @Data
-@AllArgsConstructor
+
 @EntityListeners(AuditingEntityListener.class)
 @IdClass(OrderPaymentPK.class)
 @DynamicInsert

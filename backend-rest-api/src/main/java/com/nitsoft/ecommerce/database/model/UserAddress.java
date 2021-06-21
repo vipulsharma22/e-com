@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 
 @Data
-@AllArgsConstructor
+
 public class UserAddress extends AbstractEntity {
 
     private static final long serialVersionUID = 1L;

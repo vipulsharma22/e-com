@@ -77,13 +77,4 @@ public class Orders extends AbstractEntity {
     @Basic(optional = false)
     @Column(name = "platform")
     private String platform;
-
-    @Basic(optional = false)
-    @Column(name = "created_at")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdAt;
-
-    @Column(name = "updated_at")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date updatedAt;
 }

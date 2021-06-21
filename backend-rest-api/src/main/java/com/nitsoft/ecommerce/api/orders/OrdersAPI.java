@@ -104,8 +104,6 @@ public class OrdersAPI extends AbstractBaseAPI {
         orders.setItemsQuantity(orderRequest.getProductList()
                 .stream().map(t -> t.getQuantity())
                 .reduce((q1,q2) -> q1+q2).get());
-        orders.setCreatedAt(createDate);
-        orders.setUpdatedAt(createDate);
         orders = ordersService.save(orders);
         List<OrderDetail> orderDetails = new ArrayList<>();
         if (orderRequest.getProductList().size() > 0) {
@@ -120,8 +118,6 @@ public class OrdersAPI extends AbstractBaseAPI {
                     orderDetail.setSalePrice(product.getSalePrice());
                     orderDetail.setListPrice(product.getListPrice());
                     orderDetail.setQuantity(orderDetailRequest.getQuantity());
-                    orderDetail.setCreatedAt(createDate);
-                    orderDetail.setUpdatedAt(createDate);
                     orderDetails.add(orderDetailImpl.saveOrUpdate(orderDetail));
                 }
             }

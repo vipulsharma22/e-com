@@ -12,7 +12,7 @@ import java.util.Date;
 
 
 @Data
-@AllArgsConstructor
+
 public class UserToken implements Serializable {
 
     private static final long serialVersionUID = 1L;

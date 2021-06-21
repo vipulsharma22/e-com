@@ -8,7 +8,7 @@ import javax.persistence.Table;
 import lombok.*;
 
 @Data
-@AllArgsConstructor
+
 @Entity
 @Table(name = "product_category")
 public class ProductCategoryId extends AbstractEntity {
