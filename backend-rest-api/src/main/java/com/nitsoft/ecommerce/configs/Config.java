@@ -1,6 +1,7 @@
 package com.nitsoft.ecommerce.configs;
 
 import com.nitsoft.ecommerce.client.Message91Client;
+import com.nitsoft.ecommerce.client.PickrrClient;
 import com.razorpay.RazorpayClient;
 import com.razorpay.RazorpayException;
 import okhttp3.OkHttpClient;
@@ -65,5 +66,15 @@ public class Config {
         return mailSender;
     }
 
+    @Bean
+    public PickrrClient getPickrrClient(){
+        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://pickrr.com/api/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(httpClient.build())
+                .build();
+        return retrofit.create(PickrrClient.class);
+    }
 
 }
