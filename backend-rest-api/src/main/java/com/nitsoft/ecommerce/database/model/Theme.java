@@ -12,15 +12,9 @@ import java.io.Serializable;
 
 @Data
 
-public class Theme implements Serializable {
+public class Theme extends AbstractEntity {
 
     private static final long serialVersionUID = 1L;
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "theme_id")
-    private Integer themeId;
     
     @Basic(optional = false)
     @Column(name = "name")

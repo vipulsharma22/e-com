@@ -24,15 +24,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @DynamicUpdate
 @Table(name = "roles")
 @XmlRootElement
-public class Role implements Serializable {
+public class Role extends AbstractEntity {
 
     private static final long serialVersionUID = 1L;
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "role_id")
-    private Integer roleId;
     
     @Basic(optional = false)
     @Column(name = "name")

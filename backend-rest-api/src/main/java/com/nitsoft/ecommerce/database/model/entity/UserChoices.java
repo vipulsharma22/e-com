@@ -5,19 +5,13 @@ import lombok.Data;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.util.Date;
 
 
 @Entity
 @Data
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "user_choices")
-public class UserChoices {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
-    private Long id;
+public class UserChoices extends AbstractEntity{
 
     @Basic(optional = false)
     @Column(name = "user_id")
@@ -31,13 +25,4 @@ public class UserChoices {
     @Column(name = "type")
     private String type;
 
-    @Basic(optional = false)
-    @Column(name = "created_on")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdOn;
-
-    @Basic(optional = false)
-    @Column(name = "updated_on")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date updatedOn;
 }

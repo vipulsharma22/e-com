@@ -18,7 +18,7 @@ public class UserTokenService {
     }
 
     public UserToken getTokenById(String token) {
-        return userTokenRepository.findById(token).get();
+        return userTokenRepository.findByToken(token);
     }
 
     public void invalidateToken(UserToken userToken) {

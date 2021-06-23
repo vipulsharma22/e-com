@@ -5,7 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.Date;
 
-public interface UserTokenRepository extends CrudRepository<UserToken, String> {
+public interface UserTokenRepository extends CrudRepository<UserToken, Long> {
 
     UserToken findByUserIdAndExpirationDateGreaterThan(Long userId, Date currentDate);
 

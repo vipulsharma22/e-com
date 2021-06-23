@@ -24,11 +24,10 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @DynamicUpdate
 @Table(name = "product_attributes")
 @XmlRootElement
-public class ProductAttribute implements Serializable {
+public class ProductAttribute extends AbstractEntity {
 
     private static final long serialVersionUID = 1L;
     
-    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "attribute_id")

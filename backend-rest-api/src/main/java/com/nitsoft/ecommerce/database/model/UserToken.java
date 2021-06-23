@@ -1,12 +1,6 @@
 package com.nitsoft.ecommerce.database.model;
 
 import lombok.*;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import javax.persistence.*;
-import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -28,5 +22,5 @@ public class UserToken implements Serializable {
     private Date expirationDate;
 
     private String sessionData;
-    
+
 }

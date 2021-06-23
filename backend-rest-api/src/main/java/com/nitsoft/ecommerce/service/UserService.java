@@ -45,7 +45,7 @@ public class UserService {
     }
 
     public User getUserByActivationCode(String token) {
-        UserToken userToken = userTokenRepository.findById(token).get();
+        UserToken userToken = userTokenRepository.findByToken(token);
 
         if (userToken != null) {
             return userRepository.findById(userToken.getUserId()).get();

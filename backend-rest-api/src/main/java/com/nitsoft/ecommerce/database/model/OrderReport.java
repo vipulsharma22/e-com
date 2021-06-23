@@ -12,17 +12,10 @@ import java.io.Serializable;
 
 @Data
 
-public class OrderReport implements Serializable {
+public class OrderReport extends AbstractEntity {
 
     private static final long serialVersionUID = 1L;
     
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-
-    @Column(name = "report_id")
-    private Long reportId;
-    
-
     @Column(name = "order_id")
     private Long orderId;
     

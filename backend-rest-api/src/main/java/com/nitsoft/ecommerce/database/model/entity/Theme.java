@@ -1,13 +1,9 @@
 package com.nitsoft.ecommerce.database.model.entity;
 
-import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -24,15 +20,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @DynamicUpdate
 @Table(name = "themes")
 @XmlRootElement
-public class Theme implements Serializable {
+public class Theme extends AbstractEntity {
 
     private static final long serialVersionUID = 1L;
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "theme_id")
-    private Integer themeId;
     
     @Basic(optional = false)
     @Column(name = "name")

@@ -30,7 +30,7 @@ public class AuthUserDetailsServiceImpl implements CustomUserAuthService {
 
     @Override
     public AuthUser loadUserByAccessToken(String token) {
-        UserToken session = userTokenRepository.findById(token).get();
+        UserToken session = userTokenRepository.findByToken(token);
         if (session != null){
             if (session.getSessionData() != null && !"".equals(session.getSessionData())){
                 AuthUser authUser = gson.fromJson(session.getSessionData(), AuthUser.class);
