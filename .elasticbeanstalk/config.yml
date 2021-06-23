@@ -1,0 +1,22 @@
+branch-defaults:
+  default:
+    environment: Lilnumch-env
+environment-defaults:
+  Lilnumch-env:
+    branch: null
+    repository: null
+global:
+  application_name: lilnumch
+  default_ec2_keyname: prashu-dev
+  default_platform: Java 8 running on 64bit Amazon Linux
+  default_region: ap-south-1
+  include_git_submodules: true
+  instance_profile: null
+  platform_name: null
+  platform_version: null
+  profile: eb-cli
+  sc: git
+  workspace_type: Application
+
+deploy:
+  artifact: ./backend-rest-api/target/ecommerce-rest-api-1.0.0.war
