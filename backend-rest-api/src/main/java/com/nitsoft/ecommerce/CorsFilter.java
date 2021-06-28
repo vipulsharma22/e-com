@@ -6,6 +6,7 @@
 package com.nitsoft.ecommerce;
 
 import com.google.common.collect.Lists;
+import org.apache.catalina.connector.RequestFacade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -26,7 +27,7 @@ public class CorsFilter implements Filter {
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
         HttpServletResponse response = (HttpServletResponse) res;
         String originHeader = req.getRemoteHost();
-        log.info("originHeader: " + originHeader);
+        log.info("originHeader: " + originHeader + " path" + ((RequestFacade) req).getRequestURL());
         if(allowedOrigins.contains(originHeader)){
             response.setHeader("Access-Control-Allow-Origin", originHeader);
         }
