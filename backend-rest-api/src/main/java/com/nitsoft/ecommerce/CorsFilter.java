@@ -6,6 +6,8 @@
 package com.nitsoft.ecommerce;
 
 import com.google.common.collect.Lists;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
@@ -19,11 +21,12 @@ import java.util.Set;
 public class CorsFilter implements Filter {
 
     private static final Set<String> allowedOrigins = new HashSet<String>(Lists.newArrayList("localhost:3000","https://lil-munchkin.herokuapp.com","0:0:0:0:0:0:0:1"));
-
+    protected final Logger log = LoggerFactory.getLogger(this.getClass());
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
         HttpServletResponse response = (HttpServletResponse) res;
         String originHeader = req.getRemoteHost();
+        log.info("originHeader: " + originHeader);
         if(allowedOrigins.contains(originHeader)){
             response.setHeader("Access-Control-Allow-Origin", originHeader);
         }
