@@ -1,6 +1,10 @@
 branch-defaults:
   default:
     environment: Lilnumch-env
+  master:
+    environment: Lilnumch-env
+deploy:
+  artifact: ./backend-rest-api/target/ecommerce-rest-api-1.0.0.war
 environment-defaults:
   Lilnumch-env:
     branch: null
@@ -17,6 +21,3 @@ global:
   profile: eb-cli
   sc: git
   workspace_type: Application
-
-deploy:
-  artifact: ./backend-rest-api/target/ecommerce-rest-api-1.0.0.war
